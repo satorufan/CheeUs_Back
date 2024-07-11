@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.CookieGenerator;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cheeus.config.auth.CustomOAuth2User;
@@ -78,7 +81,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         //OAuth2User
     	CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
 
-    	System.out.println(customUserDetails);
+    	System.out.println("authentication : " + authentication);
     	
         String username = customUserDetails.getName();
 
@@ -87,10 +90,26 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, role, 60*60*60L);
-        System.out.println("Success Handler - onAuthenticationSuccess - token : " + token);
+        String token = jwtUtil.createJwt("google", username, role, 60*60*60L);
+        System.out.println("Success Handler - onAuthenticationSuccess - token 생성");
 
-        response.addCookie(createCookie("Authorization", token));
+        CookieGenerator cookieGenerator = new CookieGenerator();
+        cookieGenerator.setCookieName("Authorization");
+        cookieGenerator.addCookie(response, token);
+        //response.addCookie(createCookie("Authorization", token));
+    	
+//    	// accessToken, refreshToken 발급
+//        String accessToken = jwtUtil.generateAccessToken(authentication);
+//        jwtUtil.generateRefreshToken(authentication, accessToken);
+//        
+//        // 토큰 전달을 위한 redirect
+//        String redirectUrl = UriComponentsBuilder.fromUriString(URI)
+//                .queryParam("accessToken", accessToken)
+//                .build().toUriString();
+//
+//        response.sendRedirect(redirectUrl);
+    	
+    	
         response.sendRedirect("http://localhost:3000/");
     }
 

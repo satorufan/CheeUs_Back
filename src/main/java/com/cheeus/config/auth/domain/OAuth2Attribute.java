@@ -15,10 +15,12 @@ import lombok.ToString;
 @Getter
 public class OAuth2Attribute {
     private Map<String, Object> attributes;
-    private String attributeKey;
+    private String registrationId;
     private String email;
     private String name;
     private String picture;
+    
+    private final PrincipalDetails principalDetails;
 
     public static OAuth2Attribute of(String provider, String attributeKey,
                               Map<String, Object> attributes) {
@@ -26,15 +28,15 @@ public class OAuth2Attribute {
             case "google":
                 return ofGoogle(attributeKey, attributes);
             case "kakao":
-                return ofKakao("email", attributes);
+                return ofKakao(attributeKey, attributes);
             case "naver":
-                return ofNaver("id", attributes);
+                return ofNaver(attributeKey, attributes);
             default:
                 throw new RuntimeException();
         }
     }
 
-    private static OAuth2Attribute ofGoogle(String attributeKey,
+    private static OAuth2Attribute ofGoogle(String provider,
                                             Map<String, Object> attributes) {
     	System.out.println("ofGoogle");
         return OAuth2Attribute.builder()
@@ -42,11 +44,11 @@ public class OAuth2Attribute {
                 .email((String) attributes.get("email"))
                 .picture((String)attributes.get("picture"))
                 .attributes(attributes)
-                .attributeKey(attributeKey)
+                .registrationId(provider)
                 .build();
     }
 
-    private static OAuth2Attribute ofKakao(String attributeKey,
+    private static OAuth2Attribute ofKakao(String provider,
                                            Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
@@ -56,7 +58,7 @@ public class OAuth2Attribute {
                 .email((String) kakaoAccount.get("email"))
                 .picture((String)kakaoProfile.get("profile_image_url"))
                 .attributes(kakaoAccount)
-                .attributeKey(attributeKey)
+                .registrationId(provider)
                 .build();
     }
 
@@ -69,14 +71,14 @@ public class OAuth2Attribute {
                 .email((String) response.get("email"))
                 .picture((String) response.get("profile_image"))
                 .attributes(response)
-                .attributeKey(attributeKey)
+                .registrationId(attributeKey)
                 .build();
     }
 
     public Map<String, Object> convertToMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", attributeKey);
-        map.put("key", attributeKey);
+        map.put("id", registrationId);
+        map.put("key", registrationId);
         map.put("name", name);
         map.put("email", email);
         map.put("picture", picture);

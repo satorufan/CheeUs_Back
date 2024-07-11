@@ -21,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.cheeus.config.auth.CustomOAuth2UserService;
-import com.cheeus.config.auth.TokenService;
 import com.cheeus.config.auth.filter.JwtAuthFilter;
 import com.cheeus.config.auth.handler.OAuth2SuccessHandler;
 import com.cheeus.config.auth.token.JWTUtil;
@@ -36,7 +35,6 @@ public class WebSecurityConfig {
 	
 	private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
-    //private final TokenService tokenService;
     private final JWTUtil jwtUtil;
     
     @Bean
@@ -60,10 +58,13 @@ public class WebSecurityConfig {
                     FrameOptionsConfig::disable).disable()) // X-Frame-Options 비활성화
             .sessionManagement(c ->
                     c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용하지 않음
+            
+            //로그인 한사람은 /member로 시작하는 url 모두 허용.
             .authorizeHttpRequests(a -> a
-                    .requestMatchers("/").permitAll()//.authenticated()
-            		//.requestMatchers("/member").authenticated()
-                    .anyRequest().authenticated()
+                    //.requestMatchers("/member/**").permitAll()//.authenticated()
+            		.requestMatchers("/member/signIn").hasRole("USER")
+                    //.anyRequest().authenticated()
+            		.anyRequest().permitAll()
                 );
             
 //        	.authorizeHttpRequests(authorize ->
@@ -82,9 +83,8 @@ public class WebSecurityConfig {
 //                    UsernamePasswordAuthenticationFilter.class) 
 	    	.addFilterBefore(new JwtAuthFilter(jwtUtil), 
 	    			UsernamePasswordAuthenticationFilter.class)
-                    //여기 위에 부분 추가했음!!
             .oauth2Login((oauth2) -> oauth2
-            		.loginPage("/oauth2/authorization/google")
+//            		.loginPage("/oauth2/authorization/google")
             		.successHandler(successHandler)
 //            		.defaultSuccessUrl("http://localhost:3000")
 //            		.failureUrl("/oauth2/authorization/google")
@@ -94,7 +94,8 @@ public class WebSecurityConfig {
             .logout((logout) -> logout
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true));
+                    .invalidateHttpSession(true))
+            ;
             
 //            .loginPage("/token/expired")
 //            .successHandler(successHandler)
@@ -128,6 +129,9 @@ public class WebSecurityConfig {
             		"http://localhost:3000"
             		)); // ⭐️ 허용할 origin
             config.setAllowCredentials(true);
+            
+            config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+            config.setExposedHeaders(Collections.singletonList("Authorization"));
             return config;
         };
     }
