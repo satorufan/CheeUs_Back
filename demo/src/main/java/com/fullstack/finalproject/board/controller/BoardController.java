@@ -29,8 +29,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/{board_no}")
-	public Optional<BoardDto> getBoardfind(@PathVariable int board_no){
-		return boardService.findById(board_no);
+	public Optional<BoardDto> getBoardfind(@PathVariable int id){
+		return boardService.findById(id);
 	}
 	@GetMapping("/review/{board_no}")
 	public Optional<BoardDto> getVBoardfind(@PathVariable int board_no){

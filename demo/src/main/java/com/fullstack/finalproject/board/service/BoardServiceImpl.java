@@ -23,8 +23,8 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public Optional<BoardDto> findById(int board_no) {
-		return boardMapper.findById(board_no);
+	public Optional<BoardDto> findById(int id) {
+		return boardMapper.findById(id);
 	}
 	@Override
 	public Optional<BoardDto> findByIdReview(int board_no) {

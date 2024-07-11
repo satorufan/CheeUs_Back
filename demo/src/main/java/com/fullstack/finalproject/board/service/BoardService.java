@@ -8,7 +8,7 @@ import com.fullstack.finalproject.board.dto.BoardDto;
 public interface BoardService {
 
 	public List<BoardDto> findAll();
-    public Optional<BoardDto> findById(int board_no);
+    public Optional<BoardDto> findById(int id);
     public Optional<BoardDto> findByIdReview(int board_no);
     public List<BoardDto> findByIdRepls(int board_no);
     public void recruitInsert(BoardDto board);
