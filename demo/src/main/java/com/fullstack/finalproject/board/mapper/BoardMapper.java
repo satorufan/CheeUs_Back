@@ -1,29 +1,15 @@
 package com.fullstack.finalproject.board.mapper;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.fullstack.finalproject.board.dto.BoardDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.fullstack.finalproject.board.dto.BoardDto;
-
+import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-
-	List<BoardDto> findAll();
-
-    Optional<BoardDto> findById(int id);
-    Optional<BoardDto> findByIdReview(int id);
-    List<BoardDto> findByIdRepls(int id);
-
+    List<BoardDto> findAll();
+    BoardDto findById(int id);
     void insert(BoardDto board);
-    void recruitInsert(BoardDto board);
-    void reviewInsert(BoardDto board);
-    void insertRepl(BoardDto board);
-
     void update(BoardDto board);
-    void recruitUpdate(BoardDto board);
-
-    void delete(int board_no);
+    void delete(int id);
 }

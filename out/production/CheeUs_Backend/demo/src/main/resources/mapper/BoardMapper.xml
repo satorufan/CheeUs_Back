@@ -13,7 +13,7 @@
 		<result property="content" column="content" />
 		<result property="writeday" column="writeday" />
 		<result property="views" column="views" />
-		<result property="like" column="like" />
+		<result property="like" column="likes" />
 		<result property="replCnt" column="repl_cnt" />
 		<result property="boardId" column="board_id" />
 		<result property="photoes" column="photoes" />
@@ -31,13 +31,13 @@
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO board (author_id, category, title, content, writeday, views, `like`, repl_cnt)
-		VALUES (#{authorId}, #{category}, #{title}, #{content}, #{writeday}, #{views}, #{like}, #{replCnt});
+		INSERT INTO board (author_id, category, title, content, writeday, views, likes, repl_cnt, board_id, photoes, head, media, created_at)
+		VALUES (#{authorId}, #{category}, #{title}, #{content}, #{writeday}, #{views}, #{like}, #{replCnt}, #{boardId}, #{photoes}, #{head}, #{media}, #{createdAt});
 	</insert>
 
 	<update id="update">
 		UPDATE board
-		SET author_id = #{authorId}, category = #{category}, title = #{title}, content = #{content}, writeday = #{writeday}, views = #{views}, `like` = #{like}, repl_cnt = #{replCnt}
+		SET author_id = #{authorId}, category = #{category}, title = #{title}, content = #{content}, writeday = #{writeday}, views = #{views}, likes = #{like}, repl_cnt = #{replCnt}, board_id = #{boardId}, photoes = #{photoes}, head = #{head}, media = #{media}, created_at = #{createdAt}
 		WHERE id = #{id};
 	</update>
 

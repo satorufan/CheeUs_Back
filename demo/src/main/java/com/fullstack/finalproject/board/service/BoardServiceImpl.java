@@ -1,14 +1,13 @@
-package com.fullstack.finalproject.board.service;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package com.fullstack.finalproject.board.service.impl;
 
 import com.fullstack.finalproject.board.dto.BoardDto;
 import com.fullstack.finalproject.board.mapper.BoardMapper;
+import com.fullstack.finalproject.board.service.BoardService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -21,49 +20,23 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.findAll();
 	}
 
-
 	@Override
 	public Optional<BoardDto> findById(int id) {
-		return boardMapper.findById(id);
-	}
-	@Override
-	public Optional<BoardDto> findByIdReview(int board_no) {
-		return boardMapper.findByIdReview(board_no);
-	}
-	@Override
-	public List<BoardDto> findByIdRepls(int board_no) {
-		return boardMapper.findByIdRepls(board_no);
+		return Optional.ofNullable(boardMapper.findById(id));
 	}
 
-	
-	
 	@Override
-	public void recruitInsert(BoardDto board) {
+	public void insert(BoardDto board) {
 		boardMapper.insert(board);
-		boardMapper.recruitInsert(board);
-	}
-	@Override
-	public void reviewInsert(BoardDto board) {
-		boardMapper.insert(board);
-		boardMapper.reviewInsert(board);
-	}
-	@Override
-	public void insertRepl(BoardDto board) {
-		boardMapper.insertRepl(board);
 	}
 
-	
 	@Override
-	public void recruitUpdate(BoardDto board) {
+	public void update(BoardDto board) {
 		boardMapper.update(board);
-		boardMapper.recruitUpdate(board);
 	}
 
-	
-	
 	@Override
-	public void delete(int board_no) {
-		System.out.println(board_no);
-		boardMapper.delete(board_no);
+	public void delete(int id) {
+		boardMapper.delete(id);
 	}
 }
