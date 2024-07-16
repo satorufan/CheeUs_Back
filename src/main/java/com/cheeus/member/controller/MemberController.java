@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.response.SignInResponse;
 import com.cheeus.member.response.SignUpResponse;
+import com.cheeus.member.service.MemberProfileService;
 import com.cheeus.member.service.MemberService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	
 	private final MemberService service;
+	private final MemberProfileService profileService;
 	
 	//로그인
 	@GetMapping("/signIn")
@@ -49,6 +51,16 @@ public class MemberController {
 		return ResponseEntity.ok(null);
 	}
 	
+	
+	// 회원 탈퇴
+	@PostMapping("/delete")
+	public ResponseEntity<?> deleteProfile(@RequestParam("email") String email) {
+		
+		profileService.deleteMember(email);
+		service.deleteMember(email);
+		
+		return ResponseEntity.ok("탈퇴 완료");
+	}
 	
 	
 }

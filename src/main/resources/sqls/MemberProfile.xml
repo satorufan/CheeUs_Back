@@ -12,7 +12,7 @@
 </select>
 
 <select id="existNickname" parameterType="String" resultType="java.lang.Integer">
-	SELECT count (*)
+	SELECT count(*)
 	FROM profile
 	WHERE nickname=#{nickname}
 </select>
@@ -27,5 +27,44 @@
 		#{gender}, #{tags}, #{matchOk}, #{locationOk}, 
 		#{location}, #{intro}, 0)
 </insert>
+
+<update id="updateMember" parameterType="com.cheeus.member.domain.MemberProfile">
+	UPDATE profile SET 
+		photo = #{photo},
+		tags = #{tags},
+		match_ok = #{matchOk},
+		location_ok = #{locationOk},
+		location = #{location},
+		intro = #{intro}
+	WHERE email=#{email}
+</update>
+
+<delete id="deleteMember" parameterType="String">
+	DELETE FROM profile WHERE email=#{email} 
+</delete>
+
+
+
+
+
+<select id="countPopularity" parameterMap="String" resultType="java.lang.Integer">
+	SELECT count(*)
+	FROM popularity_list
+	WHERE email=#{email}
+</select>
+
+<select id="existPopularity" parameterMap="com.cheeus.member.domain.MemberPopularity" resultType="java.lang.Integer">
+	SELECT count(*)
+	FROM popularity_list
+	WHERE email=#{email} AND liker=#{liker}
+</select>
+
+<update id="addPopularity" parameterMap="com.cheeus.member.domain.MemberPopularity">
+	INSERT INTO popularity_list (email, liker) VALUES (#{email}, #{liker})
+</update>
+
+<delete id="deletePopularity" parameterType="String">
+	DELETE FROM popularity_list WHERE liker=#{liker} 
+</delete>
 
 </mapper>
