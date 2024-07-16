@@ -1,7 +1,7 @@
-package com.fullstack.sfinal.cheeusbackend.board.controller;
+package com.cheeus.board.controller;
 
-import com.fullstack.finalproject.board.dto.BoardDto;
-import com.fullstack.finalproject.board.service.BoardService;
+import com.cheeus.board.dto.BoardDto;
+import com.cheeus.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
-package com.fullstack.sfinal.cheeusbackend.board.service;
+package com.cheeus.board.service;
 
-import com.fullstack.finalproject.board.dto.BoardDto;
-import com.fullstack.finalproject.board.mapper.BoardMapper;
+import com.cheeus.board.dto.BoardDto;
+import com.cheeus.board.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

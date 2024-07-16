@@ -1,6 +1,6 @@
-package com.fullstack.sfinal.cheeusbackend.board.service;
+package com.cheeus.board.service;
 
-import com.fullstack.finalproject.board.dto.BoardDto;
+import com.cheeus.board.dto.BoardDto;
 
 import java.util.List;
 import java.util.Optional;

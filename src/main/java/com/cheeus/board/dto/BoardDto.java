@@ -1,4 +1,4 @@
-package com.fullstack.sfinal.cheeusbackend.board.dto;
+package com.cheeus.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

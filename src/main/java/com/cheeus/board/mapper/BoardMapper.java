@@ -1,6 +1,6 @@
-package com.fullstack.sfinal.cheeusbackend.board.mapper;
+package com.cheeus.board.mapper;
 
-import com.fullstack.finalproject.board.dto.BoardDto;
+import com.cheeus.board.dto.BoardDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
