@@ -61,8 +61,10 @@ public class MemberService {
 		
 	}
 	
-	//닉네임 중복확인
-	
+	// 회원 탈퇴
+	public void deleteMember(String email) {
+		dao.deleteMember(email);
+	}
 	
 	
 }
