@@ -1,5 +1,6 @@
 package com.cheeus.config;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -14,9 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -36,6 +38,7 @@ public class WebSecurityConfig {
 	private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
     private final JWTUtil jwtUtil;
+    private final ClientRegistrationRepository clientRegistrationRepository;
     
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security를 적용하지 않을 리소스
@@ -43,11 +46,11 @@ public class WebSecurityConfig {
                 // error endpoint를 열어줘야 함, favicon.ico 추가!
                 .requestMatchers("/error", "/favicon.ico");
     }
+    
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		System.out.println("SecurityFilterChain");
-
+		
         http
         	.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
         	.csrf(AbstractHttpConfigurer::disable)
@@ -62,39 +65,24 @@ public class WebSecurityConfig {
             //로그인 한사람은 /member로 시작하는 url 모두 허용.
             .authorizeHttpRequests(a -> a
                     //.requestMatchers("/member/**").permitAll()//.authenticated()
-            		.requestMatchers("/member/signIn").hasRole("USER")
+            		.requestMatchers("/signIn").authenticated()//.hasRole("USER")
                     //.anyRequest().authenticated()
             		.anyRequest().permitAll()
                 );
             
-//        	.authorizeHttpRequests(authorize ->
-//                authorize
-//                        .requestMatchers("/member").authenticated()
-//        );
-//
-//
-//        http
-//	        .authorizeHttpRequests( (authorizeHttpRequests)->authorizeHttpRequests
-//	        		.anyRequest().permitAll()
-//	        		);
 	        
 	    http
-//            .addFilterBefore(new JwtAuthFilter(tokenService),
-//                    UsernamePasswordAuthenticationFilter.class) 
+	    
 	    	.addFilterBefore(new JwtAuthFilter(jwtUtil), 
 	    			UsernamePasswordAuthenticationFilter.class)
+	    	.logout((logout) -> logout
+	    			.deleteCookies("Authorization")
+	    			.logoutSuccessUrl("http://localhost:3000/"))
             .oauth2Login((oauth2) -> oauth2
-//            		.loginPage("/oauth2/authorization/google")
             		.successHandler(successHandler)
-//            		.defaultSuccessUrl("http://localhost:3000")
-//            		.failureUrl("/oauth2/authorization/google")
             		.userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                             .userService(oAuth2UserService))
             		)
-            .logout((logout) -> logout
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true))
             ;
             
 //            .loginPage("/token/expired")

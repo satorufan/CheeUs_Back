@@ -1,11 +1,14 @@
 package com.cheeus.member.service;
 
+import java.io.IOException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.cheeus.member.domain.Member;
+import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.exception.MemberException;
 import com.cheeus.member.repository.MemberDao;
+import com.cheeus.member.repository.MemberProfileDao;
 import com.cheeus.member.response.SignInResponse;
 import com.cheeus.member.response.SignUpResponse;
 
@@ -16,61 +19,50 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 	
 	private final MemberDao dao;
+	private final MemberProfileDao profileDao;
 
+	
 	// 가입 시 이미 존재하는 회원인지 확인
 	public HttpStatus existByEmail(String email) {
 		
 		Integer existMember = dao.existByEmail(email);
-		if (existMember > 0) {
-			throw new MemberException("이미 존재하는 이메일입니다.", HttpStatus.BAD_REQUEST);
+		if (existMember == 0) {
+			throw new MemberException("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
 		}
 		return HttpStatus.OK;
 	}
 	
-	public SignUpResponse signUp(Member member) {
-		//이메일 중복 확인
-		//existByEmail(member.getEmail());
-		
-		Integer existMember = dao.existByEmail(member.getEmail());
-		if (existMember == 0) {
-			
-			dao.createMember(member);
-			return new SignUpResponse(member.getEmail());
-			
-		} else {
-			
-			return new SignUpResponse(null);
-			
-		}
-		
-	}
-	
-	public SignInResponse signIn(Member member) {
-//		authenticate(req.getId(), req.getPwd());
 
-//		final UserDetails userDetails = userDetailsService.loadUserByUsername(req.getId());
-//		final String token = jwtTokenUtil.generateToken(userDetails);
-
-//		System.out.println("인증 성공 토큰 출력 : " + token);
-		System.out.println("이메일 출력 : " + member.getEmail());
-
+	// 로그인
+	public SignInResponse signIn(String email) throws IOException {
 		// 회원정보 존재 확인
-		Integer existMember = dao.existByEmail(member.getEmail());
+		Integer existMember = dao.existByEmail(email);
+		String nickname = profileDao.findByEmail(email).getNickname();
+		
 		if (existMember == 0) {
 			return new SignInResponse(null, null);
 		}
 		
-		return new SignInResponse(null, member.getEmail());
+		return new SignInResponse(nickname, email);
 	}
 	
-	public Member findByEmail (String email) {
-		Member findMember = dao.findByEmail(email);
-		if (findMember.getId() > 0) {
-			
-			return findMember;
-			
-		}
-		return null;
+	
+	
+	// 회원가입
+	public SignUpResponse signUp(MemberProfile profile) {
+		
+		dao.createMember(profile.getEmail());	//member DB에 저장
+		
+		//임시 사진 갯수 설정
+		profile.setPhoto(1);
+		profileDao.createMember(profile);	//profile DB에 저장
+		
+		return new SignUpResponse(profile.getEmail());
+		
 	}
+	
+	//닉네임 중복확인
+	
+	
 	
 }

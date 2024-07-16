@@ -49,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 //                memberAttribute, "email");
 		Member member = new Member();
 		member.setEmail(oAuth2Attribute.getEmail());
-		member.setRole("ROLE_USER");
+		member.setRole("USER");
 		System.out.println(member.getEmail());
 
 		return new CustomOAuth2User(member);

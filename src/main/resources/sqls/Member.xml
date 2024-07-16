@@ -5,12 +5,6 @@
   
 <mapper namespace="com.cheeus.member.repository.MemberDao">
 	
-<select id="findByEmail" parameterType="String" resultType="com.cheeus.member.domain.Member">
-	SELECT id, email
-	FROM member
-	WHERE email=#{email}
-</select>
-
 <select id="existByEmail" parameterType="String" resultType="java.lang.Integer">
 	SELECT count(*)
 	FROM member

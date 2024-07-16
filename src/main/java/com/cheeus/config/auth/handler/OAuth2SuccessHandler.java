@@ -4,32 +4,21 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.CookieGenerator;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cheeus.config.auth.CustomOAuth2User;
-import com.cheeus.config.auth.TokenService;
-import com.cheeus.config.auth.domain.OAuth2Attribute;
-import com.cheeus.config.auth.domain.Token;
+import com.cheeus.config.auth.cookie.CookieUtil;
 import com.cheeus.config.auth.token.JWTUtil;
-import com.cheeus.member.domain.Member;
-import com.cheeus.member.repository.MemberDao;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 //@Slf4j
 //@RequiredArgsConstructor
@@ -64,18 +53,16 @@ import lombok.extern.slf4j.Slf4j;
 //    }
 //}
 
+@RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JWTUtil jwtUtil;
-
-    public OAuth2SuccessHandler(JWTUtil jwtUtil) {
-
-        this.jwtUtil = jwtUtil;
-    }
+    private final CookieUtil cookieUtil;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
+    		Authentication authentication) throws IOException, ServletException {
 
     	System.out.println("Success Handler - onAuthenticationSuccess");
         //OAuth2User
@@ -90,13 +77,21 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt("google", username, role, 60*60*60L);
-        System.out.println("Success Handler - onAuthenticationSuccess - token 생성");
+        String token = jwtUtil.createJwt(authentication, "google", username, role, 60*60*60L);
+        System.out.println("Success Handler - onAuthenticationSuccess - token 생성 : " + username);
 
-        CookieGenerator cookieGenerator = new CookieGenerator();
-        cookieGenerator.setCookieName("Authorization");
-        cookieGenerator.addCookie(response, token);
-        //response.addCookie(createCookie("Authorization", token));
+//        CookieGenerator cookieGenerator = new CookieGenerator();
+//        cookieGenerator.setCookieName("Authorization");
+//        cookieGenerator.addCookie(response, token);
+        
+        //ACCESS_TOKEN
+        cookieUtil.addCookie(response, "Authorization", token, 60*60*24);
+//        //REFRESH_TOKEN
+//        cookieUtil.addCookie(response, "ACCESS_TOKEN", token, 60*60*24);
+        
+        
+        
+//        response.addCookie(createCookie("Authorization", token));
     	
 //    	// accessToken, refreshToken 발급
 //        String accessToken = jwtUtil.generateAccessToken(authentication);
@@ -110,17 +105,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        response.sendRedirect(redirectUrl);
     	
     	
-        response.sendRedirect("http://localhost:3000/");
+        response.sendRedirect("http://localhost:3000/logincallback");
+//        response.sendRedirect("http://localhost:8080/member/signIn");
     }
-
-    private Cookie createCookie(String key, String value) {
-
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(60*60*60);
-        //cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-
-        return cookie;
-    }
+//
+//    private Cookie createCookie(String key, String value) {
+//
+//        Cookie cookie = new Cookie(key, value);
+//        cookie.setMaxAge(60*60*60);
+//        //cookie.setSecure(true);
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+//
+//        return cookie;
+//    }
 }

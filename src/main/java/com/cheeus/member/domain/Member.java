@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+// 이 클래스는 OAuth 의 정보를 담은 공간입니다.
+
 @Builder
 @Getter
 @Setter

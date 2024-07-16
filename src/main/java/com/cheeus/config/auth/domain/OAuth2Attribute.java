@@ -20,7 +20,7 @@ public class OAuth2Attribute {
     private String name;
     private String picture;
     
-    private final PrincipalDetails principalDetails;
+    //private final PrincipalDetails principalDetails;
 
     public static OAuth2Attribute of(String provider, String attributeKey,
                               Map<String, Object> attributes) {

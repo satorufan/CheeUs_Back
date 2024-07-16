@@ -3,16 +3,15 @@ package com.cheeus.member.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.cheeus.member.domain.Member;
-
 @Mapper
 @Repository
 public interface MemberDao {
 
+	// 로그인 시 존재하는 이메일인지 확인
 	Integer existByEmail(String email);
 	
-	Integer createMember(Member member);
+	// 회원가입 ( 기본 정보 : 이메일 )
+	void createMember(String email);
 	
-	Member findByEmail(String email);
 	
 }
