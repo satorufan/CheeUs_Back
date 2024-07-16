@@ -16,4 +16,9 @@
 	VALUES(#{email})
 </insert>
 
+<insert id="deleteMember" parameterType="String">
+	DELETE FROM member
+	WHERE email = #{email}
+</insert>
+
 </mapper>
