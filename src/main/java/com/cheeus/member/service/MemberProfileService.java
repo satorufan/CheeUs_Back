@@ -41,6 +41,7 @@ public class MemberProfileService {
 	
 	// 회원 정보 불러오기
 	public MemberProfile findByEmail (String email) {
+		System.out.println(email);
 		
 		MemberProfile findMember = profileDao.findByEmail(email);
 		
@@ -66,7 +67,7 @@ public class MemberProfileService {
 			throw new MemberException("존재하지 않은 아이디입니다.", HttpStatus.BAD_REQUEST);
 		}
 		
-		profileDao.DeleteMember(email);
+		profileDao.deleteMember(email);
 		
 		return HttpStatus.OK;
 	}
