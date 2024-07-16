@@ -44,27 +44,24 @@
 </delete>
 
 
-
-
-
-<select id="countPopularity" parameterMap="String" resultType="java.lang.Integer">
+<select id="countPopularity" parameterType="String" resultType="java.lang.Integer">
 	SELECT count(*)
 	FROM popularity_list
 	WHERE email=#{email}
 </select>
 
-<select id="existPopularity" parameterMap="com.cheeus.member.domain.MemberPopularity" resultType="java.lang.Integer">
+<select id="existPopularity" parameterType="com.cheeus.member.domain.MemberPopularity" resultType="java.lang.Integer">
 	SELECT count(*)
 	FROM popularity_list
 	WHERE email=#{email} AND liker=#{liker}
 </select>
 
-<update id="addPopularity" parameterMap="com.cheeus.member.domain.MemberPopularity">
+<update id="addPopularity" parameterType="com.cheeus.member.domain.MemberPopularity">
 	INSERT INTO popularity_list (email, liker) VALUES (#{email}, #{liker})
 </update>
 
 <delete id="deletePopularity" parameterType="String">
 	DELETE FROM popularity_list WHERE liker=#{liker} 
-</delete>
+</delete>
 
 </mapper>
