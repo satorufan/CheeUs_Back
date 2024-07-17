@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BoardDto {
-	// 일반 게시판 DB
+public class DtBoardDto {
+	// DT보드 DB
 	private int id;
 	private int authorId;
 	private int category;

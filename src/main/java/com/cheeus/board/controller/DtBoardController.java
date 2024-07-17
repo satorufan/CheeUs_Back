@@ -1,7 +1,7 @@
 package com.cheeus.board.controller;
 
-import com.cheeus.board.dto.BoardDto;
-import com.cheeus.board.service.BoardService;
+import com.cheeus.board.dto.DtBoardDto;
+import com.cheeus.board.service.DtBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,30 +10,30 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/board")
-public class BoardController {
+@RequestMapping("/dtBoard")
+public class DtBoardController {
 
 	@Autowired
-	private BoardService boardService;
+	private DtBoardService boardService;
 
 	@GetMapping("/")
-	public List<BoardDto> getBoard(){
+	public List<DtBoardDto> getBoard(){
 		return boardService.findAll();
 	}
 
 	@GetMapping("/{id}")
-	public Optional<BoardDto> getBoardById(@PathVariable int id){
+	public Optional<DtBoardDto> getBoardById(@PathVariable int id){
 		return boardService.findById(id);
 	}
 
 	@PostMapping("/insert")
-	public void insertBoard(@RequestBody BoardDto board) {
+	public void insertBoard(@RequestBody DtBoardDto board) {
 		boardService.insert(board);
 	}
 
 	@PutMapping("/update")
-	public String updateBoard(@RequestBody BoardDto board) {
-		Optional<BoardDto> existing = boardService.findById(board.getId());
+	public String updateBoard(@RequestBody DtBoardDto board) {
+		Optional<DtBoardDto> existing = boardService.findById(board.getId());
 		if (existing.isPresent()) {
 			boardService.update(board);
 			return "update 성공";
@@ -44,7 +44,7 @@ public class BoardController {
 
 	@DeleteMapping("/delete/{id}")
 	public String delete(@PathVariable int id) {
-		Optional<BoardDto> existing = boardService.findById(id);
+		Optional<DtBoardDto> existing = boardService.findById(id);
 		if (existing.isPresent()) {
 			boardService.delete(id);
 			return "delete 성공";
