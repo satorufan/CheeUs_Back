@@ -21,8 +21,8 @@ public class DtBoardController {
 		return boardService.findAll();
 	}
 
-	@GetMapping("/{id}")
-	public Optional<DtBoardDto> getBoardById(@PathVariable int id){
+	@GetMapping("/post/{id}")
+	public Optional<DtBoardDto> getBoardById(@PathVariable("id") int id){
 		return boardService.findById(id);
 	}
 
@@ -43,11 +43,11 @@ public class DtBoardController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public String delete(@PathVariable int id) {
+	public String delete(@PathVariable("id") int id) {
 		Optional<DtBoardDto> existing = boardService.findById(id);
 		if (existing.isPresent()) {
 			boardService.delete(id);
-			return "delete 성공";
+			return id + "번 게시글 delete 성공";
 		} else {
 			return "delete 실패";
 		}
