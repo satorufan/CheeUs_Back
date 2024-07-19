@@ -2,9 +2,12 @@ package com.cheeus.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.stream.Collectors;
 
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +22,10 @@ import com.cheeus.firebase.ImageGetService;
 import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
+import com.cheeus.member.response.ProfileWithImageResponse;
 import com.cheeus.member.service.MemberProfileService;
+import com.google.cloud.storage.Acl;
+import com.google.cloud.storage.Blob;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,12 +38,36 @@ public class MemberProfileController {
 	private final ImageUploadService imageUploadService;
 	private final ImageGetService imageGetService;
 	
-	// 나의 프로필 불러오기
-	@GetMapping
-	public ResponseEntity<?> loadProfile(@RequestParam("email") String email) throws IOException{
-		ResponseEntity.ok(imageGetService.getImg(email));
-		return ResponseEntity.ok(profileService.findByEmail(email));
-	}
+//	// 나의 프로필 불러오기
+//	@GetMapping
+//	public ResponseEntity<?> loadProfile(@RequestParam("email") String email) throws IOException{
+//		ResponseEntity.ok(imageGetService.getImg(email));
+//		return ResponseEntity.ok(profileService.findByEmail(email));
+//	}
+
+    // Load profile and image blob
+    @GetMapping
+    public ResponseEntity<?> loadProfile(@RequestParam("email") String email) {
+        try {
+        	System.out.println(email);
+            // Fetch image blob
+            byte[] imageBlob = imageGetService.getImg(email);
+            
+            // Fetch profile information
+            MemberProfile profile = profileService.findByEmail(email);
+            
+            // Create a response object containing both image and profile
+            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob);
+            System.out.println(response.getImageBlob());
+            System.out.println(response.getProfile());
+            
+            // Return response with HTTP status 200 OK
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            // Handle IOException appropriately
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to load profile and image: " + e.getMessage());
+        }
+    }
 	
 	// 사진 받기
 	@PostMapping("/receivePhotos")

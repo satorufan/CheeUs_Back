@@ -31,9 +31,9 @@ public class ImageUploadService {
 	}
 	
 	public String uploadFile(File file, String fileName) throws IOException {
-	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName); // Replace with your bucker name
+	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName);
 	    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpg").build();
-	    InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json"); // change the file name with your one
+	    InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json");
 	    Credentials credentials = GoogleCredentials.fromStream(inputStream);
 	    Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 	    storage.create(blobInfo, Files.readAllBytes(file.toPath()));
