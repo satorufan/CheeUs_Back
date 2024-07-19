@@ -25,7 +25,7 @@ public class ImageGetService {
 	
 	public byte[] getImg(String fileName) throws IOException{
 		// JSON KEY 경로
-		Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:\\Users\\alstk\\Downloads\\sts-4.19.1.RELEASE\\workspace\\cheeus\\src\\main\\resources\\java-firebase-sdk-firebase-adminsdk.json"));
+		Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:\\mygitworkspace\\Finalproject\\CheeUs_Backend\\src\\main\\resources\\java-firebase-sdk-firebase-adminsdk.json"));
 		// 파이어베이스 스토리지 접근
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         // 스토리지에서 Blob 가져오기
