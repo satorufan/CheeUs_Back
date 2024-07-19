@@ -3,11 +3,9 @@ package com.cheeus.config.auth.filter;
 import java.io.IOException;
 import java.util.Date;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.CookieGenerator;
 import org.springframework.web.util.WebUtils;
 
 import com.cheeus.config.auth.cookie.CookieUtil;

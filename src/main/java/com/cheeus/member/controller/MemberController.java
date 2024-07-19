@@ -1,23 +1,28 @@
 package com.cheeus.member.controller;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.response.SignInResponse;
 import com.cheeus.member.response.SignUpResponse;
 import com.cheeus.member.service.MemberProfileService;
 import com.cheeus.member.service.MemberService;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,6 +32,7 @@ public class MemberController {
 	
 	private final MemberService service;
 	private final MemberProfileService profileService;
+	private final ImageUploadService imageUploadService;
 	
 	//로그인
 	@GetMapping("/signIn")
@@ -41,11 +47,22 @@ public class MemberController {
 	
 	
 	//회원가입
+	@Transactional	//트랜잭션 - 하나라도 수행하다가 뻑나면 SQL로 실행했던 모든 작업 초기화.
 	@PostMapping("/signUp")
-	public ResponseEntity<SignUpResponse> signUp(@RequestBody MemberProfile profile) {
+	public ResponseEntity<SignUpResponse> signUp(
+			@RequestPart(value="memberProfileDetail") MemberProfile profile,
+			@RequestParam(value="photos") List<MultipartFile> photos,
+			@RequestParam(value="email") List<String> imageName
+			) throws IOException {
 		
-		System.out.println("회원가입");
+		// 파이어베이스에 사진저장
+		for(MultipartFile photo : photos) {
+			File tmp = imageUploadService.convertToFile( photo , "test" );
+			String completeMsg = imageUploadService.uploadFile(tmp, "profile/" + imageName.get(photos.indexOf(photo)) );
+			System.out.println(completeMsg);
+		};
 		
+		// MySQL에 데이터 저장
 		service.signUp(profile);
 		
 		return ResponseEntity.ok(null);

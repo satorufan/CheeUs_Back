@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 **/application.properties
+**/java-firebase-sdk-firebase-adminsdk.json
 
 .idea
 *.iws

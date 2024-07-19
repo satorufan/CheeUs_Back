@@ -1,9 +1,7 @@
 package com.cheeus.config.auth.cookie;
 
-import java.util.Base64;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.SerializationUtils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,19 +25,19 @@ public class CookieUtil {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
-
-    // 객체를 직렬화해 쿠키의 값으로 변환
-    public static String serialize(Object obj) {
-        return Base64.getUrlEncoder()
-                .encodeToString(SerializationUtils.serialize(obj));
-    }
-
-    // 쿠키를 역직렬화해 객체로 변환
-    public static <T> T deserialize(Cookie cookie, Class<T> cls) {
-        return cls.cast(
-                SerializationUtils.deserialize(
-                        Base64.getUrlDecoder().decode(cookie.getValue())
-                )
-        );
-    }
+//
+//    // 객체를 직렬화해 쿠키의 값으로 변환
+//    public static String serialize(Object obj) {
+//        return Base64.getUrlEncoder()
+//                .encodeToString(SerializationUtils.serialize(obj));
+//    }
+//
+//    // 쿠키를 역직렬화해 객체로 변환
+//    public static <T> T deserialize(Cookie cookie, Class<T> cls) {
+//        return cls.cast(
+//                SerializationUtils.deserialize(
+//                        Base64.getUrlDecoder().decode(cookie.getValue())
+//                )
+//        );
+//    }
 }

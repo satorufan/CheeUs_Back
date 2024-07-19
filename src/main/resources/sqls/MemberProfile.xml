@@ -20,12 +20,12 @@
 <insert id="createMember" parameterType="com.cheeus.member.domain.MemberProfile">
 	INSERT INTO profile(
 		email, name, nickname, photo, tel, birth,
-		gender, tags, match_ok, location_ok,
-		location, intro, popularity)
+		gender, tags, match_ok, location_ok, latitude,
+		longitude, location, intro)
 	VALUES(
 		#{email}, #{name}, #{nickname}, #{photo}, #{tel}, #{birth},
-		#{gender}, #{tags}, #{matchOk}, #{locationOk}, 
-		#{location}, #{intro}, 0)
+		#{gender}, #{tags}, #{matchOk}, #{locationOk}, #{latitude},
+		#{longitude}, #{location}, #{intro})
 </insert>
 
 <update id="updateMember" parameterType="com.cheeus.member.domain.MemberProfile">
