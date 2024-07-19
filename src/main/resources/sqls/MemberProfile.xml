@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -64,4 +65,36 @@
 	DELETE FROM popularity_list WHERE liker=#{liker} 
 </delete>
 
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.cheeus.member.repository.MemberProfileDao">
+	
+<select id="findByEmail" parameterType="String" resultType="com.cheeus.member.domain.MemberProfile">
+	SELECT *
+	FROM profile
+	WHERE email=#{email}
+</select>
+
+<select id="existNickname" parameterType="String" resultType="java.lang.Integer">
+	SELECT count (*)
+	FROM profile
+	WHERE nickname=#{nickname}
+</select>
+
+<insert id="createMember" parameterType="com.cheeus.member.domain.MemberProfile">
+	INSERT INTO profile(
+		email, name, nickname, photo, tel, birth,
+		gender, tags, match_ok, location_ok,
+		location, intro, popularity)
+	VALUES(
+		#{email}, #{name}, #{nickname}, #{photo}, #{tel}, #{birth},
+		#{gender}, #{tags}, #{matchOk}, #{locationOk}, 
+		#{location}, #{intro}, 0)
+</insert>
+
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 </mapper>

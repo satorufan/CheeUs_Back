@@ -23,9 +23,15 @@ public class MemberProfile {
 	private String tags;
 	private boolean matchOk;
 	private boolean locationOk;
+<<<<<<< HEAD
 	private String latitude;
 	private String longitude;
 	private String location;
 	private String intro;
+=======
+	private String location;
+	private String intro;
+	private int popularity;
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 	
 }

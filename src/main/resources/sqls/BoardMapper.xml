@@ -23,7 +23,11 @@
 	</resultMap>
 
 	<select id="findAll" resultMap="boardResultMap">
+<<<<<<< HEAD
 		SELECT * FROM board;
+=======
+		SELECT * FROM board ORDER BY id DESC;
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 	</select>
 
 	<select id="findById" parameterType="int" resultMap="boardResultMap">

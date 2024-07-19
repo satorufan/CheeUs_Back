@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 import org.springframework.transaction.annotation.Transactional;
+=======
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.exception.MemberException;
@@ -50,21 +53,34 @@ public class MemberService {
 	
 	
 	// 회원가입
+<<<<<<< HEAD
 	@Transactional
+=======
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 	public SignUpResponse signUp(MemberProfile profile) {
 		
 		dao.createMember(profile.getEmail());	//member DB에 저장
 		
+<<<<<<< HEAD
+=======
+		//임시 사진 갯수 설정
+		profile.setPhoto(1);
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 		profileDao.createMember(profile);	//profile DB에 저장
 		
 		return new SignUpResponse(profile.getEmail());
 		
 	}
 	
+<<<<<<< HEAD
 	// 회원 탈퇴
 	public void deleteMember(String email) {
 		dao.deleteMember(email);
 	}
+=======
+	//닉네임 중복확인
+	
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 	
 	
 }

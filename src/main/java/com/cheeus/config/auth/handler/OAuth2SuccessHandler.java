@@ -80,6 +80,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String token = jwtUtil.createJwt(authentication, "google", username, role, 60*60*60L);
         System.out.println("Success Handler - onAuthenticationSuccess - token 생성 : " + username);
 
+<<<<<<< HEAD
+=======
+//        CookieGenerator cookieGenerator = new CookieGenerator();
+//        cookieGenerator.setCookieName("Authorization");
+//        cookieGenerator.addCookie(response, token);
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
         
         //ACCESS_TOKEN
         cookieUtil.addCookie(response, "Authorization", token, 60*60*24);
@@ -87,7 +93,39 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        cookieUtil.addCookie(response, "ACCESS_TOKEN", token, 60*60*24);
         
         
+<<<<<<< HEAD
     	
         response.sendRedirect("http://localhost:3000/logincallback");
     }
+=======
+        
+//        response.addCookie(createCookie("Authorization", token));
+    	
+//    	// accessToken, refreshToken 발급
+//        String accessToken = jwtUtil.generateAccessToken(authentication);
+//        jwtUtil.generateRefreshToken(authentication, accessToken);
+//        
+//        // 토큰 전달을 위한 redirect
+//        String redirectUrl = UriComponentsBuilder.fromUriString(URI)
+//                .queryParam("accessToken", accessToken)
+//                .build().toUriString();
+//
+//        response.sendRedirect(redirectUrl);
+    	
+    	
+        response.sendRedirect("http://localhost:3000/logincallback");
+//        response.sendRedirect("http://localhost:8080/member/signIn");
+    }
+//
+//    private Cookie createCookie(String key, String value) {
+//
+//        Cookie cookie = new Cookie(key, value);
+//        cookie.setMaxAge(60*60*60);
+//        //cookie.setSecure(true);
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+//
+//        return cookie;
+//    }
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 }

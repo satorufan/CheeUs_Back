@@ -3,7 +3,10 @@ package com.cheeus.member.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import com.cheeus.member.domain.MemberPopularity;
+=======
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.exception.MemberException;
 import com.cheeus.member.repository.MemberProfileDao;
@@ -31,6 +34,7 @@ public class MemberProfileService {
 		
 		Integer existNickname = profileDao.existNickname(nickname);
 		
+<<<<<<< HEAD
 		if (existNickname > 0) {
 			throw new MemberException("이미 존재하는 닉네임 입니다.", HttpStatus.BAD_REQUEST);
 		}
@@ -119,5 +123,18 @@ public class MemberProfileService {
 		}
 	}
 	
+=======
+		return HttpStatus.OK;
+	}
+	
+	// 회원 정보 불러오기
+	public MemberProfile findByEmail (String email) {
+		
+		MemberProfile findMember = profileDao.findByEmail(email);
+		System.out.println(findMember==null);
+		
+		return findMember;
+	}
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 
 }

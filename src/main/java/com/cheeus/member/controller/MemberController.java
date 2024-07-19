@@ -1,17 +1,24 @@
 package com.cheeus.member.controller;
 
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+=======
+import java.io.IOException;
+
+import org.springframework.http.ResponseEntity;
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +30,16 @@ import com.cheeus.member.response.SignUpResponse;
 import com.cheeus.member.service.MemberProfileService;
 import com.cheeus.member.service.MemberService;
 
+=======
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cheeus.member.domain.MemberProfile;
+import com.cheeus.member.response.SignInResponse;
+import com.cheeus.member.response.SignUpResponse;
+import com.cheeus.member.service.MemberService;
+
+import jakarta.servlet.http.HttpServletResponse;
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -31,8 +48,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	
 	private final MemberService service;
+<<<<<<< HEAD
 	private final MemberProfileService profileService;
 	private final ImageUploadService imageUploadService;
+=======
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 	
 	//로그인
 	@GetMapping("/signIn")
@@ -47,6 +67,7 @@ public class MemberController {
 	
 	
 	//회원가입
+<<<<<<< HEAD
 	@Transactional	//트랜잭션 - 하나라도 수행하다가 뻑나면 SQL로 실행했던 모든 작업 초기화.
 	@PostMapping("/signUp")
 	public ResponseEntity<SignUpResponse> signUp(
@@ -63,12 +84,20 @@ public class MemberController {
 		};
 		
 		// MySQL에 데이터 저장
+=======
+	@PostMapping("/signUp")
+	public ResponseEntity<SignUpResponse> signUp(@RequestBody MemberProfile profile) {
+		
+		System.out.println("회원가입");
+		
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 		service.signUp(profile);
 		
 		return ResponseEntity.ok(null);
 	}
 	
 	
+<<<<<<< HEAD
 	// 회원 탈퇴
 	@PostMapping("/delete")
 	public ResponseEntity<?> deleteProfile(@RequestParam("email") String email) {
@@ -79,5 +108,7 @@ public class MemberController {
 		return ResponseEntity.ok("탈퇴 완료");
 	}
 	
+=======
+>>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 	
 }
