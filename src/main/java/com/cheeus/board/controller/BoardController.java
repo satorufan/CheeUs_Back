@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
-=======
+
 @CrossOrigin(origins = "http://localhost:3000")
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 @RestController
 @RequestMapping("/board")
 public class BoardController {

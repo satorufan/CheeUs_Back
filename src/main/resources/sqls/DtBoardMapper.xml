@@ -10,8 +10,8 @@
 		<result property="authorId" column="author_id"/>
 		<result property="location" column="location"/>
 		<result property="address" column="address"/>
-		<result property="lat" column="latitude"/>
-		<result property="lng" column="longitude"/>
+		<result property="latitude" column="latitude"/>
+		<result property="longitude" column="longitude"/>
 		<result property="time" column="time"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
@@ -21,7 +21,7 @@
 	</resultMap>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO drink_together (author_id, location, address, lat, lng, time, title, content, writeday, views, like)
+		INSERT INTO drink_together (author_id, location, address, latitude, longitude, time, title, content, writeday, views, `like`)
 		VALUES (#{authorId}, #{location}, #{address}, #{latitude}, #{longitude}, #{time}, #{title}, #{content}, #{writeday}, #{views}, #{like})
 	</insert>
 
@@ -35,8 +35,8 @@
 
 	<update id="update">
 		UPDATE drink_together
-		SET author_id = #{authorId}, location = #{location}, address = #{address}, lat = #{latitude}, lng = #{longitude},
-		time = #{time}, title = #{title}, content = #{content}, writeday = #{writeday}, views = #{views}, like = #{like}
+		SET author_id = #{authorId}, location = #{location}, address = #{address}, latitude = #{latitude}, longitude = #{longitude},
+		time = #{time}, title = #{title}, content = #{content}, writeday = #{writeday}, views = #{views}, `like` = #{like}
 		WHERE id = #{id};
 	</update>
 
