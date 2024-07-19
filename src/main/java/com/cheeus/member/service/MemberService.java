@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.exception.MemberException;
@@ -49,12 +50,11 @@ public class MemberService {
 	
 	
 	// 회원가입
+	@Transactional
 	public SignUpResponse signUp(MemberProfile profile) {
 		
 		dao.createMember(profile.getEmail());	//member DB에 저장
 		
-		//임시 사진 갯수 설정
-		profile.setPhoto(1);
 		profileDao.createMember(profile);	//profile DB에 저장
 		
 		return new SignUpResponse(profile.getEmail());

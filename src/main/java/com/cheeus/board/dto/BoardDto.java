@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BoardDto {
+
 	// 일반 게시판 DB
 	private int id;
 	private int authorId;
