@@ -15,8 +15,8 @@ public class DtBoardDto {
 	private int authorId;
 	private String location;
 	private String address;
-	private String lat;
-	private String lng;
+	private String latitude;
+	private String longitude;
 	private String time;
 	private String title;
 	private String content;
