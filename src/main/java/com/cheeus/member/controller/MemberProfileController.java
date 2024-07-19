@@ -1,6 +1,5 @@
 package com.cheeus.member.controller;
 
-<<<<<<< HEAD
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -20,14 +19,6 @@ import com.cheeus.firebase.ImageGetService;
 import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
-=======
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 import com.cheeus.member.service.MemberProfileService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberProfileController {
 	
 	private final MemberProfileService profileService;
-<<<<<<< HEAD
 	private final ImageUploadService imageUploadService;
 	private final ImageGetService imageGetService;
 	
@@ -92,14 +82,5 @@ public class MemberProfileController {
 		profileService.addPopularity(popularity);
 		return ResponseEntity.ok("좋아요 추가 및 제거");
 	}
-=======
-	
-	@GetMapping
-	public ResponseEntity<?> loadProfile(@RequestParam("email") String email) {
-		System.out.println(email);
-		
-		return ResponseEntity.ok(profileService.findByEmail(email));
-	}
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 
 }

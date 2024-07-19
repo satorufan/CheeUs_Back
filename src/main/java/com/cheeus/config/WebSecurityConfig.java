@@ -1,9 +1,5 @@
 package com.cheeus.config;
 
-<<<<<<< HEAD
-=======
-import java.net.URI;
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -18,11 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
-<<<<<<< HEAD
-=======
-import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -44,20 +35,11 @@ public class WebSecurityConfig {
 	private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
     private final JWTUtil jwtUtil;
-<<<<<<< HEAD
-=======
-    private final ClientRegistrationRepository clientRegistrationRepository;
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
     
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security를 적용하지 않을 리소스
         return web -> web.ignoring()
-<<<<<<< HEAD
                 .requestMatchers("/error", "/favicon.ico", "/profileUploads/**","/messageUploads/**", "/js/**","/webjars/**");
-=======
-                // error endpoint를 열어줘야 함, favicon.ico 추가!
-                .requestMatchers("/error", "/favicon.ico");
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
     }
     
 
@@ -79,10 +61,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(a -> a
                     //.requestMatchers("/member/**").permitAll()//.authenticated()
             		.requestMatchers("/signIn").authenticated()//.hasRole("USER")
-<<<<<<< HEAD
             		//.requestMatchers("/member/signIn").authenticated()//.hasRole("USER")
-=======
->>>>>>> c4de7ebf35a3db9ce7bf4246cb8f4ada2af66fd5
                     //.anyRequest().authenticated()
             		.anyRequest().permitAll()
                 );
