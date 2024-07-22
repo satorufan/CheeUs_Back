@@ -1,12 +1,8 @@
 package com.cheeus.member.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +11,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cheeus.firebase.ImageGetService;
-import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.response.ProfileWithImageResponse;
 import com.cheeus.member.service.MemberProfileService;
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Blob;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,31 +29,28 @@ import lombok.RequiredArgsConstructor;
 public class MemberProfileController {
 	
 	private final MemberProfileService profileService;
-	private final ImageUploadService imageUploadService;
 	private final ImageGetService imageGetService;
 	
-//	// 나의 프로필 불러오기
-//	@GetMapping
-//	public ResponseEntity<?> loadProfile(@RequestParam("email") String email) throws IOException{
-//		ResponseEntity.ok(imageGetService.getImg(email));
-//		return ResponseEntity.ok(profileService.findByEmail(email));
-//	}
 
-    // Load profile and image blob
+    // 프로필 불러오기
     @GetMapping
     public ResponseEntity<?> loadProfile(@RequestParam("email") String email) {
         try {
-        	System.out.println(email);
-            // Fetch image blob
-            byte[] imageBlob = imageGetService.getImg(email);
-            
             // Fetch profile information
             MemberProfile profile = profileService.findByEmail(email);
+
+            // Fetch image blob
+            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
+            
+            // Fetch image type
+            ArrayList<String> imageType = imageGetService.getType("profile/", email, profile.getPhoto());
+            
+            for(String type : imageType) {
+            	System.out.println(type);
+            }
             
             // Create a response object containing both image and profile
-            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob);
-            System.out.println(response.getImageBlob());
-            System.out.println(response.getProfile());
+            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType);
             
             // Return response with HTTP status 200 OK
             return ResponseEntity.ok(response);
@@ -69,31 +60,24 @@ public class MemberProfileController {
         }
     }
 	
-	// 사진 받기
-	@PostMapping("/receivePhotos")
-	public void receivePhotos(
-			@RequestParam(value="photos") List<MultipartFile> photos,
-			@RequestParam(value="email") List<String> imageName) throws IOException {
-		
-		for(MultipartFile photo : photos) {
-			File tmp = imageUploadService.convertToFile( photo , "test" );
-			String completeMsg = imageUploadService.uploadFile(tmp, "profile/" + imageName.get(photos.indexOf(photo)) );
-			System.out.println(completeMsg);
-		};
-	}
-	
 	// 닉네임 중복 확인
-	@PostMapping("/checkNickname")
+	@GetMapping("/checkNickname")
 	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) {
-		
+		System.out.println(nickname);
 		return ResponseEntity.ok(profileService.existNickname(nickname));
 	}
 	
 	// 프로필 수정
-	@PutMapping("/edit")
-	public ResponseEntity<?> updateProfile(@RequestBody MemberProfile membeProfile) {
+	@PostMapping("/edit")
+	public ResponseEntity<?> updateProfile(
+			@RequestPart(value="memberProfileDetail") MemberProfile profile,
+			@RequestParam(value="photos") List<MultipartFile> photos,
+			@RequestParam(value="email") List<String> imageName
+			) throws IOException {
+		System.out.println("edit");
+		profileService.updateMember(profile, photos, imageName);
 		
-		return ResponseEntity.ok(profileService.updateMember(membeProfile));
+		return loadProfile(profile.getEmail());
 	}
 	
 	

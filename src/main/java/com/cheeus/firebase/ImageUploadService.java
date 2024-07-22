@@ -30,12 +30,17 @@ public class ImageUploadService {
 	    return tempFile;
 	}
 	
-	public String uploadFile(File file, String fileName) throws IOException {
+	public String uploadFile(File file, String fileName, String type) throws IOException {
+		// 버킷과 파일 이름 지정
 	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName);
-	    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpg").build();
+	    
+	    // 파일 정보 지정
+	    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(type).build();
 	    InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json");
 	    Credentials credentials = GoogleCredentials.fromStream(inputStream);
 	    Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+	    
+	    // 스토리지에 파일 저장
 	    storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
 	    String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/cheeusfinal.appspot.com/o/%s?alt=media";
