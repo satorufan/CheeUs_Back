@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -58,7 +57,14 @@ public class MemberController {
 		// 파이어베이스에 사진저장
 		for(MultipartFile photo : photos) {
 			File tmp = imageUploadService.convertToFile( photo , "test" );
+<<<<<<< HEAD
 			String completeMsg = imageUploadService.uploadFile(tmp, "profile/" + imageName.get(photos.indexOf(photo)) );
+=======
+			String completeMsg = imageUploadService.uploadFile(
+					tmp, 
+					"profile/" + imageName.get(photos.indexOf(photo)), 
+					photo.getContentType() );
+>>>>>>> a50bcc73966243153169d2f6cfb0f4f1893aa249
 			System.out.println(completeMsg);
 		};
 		

@@ -1,8 +1,16 @@
 package com.cheeus.member.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cheeus.firebase.ImageDeleteService;
+import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.exception.MemberException;
@@ -15,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberProfileService {
 	
 	private final MemberProfileDao profileDao;
+	private final ImageUploadService imageUploadService;
+	private final ImageDeleteService imageDeleteService;
 	
 //	// 가입 시 이미 존재하는 회원인지 확인
 //		public HttpStatus existByEmail(String email) {
@@ -50,11 +60,30 @@ public class MemberProfileService {
 	
 	
 	// 회원 수정
-	public MemberProfile updateMember (MemberProfile membeProfile) {
+	@Transactional
+	public MemberProfile updateMember (
+			MemberProfile memberProfile,
+			List<MultipartFile> photos,
+			List<String> imageName) throws IOException {
 		
-		profileDao.updateMember(membeProfile);
+		// 사진 삭제
+		imageDeleteService.deleteImage("profile/", memberProfile.getEmail(), memberProfile.getPhoto());
 		
-		return membeProfile;
+		// 파이어베이스에 사진저장
+		for(MultipartFile photo : photos) {
+			File tmp = imageUploadService.convertToFile( photo , "test" );
+			String completeMsg = imageUploadService.uploadFile(
+					tmp, 
+					"profile/" + imageName.get(photos.indexOf(photo)),
+					photo.getContentType() );
+			
+			System.out.println(completeMsg);
+		};
+		
+		// 정보 수정
+		profileDao.updateMember(memberProfile);
+		
+		return memberProfile;
 	}
 	
 	
