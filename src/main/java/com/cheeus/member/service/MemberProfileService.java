@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cheeus.firebase.ImageDeleteService;
 import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
@@ -24,17 +23,7 @@ public class MemberProfileService {
 	
 	private final MemberProfileDao profileDao;
 	private final ImageUploadService imageUploadService;
-	private final ImageDeleteService imageDeleteService;
 	
-//	// 가입 시 이미 존재하는 회원인지 확인
-//		public HttpStatus existByEmail(String email) {
-//			
-//			Integer existMember = profileDao.existByEmail(email);
-//			if (existMember == 0) {
-//				throw new MemberException("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
-//			}
-//			return HttpStatus.OK;
-//		}
 	
 	// 닉네임 중복 확인
 	public HttpStatus existNickname (String nickname) {
@@ -51,7 +40,6 @@ public class MemberProfileService {
 	
 	// 회원 정보 불러오기
 	public MemberProfile findByEmail (String email) {
-		System.out.println(email);
 		
 		MemberProfile findMember = profileDao.findByEmail(email);
 		
@@ -66,11 +54,9 @@ public class MemberProfileService {
 			List<MultipartFile> photos,
 			List<String> imageName) throws IOException {
 		
-		// 사진 삭제
-		imageDeleteService.deleteImage("profile/", memberProfile.getEmail(), memberProfile.getPhoto());
-		
 		// 파이어베이스에 사진저장
 		for(MultipartFile photo : photos) {
+			System.out.println("updateMember");
 			File tmp = imageUploadService.convertToFile( photo , "test" );
 			String completeMsg = imageUploadService.uploadFile(
 					tmp, 

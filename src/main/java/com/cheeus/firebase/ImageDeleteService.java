@@ -1,9 +1,11 @@
 package com.cheeus.firebase;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -14,7 +16,7 @@ import com.google.cloud.storage.StorageOptions;
 @Service
 public class ImageDeleteService {
 
-	public void deleteImage (String category, String email, int photo) throws IOException {
+	public void deleteImage (String category, String email, int cnt) throws IOException {
 		
 		InputStream inputStream = ImageDeleteService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json");
 		Credentials credentials = GoogleCredentials.fromStream(inputStream);
@@ -23,12 +25,15 @@ public class ImageDeleteService {
 		
 		String bucketName = "cheeusfinal.appspot.com";
 		
-		for (int i = 0 ; i < photo ; i++) {
+		
+		for (int i = 0 ; i < cnt ; i++) {
+			
 			String blobName = category + email + "/" + i;
 			BlobId blobId = BlobId.of(bucketName, blobName);
-			if (blobId != null) {
+			if (storage.get(blobId)!=null) {
 				boolean deleted = storage.delete(blobId);
 				System.out.println(deleted);
+				System.out.println(blobName);
 			}
 		}
 	}

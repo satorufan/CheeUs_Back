@@ -30,14 +30,6 @@ public class ImageUploadService {
 	    return tempFile;
 	}
 	
-<<<<<<< HEAD
-	public String uploadFile(File file, String fileName) throws IOException {
-	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName); // Replace with your bucker name
-	    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpg").build();
-	    InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json"); // change the file name with your one
-	    Credentials credentials = GoogleCredentials.fromStream(inputStream);
-	    Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-=======
 	public String uploadFile(File file, String fileName, String type) throws IOException {
 		// 버킷과 파일 이름 지정
 	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName);
@@ -49,7 +41,6 @@ public class ImageUploadService {
 	    Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 	    
 	    // 스토리지에 파일 저장
->>>>>>> a50bcc73966243153169d2f6cfb0f4f1893aa249
 	    storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
 	    String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/cheeusfinal.appspot.com/o/%s?alt=media";
