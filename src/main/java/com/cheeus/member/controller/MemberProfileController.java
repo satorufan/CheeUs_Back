@@ -37,15 +37,18 @@ public class MemberProfileController {
         try {
             // Fetch profile information
             MemberProfile profile = profileService.findByEmail(email);
+            
 
             // Fetch image blob
             ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
-            
             // Fetch image type
             ArrayList<String> imageType = imageGetService.getType("profile/", email, profile.getPhoto());
             
+            // Fetch popularity
+            ArrayList<MemberPopularity> popularity = profileService.loadPopularity(email);
+            
             // Create a response object containing both image and profile
-            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType);
+            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity);
             
             // Return response with HTTP status 200 OK
             return ResponseEntity.ok(response);
@@ -72,7 +75,8 @@ public class MemberProfileController {
 		System.out.println("edit");
 		profileService.updateMember(profile, photos, imageName);
 		
-		return loadProfile(profile.getEmail());
+//		return loadProfile(profile.getEmail());
+		return ResponseEntity.ok("수정완료");
 	}
 	
 	
@@ -87,6 +91,8 @@ public class MemberProfileController {
 	// 좋아요 누르기
 	@PostMapping("/addLike")
 	public ResponseEntity<?> addPopularity(@RequestBody MemberPopularity popularity) {
+		System.out.println(popularity.getEmail());
+		System.out.println(popularity.getLiker());
 		
 		profileService.addPopularity(popularity);
 		return ResponseEntity.ok("좋아요 추가 및 제거");

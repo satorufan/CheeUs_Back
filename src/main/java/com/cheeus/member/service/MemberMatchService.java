@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.cheeus.firebase.ImageGetService;
+import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.repository.MemberMatchDao;
+import com.cheeus.member.repository.MemberProfileDao;
 import com.cheeus.member.response.ProfileWithImageResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberMatchService {
 	
+	private final MemberProfileDao memberProfileDao;
 	private final MemberMatchDao memberMatchDao;
 	private final ImageGetService imageGetService;
 
@@ -38,8 +39,11 @@ public class MemberMatchService {
 	            // Fetch image type
 	            ArrayList<String> imageType = imageGetService.getType("profile/", profile.getEmail(), profile.getPhoto());
 	            
+	            // Fetch popularity
+	            ArrayList<MemberPopularity> popularity = memberProfileDao.findPopularity(profile.getEmail());
+	            
 	            // Create a response object containing both image and profile
-	            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType);
+	            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity);
 	            
 				responses.add(response);
 			}

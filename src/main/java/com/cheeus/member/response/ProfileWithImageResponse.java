@@ -2,24 +2,25 @@ package com.cheeus.member.response;
 
 import java.util.ArrayList;
 
+import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
 
-import lombok.Getter;
-
-@Getter
 public class ProfileWithImageResponse {
     private MemberProfile profile;
     private ArrayList<byte[]> imageBlob;
     private ArrayList<String> imageType;
+    private ArrayList<MemberPopularity> popularity;
 
     // Constructor
     public ProfileWithImageResponse(
     		MemberProfile profile, 
     		ArrayList<byte[]> imageBlob,
-    		ArrayList<String> imageType) {
+    		ArrayList<String> imageType,
+    		ArrayList<MemberPopularity> popularity) {
         this.profile = profile;
         this.imageBlob = imageBlob;
         this.imageType = imageType;
+        this.popularity = popularity;
     }
 
     // Getters and setters
@@ -45,6 +46,14 @@ public class ProfileWithImageResponse {
 
     public void setImageType(ArrayList<String> imageType) {
         this.imageType = imageType;
+    }
+    
+    public ArrayList<MemberPopularity> getPopularity() {
+    	return popularity;
+    }
+    
+    public void getPopularity(ArrayList<MemberPopularity> popularity) {
+    	this.popularity = popularity;
     }
 
     

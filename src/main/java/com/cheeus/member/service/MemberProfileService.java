@@ -2,6 +2,7 @@ package com.cheeus.member.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -92,7 +93,13 @@ public class MemberProfileService {
 	
 	
 	
-	
+	// 좋아요 목록 불러오기
+	public ArrayList<MemberPopularity> loadPopularity(String email) {
+		
+		ArrayList<MemberPopularity> popularities = profileDao.findPopularity(email);
+		
+		return popularities;
+	}
 	
 	// 좋아요 개수 불러오기
 	public Integer findPopularity (String email) {
