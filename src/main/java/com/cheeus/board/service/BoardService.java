@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface BoardService {
     List<BoardDto> findAll();
+    List<BoardDto> findAllFreeboard();
+    List<BoardDto> findAllShortform();
+    List<BoardDto> findAllEventboard();
     Optional<BoardDto> findById(int id);
     void insert(BoardDto board);
     void update(BoardDto board);

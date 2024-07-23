@@ -20,6 +20,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public List<BoardDto> findAllFreeboard() {
+		return boardMapper.findAllFreeboard();
+	}
+
+	@Override
+	public List<BoardDto> findAllShortform() {
+		return boardMapper.findAllShortform();
+	}
+
+	@Override
+	public List<BoardDto> findAllEventboard() {
+		return boardMapper.findAllEventboard();
+	}
+
+	@Override
 	public Optional<BoardDto> findById(int id) {
 		return Optional.ofNullable(boardMapper.findById(id));
 	}

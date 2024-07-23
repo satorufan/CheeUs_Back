@@ -22,10 +22,27 @@ public class BoardController {
 		return boardService.findAll();
 	}
 
+	@GetMapping("/freeboard")
+	public List<BoardDto> getFreeboard(){
+		return boardService.findAllFreeboard();
+	}
+
+	@GetMapping("/shortform")
+	public List<BoardDto> getShortfoam(){
+		return boardService.findAllShortform();
+	}
+
+	@GetMapping("/eventboard")
+	public List<BoardDto> getEventboard(){
+		return boardService.findAllEventboard();
+	}
+
+	/*
 	@GetMapping("/{id}")
 	public Optional<BoardDto> getBoardById(@PathVariable int id){
 		return boardService.findById(id);
 	}
+	*/
 
 	@PostMapping("/insert")
 	public void insertBoard(@RequestBody BoardDto board) {
@@ -54,4 +71,3 @@ public class BoardController {
 		}
 	}
 }
-
