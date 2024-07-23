@@ -1,22 +1,26 @@
 package com.cheeus.member.response;
 
-import java.util.List;
+import java.util.ArrayList;
 
+import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Blob;
 
-import lombok.Getter;
-
-@Getter
 public class ProfileWithImageResponse {
     private MemberProfile profile;
-    private byte[] imageBlob;
+    private ArrayList<byte[]> imageBlob;
+    private ArrayList<String> imageType;
+    private ArrayList<MemberPopularity> popularity;
 
     // Constructor
-    public ProfileWithImageResponse(MemberProfile profile, byte[] imageBlob) {
+    public ProfileWithImageResponse(
+    		MemberProfile profile, 
+    		ArrayList<byte[]> imageBlob,
+    		ArrayList<String> imageType,
+    		ArrayList<MemberPopularity> popularity) {
         this.profile = profile;
         this.imageBlob = imageBlob;
+        this.imageType = imageType;
+        this.popularity = popularity;
     }
 
     // Getters and setters
@@ -28,12 +32,28 @@ public class ProfileWithImageResponse {
         this.profile = profile;
     }
 
-    public byte[] getImageBlob() {
+    public ArrayList<byte[]> getImageBlob() {
         return imageBlob;
     }
 
-    public void setImageBlob(byte[] imageBlob) {
+    public void setImageBlob(ArrayList<byte[]> imageBlob) {
         this.imageBlob = imageBlob;
+    }
+    
+    public ArrayList<String> getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(ArrayList<String> imageType) {
+        this.imageType = imageType;
+    }
+    
+    public ArrayList<MemberPopularity> getPopularity() {
+    	return popularity;
+    }
+    
+    public void getPopularity(ArrayList<MemberPopularity> popularity) {
+    	this.popularity = popularity;
     }
 
     

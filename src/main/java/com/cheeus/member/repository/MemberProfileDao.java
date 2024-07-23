@@ -1,5 +1,7 @@
 package com.cheeus.member.repository;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,9 @@ public interface MemberProfileDao {
 	String deleteMember (String email);
 	
 	
+	
+	//좋아요 목록 불러오기
+	ArrayList<MemberPopularity> findPopularity (String email);
 	
 	//좋아요 개수 불러오기
 	Integer countPopularity (String email);
