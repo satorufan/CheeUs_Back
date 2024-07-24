@@ -25,6 +25,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 				
 		//  1번 : OAuth2UserService를 선언한다
         OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
+        System.out.println(userRequest.getClientRegistration());
+        System.out.println(userRequest.getAccessToken().getTokenValue());
         
         //	2번 : OAuth2UserService의 loadUser를 호출하고 변수로 userRequest를 넣는다.
         OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
@@ -59,6 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("member.registrationId = {}", member.getRegistrationId());
 
 		return new CustomOAuth2User(member);
+		//return null;
 	}
 	
 }
