@@ -17,12 +17,16 @@ public class CustomOAuth2User implements OAuth2User {
 
         this.member = member;
     }
+    
+    
 
     @Override
     public Map<String, Object> getAttributes() {
 
         return null;
     }
+    
+    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -33,6 +37,7 @@ public class CustomOAuth2User implements OAuth2User {
 
             @Override
             public String getAuthority() {
+            	System.out.println("getAuthority : " + member.getRole());
 
                 return member.getRole();
             }

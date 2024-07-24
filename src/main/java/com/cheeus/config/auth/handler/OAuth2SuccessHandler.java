@@ -53,6 +53,7 @@ import lombok.RequiredArgsConstructor;
 //    }
 //}
 
+// 이 클래스 수행후 JwtAuthFilter 수행..
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -69,6 +70,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     	CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
 
     	System.out.println("authentication : " + authentication);
+    	System.out.println("customUserDetails : " + customUserDetails);
     	
         String username = customUserDetails.getName();
 
@@ -80,7 +82,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String token = jwtUtil.createJwt(authentication, "google", username, role, 60*60*60L);
         System.out.println("Success Handler - onAuthenticationSuccess - token 생성 : " + username);
 
-        
+        System.out.println("Success Handler - onAuthenticationSuccess End");
         //ACCESS_TOKEN
         cookieUtil.addCookie(response, "Authorization", token, 60*60*24);
 //        //REFRESH_TOKEN
