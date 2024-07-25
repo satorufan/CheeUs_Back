@@ -114,8 +114,8 @@ public class WebSecurityConfig {
             		)); // ⭐️ 허용할 origin
             config.setAllowCredentials(true);
             
-            config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-            config.setExposedHeaders(Collections.singletonList("Authorization"));
+//            config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+//            config.setExposedHeaders(Collections.singletonList("Authorization"));
             return config;
         };
     }

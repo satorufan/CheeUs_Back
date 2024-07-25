@@ -31,6 +31,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     	try {
     		//Authorization 쿠키를 불러온다.
     		Cookie cookie = WebUtils.getCookie(request, "Authorization");
+    		System.out.println(request.getHeader("Authorization"));
+    		System.out.println(cookie);
     		//쿠키의 Value를 가져온다.
     		if (cookie != null) {
 	    		String authorizationHeader = cookie.getValue();
