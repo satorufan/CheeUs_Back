@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheeus.comment.mapper.CommentMapper">
+
+	<resultMap id="commentResultMap" type="com.cheeus.comment.dto.CommentDto">
+		<id property="id" column="id" />
+		<result property="boardId" column="board_id" />
+		<result property="replAuthorId" column="repl_author_id" />
+		<result property="group" column="group" />
+		<result property="writeday" column="writeday" />
+		<result property="replContent" column="repl_content" />
+	</resultMap>
+
+	<select id="findAll" resultMap="commentResultMap">
+		SELECT * FROM repl;
+	</select>
+
+	<select id="findByBoardId" parameterType="int" resultMap="commentResultMap">
+		SELECT * FROM repl WHERE board_id = #{boardId} ORDER BY id DESC;
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO repl (board_id, repl_author_id, replContent, writeday, `group`)
+		VALUES (#{boardId}, #{replAuthorId}, #{repl_content}, #{writeday}, #{group});
+	</insert>
+
+	<update id="update">
+		UPDATE repl
+		SET replContent = #{repl_content}, writeday = #{writeday}
+		WHERE id = #{id};
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM repl WHERE id = #{id};
+	</delete>
+
+</mapper>

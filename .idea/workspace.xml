@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8034cfc9-2f4f-4a05-a71b-bd54ba7922fd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/firebase/ImageDeleteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/controller/MemberMatchController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/repository/MemberMatchDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/service/MemberMatchService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sqls/MemberMatch.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/firebase/ImageGetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/firebase/ImageGetService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/firebase/ImageUploadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/firebase/ImageUploadService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/member/controller/MemberProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/controller/MemberProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/member/repository/MemberProfileDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/repository/MemberProfileDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/member/response/ProfileWithImageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/response/ProfileWithImageResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cheeus/member/service/MemberProfileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cheeus/member/service/MemberProfileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sqls/MemberProfile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sqls/MemberProfile.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test" beforeDir="false" afterPath="$PROJECT_DIR$/test" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +33,14 @@
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <favorite-branches>
@@ -103,10 +96,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.CheeusApplication.executor": "Run",
     "Spring Boot.DemoApplication.executor": "Run",
-    "git-widget-placeholder": "Merging ys",
+    "git-widget-placeholder": "ys",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/mygitworkspace/Finalproject/CheeUs_Backend",
+    "last_opened_file_path": "C:/mygitworkspace/Finalproject/CheeUs_Backend/src/main/java/com/cheeus/comment",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -119,6 +112,17 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\mygitworkspace\Finalproject\CheeUs_Backend\src\main\java\com\cheeus\comment" />
+      <recent name="C:\mygitworkspace\Finalproject\CheeUs_Backend\src\main\resources\sqls" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.cheeus.comment.service" />
+      <recent name="com.cheeus.comment.mapper" />
+      <recent name="com.cheeus.comment.dto" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="cheeus.main" />
@@ -161,7 +165,9 @@
       <workItem from="1720770307733" duration="2003000" />
       <workItem from="1721374753008" duration="259000" />
       <workItem from="1721633013714" duration="4170000" />
-      <workItem from="1721692349659" duration="7057000" />
+      <workItem from="1721692349659" duration="9520000" />
+      <workItem from="1721883697271" duration="10000" />
+      <workItem from="1721883870663" duration="8763000" />
     </task>
     <servers />
   </component>
