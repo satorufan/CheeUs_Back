@@ -25,7 +25,7 @@ public class CommentController {
         return commentService.findAll();
     }
 
-    @PostMapping("/")
+    @PostMapping("/{id}")
     public void insertComment(@RequestBody CommentDto comment) {
         commentService.insert(comment);
     }

@@ -23,13 +23,13 @@
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO repl (board_id, repl_author_id, replContent, writeday, `group`)
-		VALUES (#{boardId}, #{replAuthorId}, #{repl_content}, #{writeday}, #{group});
+		INSERT INTO repl (board_id, repl_author_id, `group`, repl_content)
+		VALUES (#{boardId}, #{replAuthorId}, #{group}, #{replContent});
 	</insert>
 
 	<update id="update">
 		UPDATE repl
-		SET replContent = #{repl_content}, writeday = #{writeday}
+		SET repl_content = #{replContent}
 		WHERE id = #{id};
 	</update>
 

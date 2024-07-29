@@ -44,6 +44,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.insert(board);
 	}
 
+
 	@Override
 	public void update(BoardDto board) {
 		boardMapper.update(board);
@@ -53,4 +54,5 @@ public class BoardServiceImpl implements BoardService {
 	public void delete(int id) {
 		boardMapper.delete(id);
 	}
+
 }
