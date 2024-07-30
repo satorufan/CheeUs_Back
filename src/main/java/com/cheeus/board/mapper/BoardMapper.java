@@ -8,6 +8,9 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
     List<BoardDto> findAll();
+    List<BoardDto> findAllFreeboard();
+    List<BoardDto> findAllShortform();
+    List<BoardDto> findAllEventboard();
     BoardDto findById(int id);
     void insert(BoardDto board);
     void update(BoardDto board);
