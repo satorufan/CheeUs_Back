@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
@@ -18,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-
+@Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -31,16 +32,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     	try {
     		//Authorization 쿠키를 불러온다.
     		Cookie cookie = WebUtils.getCookie(request, "Authorization");
-    		System.out.println(request.getHeader("Authorization"));
-    		System.out.println(cookie);
+    		System.out.println("Cookie : " + cookie);
     		//쿠키의 Value를 가져온다.
     		if (cookie != null) {
 	    		String authorizationHeader = cookie.getValue();
+	    		System.out.println("authorizationHeader : " + authorizationHeader);
 	
 	            if (authorizationHeader != null) {
 	                String token = authorizationHeader;//.substring(7); // "Bearer " 다음의 토큰 부분만 추출
 	                System.out.println("token : " + token);
-	                System.out.println("토큰이 유효한가? : " + jwtUtil.isExpired(token));
 	
 	                if (jwtUtil.isExpired(token)) {
 	                	

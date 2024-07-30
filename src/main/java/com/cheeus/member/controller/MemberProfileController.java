@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,7 @@ public class MemberProfileController {
     // 프로필 불러오기
     @GetMapping
     public ResponseEntity<?> loadProfile(@RequestParam("email") String email) {
+    	
         try {
             // Fetch profile information
             MemberProfile profile = profileService.findByEmail(email);
@@ -77,6 +79,18 @@ public class MemberProfileController {
 		
 //		return loadProfile(profile.getEmail());
 		return ResponseEntity.ok("수정완료");
+	}
+	
+	//위치 매치 동의
+	@PutMapping("/allow")
+	public void updateProfileLocationMatch(
+			@RequestParam(value="email") String email,
+			@RequestParam(value="type") String type,
+			@RequestParam(value="latitude", required=false) String latitude,
+			@RequestParam(value="longitude", required=false) String longitude
+			) {
+		
+		profileService.allowLocationMatching(email, type, latitude, longitude);
 	}
 	
 	

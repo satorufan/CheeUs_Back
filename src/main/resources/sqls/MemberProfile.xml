@@ -44,6 +44,23 @@
 </delete>
 
 
+
+<update id="allowLocation" parameterType="com.cheeus.member.request.LocationRequest">
+	UPDATE profile SET
+		latitude = #{latitude},
+		longitude = #{longitude},
+		location_ok = 1
+	WHERE email=#{email}
+</update>
+
+<update id="allowMatching" parameterType="String">
+	UPDATE profile SET
+	match_ok = 1
+	WHERE email=#{email}
+</update>
+
+
+
 <select id="findPopularity" parameterType="String" resultType="String">
 	SELECT liker
 	FROM popularity_list
