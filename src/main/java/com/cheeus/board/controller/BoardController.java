@@ -73,16 +73,7 @@ public class BoardController {
 		boardService.insert(board);
 	}
 
-
-	/*
-	@PostMapping("/insert")
-	public void insertBoard(@RequestBody BoardDto board) {
-		System.out.println("Received board data: " + board);
-		boardService.insert(board);
-	}
-	*/
-
-	@PutMapping("/update")
+	@PutMapping("/update/{id}")
 	public String updateBoard(@RequestBody BoardDto board) {
 		Optional<BoardDto> existing = boardService.findById(board.getId());
 		if (existing.isPresent()) {

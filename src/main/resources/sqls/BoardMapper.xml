@@ -49,7 +49,7 @@
 
 	<update id="update">
 		UPDATE board
-		SET author_id = #{authorId}, category = #{category}, title = #{title}, content = #{content}, writeday = #{writeday}, views = #{views}, `like` = #{like}, repl_cnt = #{replCnt}
+		SET title = #{title}, content = #{content}, photoes = #{photoes}, media = #{media}
 		WHERE id = #{id};
 	</update>
 
