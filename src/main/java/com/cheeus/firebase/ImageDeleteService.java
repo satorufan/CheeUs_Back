@@ -1,11 +1,9 @@
 package com.cheeus.firebase;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;

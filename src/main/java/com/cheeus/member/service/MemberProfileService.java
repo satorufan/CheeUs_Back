@@ -15,6 +15,7 @@ import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
 import com.cheeus.member.exception.MemberException;
 import com.cheeus.member.repository.MemberProfileDao;
+import com.cheeus.member.request.LocationRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -89,7 +90,11 @@ public class MemberProfileService {
 	}
 	
 	
-	
+	//위치 및 매칭 동의
+	public void allowLocationMatching(String email, String type, String latitude, String longitude) {
+		if (type.equals("location")) profileDao.allowLocation(new LocationRequest(email, latitude, longitude));
+		else profileDao.allowMatching(email);
+	}
 	
 	
 	

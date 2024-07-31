@@ -15,7 +15,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -28,12 +27,23 @@ public class JWTUtil {
 
     public String getUsername(String token) {
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
+        return Jwts
+        		.parserBuilder()
+//        		.setSigningKey(key)
+        		.build()
+        		.parseClaimsJws(token)
+        		.getBody()
+        		.get("username", String.class);
     }
 
     public String getRole(String token) {
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
+        return Jwts.parserBuilder()
+//        		.setSigningKey(key)
+        		.build()
+        		.parseClaimsJws(token)
+        		.getBody()
+        		.get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -41,17 +51,9 @@ public class JWTUtil {
     	System.out.println("JWTUtil - token expired check : "+ token);
     	
 		try {
-			System.out.println(Jwts
-	        		.parserBuilder()
-	        		.setSigningKey(key)
-	        		.build()
-	        		.parseClaimsJws(token)
-	        		.getBody()
-	        		.getExpiration()
-	        		.after(new Date()));
 	        return Jwts
 	        		.parserBuilder()
-	        		.setSigningKey(key)
+//	        		.setSigningKey(key)
 	        		.build()
 	        		.parseClaimsJws(token)
 	        		.getBody()
@@ -68,7 +70,7 @@ public class JWTUtil {
     public String createJwt(Authentication authentication, String registrationId, 
     		String username, String role, Long expiredMs) {
 
-				Claims claims = Jwts.claims();
+    	Claims claims = Jwts.claims();
 		claims.put("registrationId", registrationId);
         claims.put("email", username);
         claims.put("role", role);
@@ -80,7 +82,7 @@ public class JWTUtil {
         		.setSubject(authentication.getName())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 100000))
-                .signWith(SignatureAlgorithm.HS256, key)
+                //.signWith(SignatureAlgorithm.HS256, key)
                 .compact();
         
     }
@@ -91,27 +93,34 @@ public class JWTUtil {
         try {
         	Authentication authentication = getAuthentication(token);
         	
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody();
+//            Claims claims = Jwts.parser()
+//                    .setSigningKey(key)
+//                    .parseClaimsJws(token)
+//                    .getBody();
+            Claims claims = parseClaims(token);
+            System.out.println("claims" + claims);
 
             String username = claims.getSubject();
             String role = "ROLE_USER";
+//            String registrationId = authentication.get
             return createJwt(authentication, "google", username, role, 60*60*60L);
         } catch (Exception e) {
             return null;
         }
     }
     
+    
     // 토큰 만료 시간 확인
     public Date getExpirationDateFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(token)
-                .getBody();
+//        Claims claims = Jwts.parser()
+//                .setSigningKey(key)
+//                .parseClaimsJws(token)
+//                .getBody();
+    	Claims claims = parseClaims(token);
+    	
         return claims.getExpiration();
     }
+    
     
     //인증된 토큰인지 확인하기 위해 토큰을 디코딩하는 작업.
     public Authentication getAuthentication(String token) {
@@ -129,11 +138,11 @@ public class JWTUtil {
                 claims.get("role").toString()));
     }
     
+    
     private Claims parseClaims(String token) {
         try {
             return Jwts
             		.parserBuilder()
-            		.setSigningKey(key)
             		.build()
                     .parseClaimsJws(token)
                     .getBody();

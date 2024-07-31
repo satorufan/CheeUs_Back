@@ -22,7 +22,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import com.cheeus.config.auth.CustomOAuth2UserService;
 import com.cheeus.config.auth.filter.JwtAuthFilter;
 import com.cheeus.config.auth.handler.OAuth2SuccessHandler;
-import com.cheeus.config.auth.token.JWTUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +33,7 @@ public class WebSecurityConfig {
 	
 	private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler successHandler;
-    private final JWTUtil jwtUtil;
+    private final JwtAuthFilter jwtAuthFilter;
     
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security를 적용하지 않을 리소스
@@ -69,7 +68,7 @@ public class WebSecurityConfig {
 	        
 	    http
 	    
-	    	.addFilterBefore(new JwtAuthFilter(jwtUtil), 
+	    	.addFilterBefore(jwtAuthFilter, 
 	    			UsernamePasswordAuthenticationFilter.class)
 	    	.logout((logout) -> logout
 	    			.deleteCookies("Authorization")
@@ -114,8 +113,8 @@ public class WebSecurityConfig {
             		)); // ⭐️ 허용할 origin
             config.setAllowCredentials(true);
             
-            config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-            config.setExposedHeaders(Collections.singletonList("Authorization"));
+//            config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+//            config.setExposedHeaders(Collections.singletonList("Authorization"));
             return config;
         };
     }

@@ -1,5 +1,6 @@
 package com.cheeus.board.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class DtBoardDto {
 	// DT보드 DB
 	private int id;
+	@JsonProperty("author_id")
 	private int authorId;
 	private String location;
 	private String address;
