@@ -133,7 +133,7 @@ public class MemberMatchService {
 		}
 	}
 	
-	
+	// 채팅방에서 유저정보 불러오기
 	public LoadPersonalChattingInfo loadPersonalChattingInfo(String email) throws IOException {
 		
 		MemberProfile profile = memberProfileDao.findByEmail(email);

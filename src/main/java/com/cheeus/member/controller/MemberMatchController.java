@@ -54,4 +54,13 @@ public class MemberMatchController {
 		return ResponseEntity.ok(memberMatchService.loadPersonalChattingInfo(email));
 	}
 	
+	// 단체 채팅유저 정보 불러오기
+	@GetMapping("/chattingTogether")
+	public ResponseEntity<?> loadChattingTogether (
+			@RequestParam("email") String email
+			) throws IOException {
+		
+		return ResponseEntity.ok(memberMatchService.loadPersonalChattingInfo(email));
+	}
+	
 }
