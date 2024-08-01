@@ -24,6 +24,9 @@ public class SMSUtil {
 	@Value("${coolsms.api.secret}")
 	private String apiSecretKey;
 	
+	@Value("${coolsms.api.telnum")
+	private String from;
+	
 	@PostConstruct
 	private void init () {
 		this.messageService = NurigoApp.INSTANCE.initialize(apikey, apiSecretKey, "https://api.coolsms.co.kr");
@@ -33,7 +36,7 @@ public class SMSUtil {
     public ResponseEntity<?> sendOne(String to, String verificationCode) {
         Message message = new Message();
 		// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-        message.setFrom(to);
+        message.setFrom(from);
         message.setTo(to);
         message.setText("아래의 인증번호를 입력해주세요\n" + verificationCode);
 
