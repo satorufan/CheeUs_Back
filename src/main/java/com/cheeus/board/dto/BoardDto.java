@@ -23,7 +23,7 @@ public class BoardDto {
 	private int replCnt;
 	
 	// Board join table 기본속성
-	private int boardId;
+	private String boardId;
 
 	// FreePostPhoto 속성들
 	private String photoes;

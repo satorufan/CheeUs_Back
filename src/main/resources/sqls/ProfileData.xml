@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheeus.profileData.mapper.ProfileDataMapper">
+
+    <resultMap id="profileDataMap" type="com.cheeus.profileData.dto.ProfileDataDto">
+        <id property="email" column="email"/>
+        <result property="name" column="name"/>
+        <result property="nickname" column="nickname"/>
+        <result property="photo" column="photo"/>
+        <result property="tel" column="tel"/>
+        <result property="birth" column="birth"/>
+        <result property="gender" column="gender"/>
+        <result property="tags" column="tags"/>
+        <result property="matchOk" column="match_ok"/>
+        <result property="locationOk" column="location_ok"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="location" column="location"/>
+        <result property="intro" column="intro"/>
+    </resultMap>
+
+    <select id="findProfileData" parameterType="String" resultMap="profileDataMap">
+        SELECT *
+        FROM profile
+        WHERE email=#{email}
+    </select>
+
+</mapper>
