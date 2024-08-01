@@ -8,6 +8,7 @@
 	<resultMap id="boardResultMap" type="com.cheeus.board.dto.BoardDto">
 		<id property="id" column="id" />
 		<result property="authorId" column="author_id" />
+		<result property="nickname" column="nickname" />
 		<result property="category" column="category" />
 		<result property="title" column="title" />
 		<result property="content" column="content" />
@@ -43,8 +44,8 @@
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO board (author_id, category, title, content , views, `like`, repl_cnt, photoes, media)
-		VALUES (#{authorId}, #{category}, #{title}, #{content}, #{views}, #{like}, #{replCnt}, #{photoes}, #{media});
+		INSERT INTO board (author_id, nickname, category, title, content , views, `like`, repl_cnt, photoes, media)
+		VALUES (#{authorId}, #{nickname}, #{category}, #{title}, #{content}, #{views}, #{like}, #{replCnt}, #{photoes}, #{media});
 	</insert>
 
 	<update id="update">
