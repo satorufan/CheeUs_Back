@@ -18,6 +18,11 @@ import com.cheeus.member.response.ProfileWithImageResponse;
 
 import lombok.RequiredArgsConstructor;
 
+/////// 기능 ///////
+//1. 매칭을 위한 타 유저 프로필 로드 (파이어베이스 + MySQL)
+//2. 매칭 로직
+//3. 채팅방에서 표시할 유저 정보 불러오기 (파이어베이스 사진 1장 + MySQL 닉네임, 이메일)
+
 @Service
 @RequiredArgsConstructor
 public class MemberMatchService {

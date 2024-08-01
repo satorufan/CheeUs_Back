@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -25,6 +24,13 @@ import com.cheeus.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
+/////// 기능 ///////
+//1. 로그인(get) 		/signIn
+//2. 회원가입(post) 	/signUp			<- 이 부분에서 파이어베이스에 사진저장 로직 구현 했음.
+//3. 회원탈퇴(post)		/delete
+//4. 인증코드전송(post)	/send-mms
+//5. 인증코드확인(post)	/verify
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -33,6 +39,7 @@ public class MemberController {
 	private final MemberService service;
 	private final MemberProfileService profileService;
 	private final ImageUploadService imageUploadService;
+	
 	
 	//로그인
 	@GetMapping("/signIn")
@@ -44,6 +51,8 @@ public class MemberController {
 		//가입된 이메일이면 로그인 완료 Response 리턴
 		return ResponseEntity.ok(service.signIn(email));
 	}
+	
+	///////////////////// 이 부분은 테스트 /////////////////////////
 	@PostMapping("/signIn2")
 	public ResponseEntity<?> signIn2(@RequestParam String email)
 			throws IOException{
@@ -55,6 +64,8 @@ public class MemberController {
 //		//가입된 이메일이면 로그인 완료 Response 리턴
 //		return ResponseEntity.ok(service.signIn(email));
 	}
+	//////////////////////////////////////////////////////////
+	
 	
 	
 	//회원가입
@@ -93,5 +104,34 @@ public class MemberController {
 		return ResponseEntity.ok("탈퇴 완료");
 	}
 	
+	
+	// 전화번호 인증 - 코드 보내기
+	@PostMapping("/send-mms")
+    public ResponseEntity<?> sendMmsByResourcePath(
+    		@RequestParam("tel") String tel
+    		) throws IOException {
+		
+		System.out.println("메시지 보냄");
+        return service.sendSmsToAuth(tel);
+    }
+	
+	// 코드 인증 일치 확인
+	@PostMapping("/telVerify")
+	public ResponseEntity<?> verifyAuthCode(
+			@RequestParam("tel") String tel,
+			@RequestParam("authCode") String authCode
+			) {
+		
+		System.out.println(tel + " 유저가 입력한 인증번호 : " + authCode);
+		return service.verifyAuthCode(tel, authCode);
+	}
+	
+	
+	//Redis 테스트
+	@GetMapping("/redis")
+	public ResponseEntity<?> redisTest() {
+		
+		return service.test();
+	}
 	
 }

@@ -19,6 +19,14 @@ import com.cheeus.member.request.LocationRequest;
 
 import lombok.RequiredArgsConstructor;
 
+/////// 기능 ///////
+//1. 닉네임 중복 확인 로직
+//2. 회원 정보 로드 로직
+//3. 회원 정보 수정 로직 (파이어베이스 + MySQL)
+//*4. 회원탈퇴 로직 -- 아직 프론트와 연결하지 않음
+//5. 위치 및 매칭 동의 업데이트 로직
+//6. 좋아요 로직
+
 @RequiredArgsConstructor
 @Service
 public class MemberProfileService {

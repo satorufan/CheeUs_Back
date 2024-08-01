@@ -15,6 +15,12 @@ import com.cheeus.member.service.MemberMatchService;
 
 import lombok.RequiredArgsConstructor;
 
+/////// 기능 ///////
+//1. 매칭 프로필 로드(get)
+//2. 스와이프(post)			/swipe
+//3. 채팅방에서 표시할 유저 불러오기(get)	/chattingPersonal
+//4. 단체챗에서 표시할 유저 불러오기(get)	/chattingTogether
+
 @RestController
 @RequestMapping("/match")
 @RequiredArgsConstructor

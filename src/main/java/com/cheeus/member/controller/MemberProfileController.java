@@ -23,6 +23,14 @@ import com.cheeus.member.service.MemberProfileService;
 
 import lombok.RequiredArgsConstructor;
 
+/////// 기능 ///////
+//1. 내프로필 불러오기(get)					<- 이 부분에서 로직 구현.
+//2. 닉네임 중복 확인(get)		/checkNickname
+//3. 프로필 정보 수정(post)	/edit
+//4. 위치 및 매칭 동의(post)	/allow
+//5. 좋아요 불러오기(get)		/like
+//6. 좋아요 누르기(post)		/addLike		<- 이 부분에서 '좋아요 추가', '좋아요 취소' 모두 처리합니다
+
 @RestController
 @RequestMapping("/profile")
 @RequiredArgsConstructor
