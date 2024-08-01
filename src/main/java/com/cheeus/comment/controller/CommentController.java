@@ -16,7 +16,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/{boardId}")
-    public List<CommentDto> getComments(@PathVariable int boardId) {
+    public List<CommentDto> getComments(@PathVariable("boardId") int boardId) {
         return commentService.findByBoardId(boardId);
     }
 
@@ -31,13 +31,13 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public void updateComment(@PathVariable int id, @RequestBody CommentDto comment) {
+    public void updateComment(@PathVariable("id") int id, @RequestBody CommentDto comment) {
         comment.setId(id);
         commentService.update(comment);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteComment(@PathVariable int id) {
+    public void deleteComment(@PathVariable("id") int id) {
         commentService.delete(id);
     }
 }

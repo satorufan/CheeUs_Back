@@ -16,6 +16,8 @@ public class CommentDto {
     private int boardId;
     @JsonProperty("repl_author_id")
     private String replAuthorId;
+    @JsonProperty("parent_id")
+    private int parentId;
     private int group;
     private String writeday;
     @JsonProperty("repl_content")

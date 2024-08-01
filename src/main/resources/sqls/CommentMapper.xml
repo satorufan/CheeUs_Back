@@ -9,6 +9,7 @@
 		<id property="id" column="id" />
 		<result property="boardId" column="board_id" />
 		<result property="replAuthorId" column="repl_author_id" />
+		<result property="parentId" column="parent_id" />
 		<result property="group" column="group" />
 		<result property="writeday" column="writeday" />
 		<result property="replContent" column="repl_content" />
@@ -19,12 +20,12 @@
 	</select>
 
 	<select id="findByBoardId" parameterType="int" resultMap="commentResultMap">
-		SELECT * FROM repl WHERE board_id = #{boardId} ORDER BY id DESC;
+		SELECT * FROM repl WHERE board_id = #{boardId} ORDER by id DESC;
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO repl (board_id, repl_author_id, `group`, repl_content)
-		VALUES (#{boardId}, #{replAuthorId}, #{group}, #{replContent});
+		INSERT INTO repl (board_id, repl_author_id, parent_id, `group`, repl_content)
+		VALUES (#{boardId}, #{replAuthorId}, #{parentId}, #{group}, #{replContent});
 	</insert>
 
 	<update id="update">
