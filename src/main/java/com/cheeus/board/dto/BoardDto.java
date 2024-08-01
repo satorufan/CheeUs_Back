@@ -13,6 +13,7 @@ public class BoardDto {
 	private int id;
 	@JsonProperty("author_id")
 	private String authorId;
+	private String nickname;
 	private int category;
 	private String title;
 	private String content;

@@ -15,6 +15,7 @@ public class DtBoardDto {
 	private int id;
 	@JsonProperty("author_id")
 	private String authorId;
+	private String nickname;
 	private String location;
 	private String address;
 	private String latitude;
