@@ -20,16 +20,35 @@
 		<result property="like" column="like"/>
 	</resultMap>
 
+	<resultMap id="DrinkTogetherProfileMap" type="com.cheeus.board.dto.DtBoardDto">
+		<id property="id" column="id"/>
+		<result property="authorId" column="author_id"/>
+		<result property="location" column="location"/>
+		<result property="address" column="address"/>
+		<result property="latitude" column="latitude"/>
+		<result property="longitude" column="longitude"/>
+		<result property="time" column="time"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="writeday" column="writeday"/>
+		<result property="views" column="views"/>
+		<result property="like" column="like"/>
+		<result property="nickname" column="nickname"/>
+	</resultMap>
+
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO drink_together (author_id, location, address, latitude, longitude, time, title, content, writeday, views, `like`)
 		VALUES (#{authorId}, #{location}, #{address}, #{latitude}, #{longitude}, #{time}, #{title}, #{content}, #{writeday}, #{views}, #{like})
 	</insert>
 
-	<select id="findById" resultMap="DrinkTogetherResultMap" parameterType="int">
-		SELECT * FROM drink_together WHERE id = #{id};
+	<select id="findById" resultMap="DrinkTogetherProfileMap" parameterType="int">
+		SELECT *
+		FROM drink_together
+		JOIN profile ON drink_together.author_id = profile.email
+		WHERE id = #{id};
 	</select>
 
-	<select id="findAll" resultMap="DrinkTogetherResultMap">
+	<select id="findAll" resultMap="DrinkTogetherProfileMap">
 		SELECT * FROM drink_together ORDER BY id DESC;
 	</select>
 
