@@ -5,8 +5,9 @@
 
 <mapper namespace="com.cheeus.profileData.mapper.ProfileDataMapper">
 
-    <resultMap id="profileDataMap" type="com.cheeus.profileData.dto.ProfileDataDto">
-        <id property="email" column="email"/>
+    <resultMap id="profileDataResultMap" type="com.cheeus.profileData.dto.ProfileDataDto">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
         <result property="name" column="name"/>
         <result property="nickname" column="nickname"/>
         <result property="photo" column="photo"/>
@@ -14,18 +15,33 @@
         <result property="birth" column="birth"/>
         <result property="gender" column="gender"/>
         <result property="tags" column="tags"/>
-        <result property="matchOk" column="match_ok"/>
-        <result property="locationOk" column="location_ok"/>
+        <result property="matchOk" column="matchOk"/>
+        <result property="locationOk" column="locationOk"/>
         <result property="latitude" column="latitude"/>
         <result property="longitude" column="longitude"/>
         <result property="location" column="location"/>
         <result property="intro" column="intro"/>
     </resultMap>
 
-    <select id="findProfileData" parameterType="String" resultMap="profileDataMap">
-        SELECT *
-        FROM profile
-        WHERE email=#{email}
+    <select id="findAll" resultMap="profileDataResultMap">
+        SELECT * FROM profile
     </select>
+
+    <select id="findByEmail" parameterType="String" resultMap="profileDataResultMap">
+        SELECT * FROM profile WHERE id = #{email}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO profile(email, name, nickname, photo, tel, birth, gender, tags, matchOk, locationOk, latitude, longitude, location, intro
+    VALUES (#{email}, #{name}, #{nickname}, #{photo}, #{tel}, #{birth}, #{gender}, #{tags}, #{matchOk}, #{locationOk}, #{latitude}, #{longitude}, #{location}, #{intro}))
+    </insert>
+
+    <update id="update">
+    UPDATE profile SET name=#{name}, nickname=#{nickname} WHERE email=#{email}
+    </update>
+
+    <delete id="delete">
+    DELETE FROM profile WHERE email = #{email}
+    </delete>
 
 </mapper>
