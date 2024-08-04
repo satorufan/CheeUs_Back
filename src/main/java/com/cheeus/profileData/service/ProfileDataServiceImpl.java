@@ -11,10 +11,29 @@ import java.util.List;
 public class ProfileDataServiceImpl implements ProfileDataService {
 
     @Autowired
-    private ProfileDataMapper profileDataMapper;
+    private ProfileDataMapper mapper;
 
     @Override
-    public List<ProfileDataDto> findProfileData(String email) {
-        return profileDataMapper.findProfileData(email);
+    public List<ProfileDataDto> findAll() {
+        return mapper.findAll();
+    }
+
+    @Override
+    public ProfileDataDto findById(String email) {
+        return mapper.findByEmail(email);
+    }
+
+    @Override
+    public void save(ProfileDataDto profileData) {
+        if (profileData.getEmail() == null) {
+            mapper.insert(profileData);
+        } else {
+            mapper.update(profileData);
+        }
+    }
+
+    @Override
+    public void delete(String email) {
+        mapper.delete(email);
     }
 }

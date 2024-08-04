@@ -9,6 +9,7 @@
 		<id property="id" column="id" />
 		<result property="boardId" column="board_id" />
 		<result property="replAuthorId" column="repl_author_id" />
+		<result property="nickname" column="nickname" />
 		<result property="parentId" column="parent_id" />
 		<result property="group" column="group" />
 		<result property="writeday" column="writeday" />
@@ -24,8 +25,8 @@
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO repl (board_id, repl_author_id, parent_id, `group`, repl_content)
-		VALUES (#{boardId}, #{replAuthorId}, #{parentId}, #{group}, #{replContent});
+		INSERT INTO repl (board_id, repl_author_id, nickname, parent_id, `group`, repl_content)
+		VALUES (#{boardId}, #{replAuthorId}, #{nickname}, #{parentId}, #{group}, #{replContent});
 	</insert>
 
 	<update id="update">
