@@ -52,7 +52,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	                String token = authorizationHeader;//.substring(7); // "Bearer " 다음의 토큰 부분만 추출
 	
 	                if (jwtUtil.isExpired(token)) {
-	                	
+	                	System.out.println("not expired");
 	                	//setAuthentication(token);
                         setAuthentication(request, token);
                         

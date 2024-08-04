@@ -61,7 +61,10 @@ public class WebSecurityConfig {
             //로그인 한사람은 /member로 시작하는 url 모두 허용.
             .authorizeHttpRequests(a -> a
                     //.requestMatchers("/member/**").permitAll()//.authenticated()
-            		.requestMatchers("/member/**").hasRole("USER")
+            		.requestMatchers("/member/signUp").permitAll()
+            		.requestMatchers("/member/signIn").permitAll()
+            		.requestMatchers("/member/delete").hasRole("USER")
+            		.requestMatchers("/profile/**").hasRole("USER")
             		//.requestMatchers("/member/signIn").authenticated()//.hasRole("USER")
                     //.anyRequest().authenticated()
             		.anyRequest().permitAll()
