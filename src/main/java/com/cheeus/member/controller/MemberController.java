@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -52,9 +53,28 @@ public class MemberController {
 		return ResponseEntity.ok(service.signIn(email));
 	}
 	
+	//토큰 만료 체크
+	@GetMapping("/tokenCheck")
+	public ResponseEntity<?> tokenCheck(@RequestParam("email") String email) {
+		
+		return ResponseEntity.ok(service.existByEmail(email));
+	}
+	
 	///////////////////// 이 부분은 테스트 /////////////////////////
-	@PostMapping("/signIn2")
-	public ResponseEntity<?> signIn2(@RequestParam String email)
+	@GetMapping("/signIn2")
+	public ResponseEntity<?> signIn2(@RequestParam("email") String email)
+			throws IOException{
+		//이미 가입된 이메일인지 확인
+		System.out.println(email);
+		return ResponseEntity.ok(email);
+//		service.existByEmail(email);
+//
+//		//가입된 이메일이면 로그인 완료 Response 리턴
+//		return ResponseEntity.ok(service.signIn(email));
+	}
+	
+	@PostMapping("/signIn3")
+	public ResponseEntity<?> signIn3(@RequestBody String email)
 			throws IOException{
 		//이미 가입된 이메일인지 확인
 		System.out.println(email);

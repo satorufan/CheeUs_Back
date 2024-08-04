@@ -17,10 +17,7 @@ public class OAuth2Attribute {
     private Map<String, Object> attributes;
     private String registrationId;
     private String email;
-//    private String name;
-//    private String picture;
-    
-    //private final PrincipalDetails principalDetails;
+    private String id;
 
     public static OAuth2Attribute of(String provider, String attributeKey,
                               Map<String, Object> attributes) {
@@ -38,26 +35,25 @@ public class OAuth2Attribute {
 
     private static OAuth2Attribute ofGoogle(String provider,
                                             Map<String, Object> attributes) {
-    	System.out.println("ofGoogle");
+    	
         return OAuth2Attribute.builder()
-                //.name((String) attributes.get("name"))
+                .id((String) attributes.get("sub"))
                 .email((String) attributes.get("email"))
-                //.picture((String)attributes.get("picture"))
-                //.attributes(attributes)
                 .registrationId(provider)
                 .build();
     }
 
     private static OAuth2Attribute ofKakao(String provider,
                                            Map<String, Object> attributes) {
-    	System.out.println("ofKakao");
+    	
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-        //Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("kakaoProfile");
+        
+        System.out.println(attributes.get("id"));
+        System.out.println(kakaoAccount.get("email"));
 
         return OAuth2Attribute.builder()
-                //.name((String) kakaoProfile.get("nickname"))
+                .id((String) kakaoAccount.get("id"))
                 .email((String) kakaoAccount.get("email"))
-                //.picture((String)kakaoProfile.get("profile_image_url"))
                 .attributes(kakaoAccount)
                 .registrationId(provider)
                 .build();
@@ -65,7 +61,7 @@ public class OAuth2Attribute {
 
     private static OAuth2Attribute ofNaver(String provider,
                                            Map<String, Object> attributes) {
-    	System.out.println("ofNaver");
+    	
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuth2Attribute.builder()
@@ -79,11 +75,9 @@ public class OAuth2Attribute {
 
     public Map<String, Object> convertToMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", registrationId);
-        //map.put("key", registrationId);
-        //map.put("name", name);
+        map.put("id", id);
+        map.put("registrationId", registrationId);
         map.put("email", email);
-        //map.put("picture", picture);
 
         return map;
     }

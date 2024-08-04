@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.CookieGenerator;
+import org.springframework.web.util.WebUtils;
 
 import com.cheeus.config.auth.CustomOAuth2User;
 import com.cheeus.config.auth.cookie.CookieUtil;
@@ -71,25 +71,24 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     	System.out.println("authentication : " + authentication);
     	System.out.println("customUserDetails : " + customUserDetails);
+    	System.out.println("customUserDetails/getAttributes : " + customUserDetails.getAttributes());
     	
-        String username = customUserDetails.getName();
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(authentication, "google", username, role, 60*60*60L);
-        System.out.println("Success Handler - onAuthenticationSuccess - token 생성 : " + username);
+        String token = jwtUtil.createJwt(customUserDetails.getAttributes(), role, 60*60*2*1000L);
 
         System.out.println("Success Handler - onAuthenticationSuccess End");
-        //ACCESS_TOKEN
-        cookieUtil.addCookie(response, "Authorization", token, 60*60*24);
+        //ACCESS_TOKEN / 일주일 유지되는 쿠키
+        cookieUtil.addCookie(response, "Authorization", token, 60*60*24*7);
 //        //REFRESH_TOKEN
 //        cookieUtil.addCookie(response, "ACCESS_TOKEN", token, 60*60*24);
         
-        
-    	
+       
+
         response.sendRedirect("http://localhost:3000/logincallback");
+        return;
     }
 }

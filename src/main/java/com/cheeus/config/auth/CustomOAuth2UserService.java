@@ -45,14 +45,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
+        System.out.println("OAuth2Attribute : " + oAuth2Attribute);
         var memberAttribute = oAuth2Attribute.convertToMap();
         
-        System.out.println("OAuth2Attribute : " + oAuth2Attribute);
-		System.out.println("OAuth2User : " + memberAttribute);
+		System.out.println("memberAttribute : " + memberAttribute);
 
-//        return new DefaultOAuth2User(
-//                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-//                memberAttribute, "email");
 		Member member = new Member();
 		member.setEmail(oAuth2Attribute.getEmail());
 		member.setRole("ROLE_USER");
@@ -60,7 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         log.info("member.registrationId = {}", member.getRegistrationId());
 
-		return new CustomOAuth2User(member);
+		return new CustomOAuth2User(member, memberAttribute);
 		//return null;
 	}
 	

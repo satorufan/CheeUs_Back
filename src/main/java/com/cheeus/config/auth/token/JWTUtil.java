@@ -1,20 +1,24 @@
 package com.cheeus.config.auth.token;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -22,28 +26,22 @@ import lombok.RequiredArgsConstructor;
 public class JWTUtil {
 	
 	@Value("${spring.jwt.secret}")
-	private String key;
+	private String secretkey;
 
 
-    public String getUsername(String token) {
+    public String getEmail(String token) {
 
-        return Jwts
-        		.parserBuilder()
-//        		.setSigningKey(key)
-        		.build()
-        		.parseClaimsJws(token)
-        		.getBody()
-        		.get("username", String.class);
+    	System.out.println("token : " + token);
+    	System.out.println("email : " + parseClaims(token).get("email", String.class));
+    	
+    	return parseClaims(token).get("email", String.class);
     }
 
     public String getRole(String token) {
 
-        return Jwts.parserBuilder()
-//        		.setSigningKey(key)
-        		.build()
-        		.parseClaimsJws(token)
-        		.getBody()
-        		.get("role", String.class);
+    	System.out.println("getRole : " + token);
+    	
+    	return parseClaims(token).get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -51,12 +49,7 @@ public class JWTUtil {
     	System.out.println("JWTUtil - token expired check : "+ token);
     	
 		try {
-	        return Jwts
-	        		.parserBuilder()
-//	        		.setSigningKey(key)
-	        		.build()
-	        		.parseClaimsJws(token)
-	        		.getBody()
+			return parseClaims(token)
 	        		.getExpiration()
 	        		.after(new Date());
 	        
@@ -67,22 +60,26 @@ public class JWTUtil {
     }
     
     //토큰 생성
-    public String createJwt(Authentication authentication, String registrationId, 
-    		String username, String role, Long expiredMs) {
+    public String createJwt(
+    		Map<String, Object> attributes,
+    		String role, 
+    		Long expiredMs) {
 
+    	Key key = Keys.hmacShaKeyFor(secretkey.getBytes(StandardCharsets.UTF_8));
+    	
     	Claims claims = Jwts.claims();
-		claims.put("registrationId", registrationId);
-        claims.put("email", username);
+		claims.put("registrationId", attributes.get("registrationId"));
+        claims.put("email", attributes.get("email"));
         claims.put("role", role);
-        System.out.println("key : " + this);
-        System.out.println(authentication.getName());
+        
+        Date now = new Date();
 
         return Jwts.builder()
                 .setClaims(claims)
-        		.setSubject(authentication.getName())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 100000))
-                //.signWith(SignatureAlgorithm.HS256, key)
+                .signWith(key, SignatureAlgorithm.HS256)
+        		.setSubject((String) attributes.get("id"))
+        		.setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + expiredMs))
                 .compact();
         
     }
@@ -91,19 +88,15 @@ public class JWTUtil {
     // 토큰 재발급
     public String refreshToken(String token) {
         try {
+        	
         	Authentication authentication = getAuthentication(token);
         	
-//            Claims claims = Jwts.parser()
-//                    .setSigningKey(key)
-//                    .parseClaimsJws(token)
-//                    .getBody();
             Claims claims = parseClaims(token);
-            System.out.println("claims" + claims);
-
-            String username = claims.getSubject();
-            String role = "ROLE_USER";
-//            String registrationId = authentication.get
-            return createJwt(authentication, "google", username, role, 60*60*60L);
+            List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
+        	
+            String role = authorities.get(0).toString();
+            
+            return createJwt((Map<String, Object>) authentication.getPrincipal(), role, 60*60*60L);
         } catch (Exception e) {
             return null;
         }
@@ -112,10 +105,7 @@ public class JWTUtil {
     
     // 토큰 만료 시간 확인
     public Date getExpirationDateFromToken(String token) {
-//        Claims claims = Jwts.parser()
-//                .setSigningKey(key)
-//                .parseClaimsJws(token)
-//                .getBody();
+    	
     	Claims claims = parseClaims(token);
     	
         return claims.getExpiration();
@@ -124,30 +114,34 @@ public class JWTUtil {
     
     //인증된 토큰인지 확인하기 위해 토큰을 디코딩하는 작업.
     public Authentication getAuthentication(String token) {
-    	System.out.println("JWTUtil - getAuthentication");
-        Claims claims = parseClaims(token);
-        List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
-		
-        // 2. security의 User 객체 생성
-        System.out.println(claims.getSubject());
-        User principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    	
+    	System.out.println("JWTUtil - getAuthentication : " + token);
+        
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	return authentication;
     }
+    
     private List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
+    	
         return Collections.singletonList(new SimpleGrantedAuthority(
                 claims.get("role").toString()));
     }
     
     
-    private Claims parseClaims(String token) {
+    public Claims parseClaims(String token) {
+    	
+    	Key key = Keys.hmacShaKeyFor(secretkey.getBytes(StandardCharsets.UTF_8));
+    	
         try {
             return Jwts
             		.parserBuilder()
+            		.setSigningKey(key)
             		.build()
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            throw e;
         } catch (MalformedJwtException e) {
             throw e;
         } catch (SecurityException e) {

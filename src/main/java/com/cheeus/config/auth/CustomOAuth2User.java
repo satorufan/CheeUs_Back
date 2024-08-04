@@ -12,10 +12,12 @@ import com.cheeus.member.domain.Member;
 public class CustomOAuth2User implements OAuth2User {
 
     private final Member member;
+    private Map<String, Object> attributes;
 
-    public CustomOAuth2User(Member member) {
+    public CustomOAuth2User(Member member, Map<String, Object> attributes) {
 
         this.member = member;
+        this.attributes = attributes;
     }
     
     
@@ -23,7 +25,7 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public Map<String, Object> getAttributes() {
 
-        return null;
+        return attributes;
     }
     
     
@@ -35,9 +37,11 @@ public class CustomOAuth2User implements OAuth2User {
 
         collection.add(new GrantedAuthority() {
 
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public String getAuthority() {
-            	System.out.println("getAuthority : " + member.getRole());
+            	System.out.println("CustomeOAuth2User - getAuthority : " + member.getRole());
 
                 return member.getRole();
             }
@@ -53,8 +57,7 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     public String getRegistrationId() {
-
-        //return member.getUsername();
+    	
     	return member.getRegistrationId();
     }
 }
