@@ -15,7 +15,7 @@ public class ProfileDataController {
     @Autowired
     private ProfileDataService service;
 
-    @GetMapping
+    @GetMapping("/UserData")
     public List<ProfileDataDto> getAllProfileData() {
         return service.findAll();
     }
