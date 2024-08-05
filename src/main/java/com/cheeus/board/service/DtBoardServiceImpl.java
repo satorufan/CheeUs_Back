@@ -28,6 +28,11 @@ public class DtBoardServiceImpl implements DtBoardService {
 	public void insert(DtBoardDto board) {
 		dtBoardMapper.insert(board);
 	}
+	
+	@Override
+	public int responseForInsert() {
+		return dtBoardMapper.responseForInsert();
+	}
 
 	@Override
 	public void update(DtBoardDto board) {

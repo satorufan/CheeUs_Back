@@ -27,8 +27,9 @@ public class DtBoardController {
 	}
 
 	@PostMapping("/insert")
-	public void insertBoard(@RequestBody DtBoardDto board) {
+	public int insertBoard(@RequestBody DtBoardDto board) {
 		boardService.insert(board);
+		return boardService.responseForInsert();
 	}
 
 	@PutMapping("/update")
