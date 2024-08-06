@@ -1,7 +1,7 @@
-package com.cheeus.adminBoard.controller;
+package com.cheeus.adminReport.controller;
 
-import com.cheeus.adminBoard.dto.AdminBoardDto;
-import com.cheeus.adminBoard.service.AdminBoardService;
+import com.cheeus.adminReport.dto.AdminReportDto;
+import com.cheeus.adminReport.service.AdminReportService;
 import com.cheeus.firebase.ImageUploadService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,32 +17,32 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/admin")
-public class AdminBoardController {
+public class AdminReportController {
 
 	@Autowired
-	private AdminBoardService boardService;
+	private AdminReportService boardService;
 
 	@Autowired
 	private ImageUploadService imageUploadService;
 
-	@GetMapping("/AdminBoard")
-	public List<AdminBoardDto> getBoard(){
+	@GetMapping("/AdminReport")
+	public List<AdminReportDto> getBoard(){
 		return boardService.findAll();
 	}
 
 
-	@GetMapping("/AdminBoard/{id}")
-	public Optional<AdminBoardDto> getBoardById(@PathVariable int id){
+	@GetMapping("/AdminReport/{id}")
+	public Optional<AdminReportDto> getBoardById(@PathVariable int id){
 		return boardService.findById(id);
 	}
 
 
-	@PostMapping("/AdminBoard")
+	@PostMapping("/AdminReport")
 	public void insertBoard(@RequestParam("board") String boardJson,
 							@RequestParam("file") Optional<MultipartFile> file) throws IOException {
 		// JSON -> BoardDto 변환
 		ObjectMapper objectMapper = new ObjectMapper();
-		AdminBoardDto board = objectMapper.readValue(boardJson, AdminBoardDto.class);
+		AdminReportDto board = objectMapper.readValue(boardJson, AdminReportDto.class);
 
 		// 파일이 있을 경우 업로드 처리
 		if (file.isPresent()) {
@@ -58,9 +58,9 @@ public class AdminBoardController {
 		boardService.insert(board);
 	}
 
-	@PutMapping("/AdminBoard/{id}")
-	public String updateBoard(@RequestBody AdminBoardDto board) {
-		Optional<AdminBoardDto> existing = boardService.findById(board.getId());
+	@PutMapping("/AdminReport/{id}")
+	public String updateBoard(@RequestBody AdminReportDto board) {
+		Optional<AdminReportDto> existing = boardService.findById(board.getId());
 		if (existing.isPresent()) {
 			boardService.update(board);
 			return "update 성공";
@@ -69,9 +69,9 @@ public class AdminBoardController {
 		}
 	}
 
-	@DeleteMapping("/AdminBoard/{id}")
+	@DeleteMapping("/AdminReport/{id}")
 	public String delete(@PathVariable int id) {
-		Optional<AdminBoardDto> existing = boardService.findById(id);
+		Optional<AdminReportDto> existing = boardService.findById(id);
 		if (existing.isPresent()) {
 			boardService.delete(id);
 			return "delete 성공";

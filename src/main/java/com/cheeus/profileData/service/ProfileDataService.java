@@ -7,7 +7,7 @@ import java.util.List;
 public interface ProfileDataService {
     List<ProfileDataDto> findAll();
 
-    ProfileDataDto findById(String email);
+    List<ProfileDataDto> findByEmail(String email);
 
     void save(ProfileDataDto profileData);
 
