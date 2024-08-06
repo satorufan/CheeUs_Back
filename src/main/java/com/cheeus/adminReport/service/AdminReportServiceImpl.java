@@ -12,47 +12,32 @@ import java.util.Optional;
 public class AdminReportServiceImpl implements AdminReportService {
 
 	@Autowired
-	private AdminReportMapper boardMapper;
+	private AdminReportMapper adminReportMapper;
 
 	@Override
 	public List<AdminReportDto> findAll() {
-		return boardMapper.findAll();
-	}
-
-	@Override
-	public List<AdminReportDto> findAllFreeboard() {
-		return boardMapper.findAllFreeboard();
-	}
-
-	@Override
-	public List<AdminReportDto> findAllShortform() {
-		return boardMapper.findAllShortform();
-	}
-
-	@Override
-	public List<AdminReportDto> findAllEventboard() {
-		return boardMapper.findAllEventboard();
+		return adminReportMapper.findAll();
 	}
 
 	@Override
 	public Optional<AdminReportDto> findById(int id) {
-		return Optional.ofNullable(boardMapper.findById(id));
+		return Optional.ofNullable(adminReportMapper.findById(id));
 	}
 
 	@Override
 	public void insert(AdminReportDto board) {
-		boardMapper.insert(board);
+		adminReportMapper.insert(board);
 	}
 
 
 	@Override
 	public void update(AdminReportDto board) {
-		boardMapper.update(board);
+		adminReportMapper.update(board);
 	}
 
 	@Override
 	public void delete(int id) {
-		boardMapper.delete(id);
+		adminReportMapper.delete(id);
 	}
 
 }
