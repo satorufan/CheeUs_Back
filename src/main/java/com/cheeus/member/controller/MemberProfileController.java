@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cheeus.firebase.ImageGetService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
+import com.cheeus.member.domain.MemberScrap;
+import com.cheeus.member.response.MyInsertedPostResponse;
 import com.cheeus.member.response.ProfileWithImageResponse;
 import com.cheeus.member.service.MemberProfileService;
 
@@ -56,9 +58,13 @@ public class MemberProfileController {
             
             // Fetch popularity
             ArrayList<MemberPopularity> popularity = profileService.loadPopularity(email);
+            // Fetch scrap
+            ArrayList<MemberScrap> scrap = profileService.findMyScrap(email);
+            // Fetch scrap
+            ArrayList<MyInsertedPostResponse> myPost = profileService.findMyPost(email);
             
             // Create a response object containing both image and profile
-            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity);
+            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity, scrap, myPost);
             
             // Return response with HTTP status 200 OK
             return ResponseEntity.ok(response);
@@ -118,6 +124,24 @@ public class MemberProfileController {
 		
 		profileService.addPopularity(popularity);
 		return ResponseEntity.ok("좋아요 추가 및 제거");
+	}
+	
+	
+	
+	// 찜한 글 불러오기
+	@GetMapping("/scrap")
+	public ResponseEntity<?> loadScrap(@RequestParam("email") String email) {
+		System.out.println(email);
+		return ResponseEntity.ok(profileService.findMyScrap(email));
+	}
+	
+	
+	// 찜하기
+	@PostMapping("/addScrap")
+	public ResponseEntity<?> addScrap(@RequestBody MemberScrap memberScrap) {
+		System.out.println("찜");
+		
+		return ResponseEntity.ok(profileService.addScrap(memberScrap));
 	}
 
 }

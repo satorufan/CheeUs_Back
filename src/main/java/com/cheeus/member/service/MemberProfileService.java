@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,9 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cheeus.firebase.ImageUploadService;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
+import com.cheeus.member.domain.MemberScrap;
 import com.cheeus.member.exception.MemberException;
 import com.cheeus.member.repository.MemberProfileDao;
 import com.cheeus.member.request.LocationRequest;
+import com.cheeus.member.response.MyInsertedPostResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -151,6 +155,68 @@ public class MemberProfileService {
 		} else {
 			// 있으면 좋아요 삭제
 			profileDao.deletePopularity(popularity);
+		}
+	}
+	
+	
+	// 스크랩 목록 불러오기
+	public ArrayList<MemberScrap> findMyScrap(String email) {
+		
+		return profileDao.findMyScrap(email);
+	}
+	
+	// 내가 쓴글
+	public ArrayList<MyInsertedPostResponse> findMyPost(String email) {
+		
+		return profileDao.findMyPost(email);
+	}
+	
+	// 내가 스크랩 하였는가
+	public boolean isScrapped (MemberScrap memberScrap) {
+		
+		if (memberScrap.getMemberEmail() == null) {
+			
+			throw new MemberException("로그인 해주세요.", HttpStatus.BAD_REQUEST);
+		} else {
+			Integer check = profileDao.isScrapped(memberScrap);
+			
+			if (check == 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+	}
+
+	private final ArrayList<String> zzim= new ArrayList<>() {
+		private static final long serialVersionUID = 9999;
+	{
+		add("갈비찜");
+		add("찜");
+		add("김치찜");
+		add("아구찜");
+		add("살찜");
+	}};
+	// 스크랩 추가 및 삭제
+	public ResponseEntity<?> addScrap (MemberScrap memberScrap) {
+		
+		try {
+			if (isScrapped(memberScrap)) {
+				profileDao.deleteScrap(memberScrap);
+				
+				return ResponseEntity.ok("삭제");
+			} else {
+				System.out.println("추가");
+				profileDao.addScrap(memberScrap);
+				
+				Random random = new Random();
+				
+				return ResponseEntity.ok(zzim.get(random.nextInt(5)));
+			}
+		} catch (Exception e) {
+			
+			throw e;
 		}
 	}
 	

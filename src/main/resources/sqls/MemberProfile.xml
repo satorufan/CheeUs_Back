@@ -85,6 +85,44 @@
 
 <delete id="deletePopularity" parameterType="com.cheeus.member.domain.MemberPopularity">
 	DELETE FROM popularity_list WHERE liker=#{liker} and email=#{email}
-</delete>
+</delete>
+
+
+
+<select id="isScrapped" parameterType="com.cheeus.member.domain.MemberScrap" resultType="java.lang.Integer">
+	SELECT count(*)
+	FROM my_scrap
+	WHERE member_email=#{memberEmail} and board_id=#{boardId} and together_id=#{togetherId}
+	and event_id=#{eventId} and magazine_id=#{magazineId} and title=#{title}
+</select>
+
+<select id="findMyScrap" parameterType="String" resultType="com.cheeus.member.domain.MemberScrap">
+	SELECT *
+	FROM my_scrap
+	WHERE member_email=#{memberEmail}
+</select>
+
+<insert id="addScrap" parameterType="com.cheeus.member.domain.MemberScrap">
+	INSERT INTO my_scrap (member_email, board_id, together_id, event_id, magazine_id, title) 
+	VALUES (#{memberEmail}, #{boardId}, #{togetherId}, #{eventId}, #{magazineId}, #{title})
+</insert>
+
+<delete id="deleteScrap" parameterType="com.cheeus.member.domain.MemberScrap">
+	DELETE FROM my_scrap 
+	WHERE member_email=#{memberEmail} and board_id=#{boardId} and together_id=#{togetherId}
+	and event_id=#{eventId} and magazine_id=#{magazineId} and title=#{title}
+</delete>
+
+
+<select id="findMyPost" parameterType="String" resultType="com.cheeus.member.response.MyInsertedPostResponse">
+	SELECT id, title, category FROM (
+	SELECT id, title, writeday, 'board' AS category 
+	FROM board WHERE author_id=#{email}
+	UNION ALL
+	SELECT id, title, writeday, 'dtboard' AS category 
+	FROM drink_together WHERE author_id=#{email}) AS posts
+	ORDER BY writeday DESC
+</select>
+
 
 </mapper>

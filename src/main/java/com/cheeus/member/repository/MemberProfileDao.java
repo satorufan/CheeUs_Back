@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
+import com.cheeus.member.domain.MemberScrap;
 import com.cheeus.member.request.LocationRequest;
+import com.cheeus.member.response.MyInsertedPostResponse;
 
 @Mapper
 @Repository
@@ -50,5 +52,21 @@ public interface MemberProfileDao {
 	//좋아요 삭제
 	void deletePopularity (MemberPopularity popularity);
 	
+	
+	// 찜목록 불러오기
+	ArrayList<MemberScrap> findMyScrap(String email);
+	
+	// 찜 확인
+	Integer isScrapped (MemberScrap memberScrap);
+	
+	// 찜하기
+	void addScrap(MemberScrap memberScrap);
+	
+	// 찜삭제
+	void deleteScrap(MemberScrap memberScrap);
+	
+	
+	// 내가 쓴글
+	ArrayList<MyInsertedPostResponse> findMyPost(String email);
 	
 }

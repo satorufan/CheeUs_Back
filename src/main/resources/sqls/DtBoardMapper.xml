@@ -22,8 +22,8 @@
 	</resultMap>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO drink_together (author_id, nickname, location, address, latitude, longitude, time, title, content, writeday, views, `like`)
-		VALUES (#{authorId}, #{nickname}, #{location}, #{address}, #{latitude}, #{longitude}, #{time}, #{title}, #{content}, #{writeday}, #{views}, #{like})
+		INSERT INTO drink_together (author_id, nickname, location, address, latitude, longitude, time, title, content, views, `like`)
+		VALUES (#{authorId}, #{nickname}, #{location}, #{address}, #{latitude}, #{longitude}, #{time}, #{title}, #{content}, #{views}, #{like})
 	</insert>
 
 	<select id="findById" resultMap="DrinkTogetherResultMap" parameterType="int">
@@ -41,7 +41,7 @@
 	<update id="update">
 		UPDATE drink_together
 		SET author_id = #{authorId}, location = #{location}, address = #{address}, latitude = #{latitude}, longitude = #{longitude},
-		time = #{time}, title = #{title}, content = #{content}, writeday = #{writeday}, views = #{views}, `like` = #{like}
+		time = #{time}, title = #{title}, content = #{content}, writeday = now(), views = #{views}, `like` = #{like}
 		WHERE id = #{id};
 	</update>
 

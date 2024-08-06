@@ -58,7 +58,7 @@ public class MemberMatchService {
 		            ArrayList<MemberPopularity> popularity = memberProfileDao.findPopularity(profile.getEmail());
 		            
 		            // Create a response object containing both image and profile
-		            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity);
+		            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity, null, null);
 		            
 					responses.add(response);
 					
