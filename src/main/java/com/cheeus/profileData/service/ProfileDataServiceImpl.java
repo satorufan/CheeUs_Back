@@ -19,8 +19,8 @@ public class ProfileDataServiceImpl implements ProfileDataService {
     }
 
     @Override
-    public ProfileDataDto findById(String email) {
-        return mapper.findByEmail(email);
+    public List<ProfileDataDto> findByEmail(String email) {
+        return (List<ProfileDataDto>) mapper.findByEmail(email);
     }
 
     @Override

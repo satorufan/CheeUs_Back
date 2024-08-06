@@ -28,7 +28,7 @@
     </select>
 
     <select id="findByEmail" parameterType="String" resultMap="profileDataResultMap">
-        SELECT * FROM profile WHERE id = #{email}
+        SELECT * FROM profile WHERE email = #{email}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -37,7 +37,7 @@
     </insert>
 
     <update id="update">
-    UPDATE profile SET name=#{name}, nickname=#{nickname} WHERE email=#{email}
+    UPDATE profile SET name=#{name}, nickname=#{nickname}, birth=#{birth} WHERE email=#{email}
     </update>
 
     <delete id="delete">

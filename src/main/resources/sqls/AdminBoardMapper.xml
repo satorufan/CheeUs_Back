@@ -27,18 +27,6 @@
 		SELECT * FROM board ORDER BY id DESC;
 	</select>
 
-	<select id="findAllFreeboard" resultMap="AdminboardResultMap">
-		SELECT * FROM board WHERE category = 1 ORDER BY id DESC;
-	</select>
-
-	<select id="findAllShortform" resultMap="AdminboardResultMap">
-		SELECT * FROM board WHERE category = 2 ORDER BY id DESC;
-	</select>
-
-	<select id="findAllEventboard" resultMap="AdminboardResultMap">
-		SELECT * FROM board WHERE category = 3 ORDER BY id DESC;
-	</select>
-
 	<select id="findById" parameterType="int" resultMap="AdminboardResultMap">
 		SELECT * FROM board WHERE id = #{id};
 	</select>

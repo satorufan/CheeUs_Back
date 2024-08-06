@@ -20,12 +20,17 @@ public class ProfileDataController {
         return service.findAll();
     }
 
+    @GetMapping("/UserData/{email}")
+    public List<ProfileDataDto> getOneProfileData(String email) {
+        return service.findByEmail(email);
+    }
+
     @PostMapping
     public void createProfileData(@RequestBody ProfileDataDto profileData) {
         service.save(profileData);
     }
 
-    @PutMapping("/{email}")
+    @PutMapping("/UserData/{email}")
     public void updateProfileData(@PathVariable("email") String email, @RequestBody ProfileDataDto profileData) {
         profileData.setEmail(email);
         service.save(profileData);
