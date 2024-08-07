@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.cheeus.firebase.ImageGetService;
 import com.cheeus.member.domain.MemberMatch;
 import com.cheeus.member.domain.MemberPopularity;
 import com.cheeus.member.domain.MemberProfile;
+import com.cheeus.member.exception.MemberException;
 import com.cheeus.member.repository.MemberMatchDao;
 import com.cheeus.member.repository.MemberProfileDao;
 import com.cheeus.member.request.MatchFindRequest;
@@ -141,12 +143,18 @@ public class MemberMatchService {
 	// 채팅방에서 유저정보 불러오기
 	public LoadPersonalChattingInfo loadPersonalChattingInfo(String email) throws IOException {
 		
-		MemberProfile profile = memberProfileDao.findByEmail(email);
+		try {
+			MemberProfile profile = memberProfileDao.findByEmail(email);
+			
+			return new LoadPersonalChattingInfo(
+					email, 
+					profile.getNickname(), 
+					imageGetService.getImg("profile/", profile.getEmail(), 1).get(0),
+					imageGetService.getType("profile/", profile.getEmail(), 1).get(0));
+		} catch (Exception e) {
+			
+			throw new MemberException("존재하지 않는 유저", HttpStatus.BAD_REQUEST);
+		}
 		
-		return new LoadPersonalChattingInfo(
-				email, 
-				profile.getNickname(), 
-				imageGetService.getImg("profile/", profile.getEmail(), 1).get(0),
-				imageGetService.getType("profile/", profile.getEmail(), 1).get(0));
 	}
 }
