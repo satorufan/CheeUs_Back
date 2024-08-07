@@ -3,9 +3,9 @@
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cheeus.adminReport.mapper.AdminReportMapper">
+<mapper namespace="com.cheeus.admin.adminReports.mapper.AdminReportMapper">
 
-	<resultMap id="AdminReportResultMap" type="com.cheeus.adminReport.dto.AdminReportDto">
+	<resultMap id="AdminReportResultMap" type="com.cheeus.admin.adminReports.dto.AdminReportDto">
 		<id property="id" column="id" />
 		<result property="reporterId" column="reporter_id" />
 		<result property="reportedId" column="reported_id" />
