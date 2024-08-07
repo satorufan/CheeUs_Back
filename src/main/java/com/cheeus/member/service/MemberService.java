@@ -65,6 +65,10 @@ public class MemberService {
 		Integer existMember = dao.existByEmail(email);
 		String nickname = profileDao.findByEmail(email).getNickname();
 		
+		if ( profileDao.findByEmail(email).getBlackList() > 0 ) {
+			throw new MemberException("제한된 사용자입니다 ㅉㅉ", HttpStatus.BAD_REQUEST);
+		}
+		
 		if (existMember == 0) {
 			return new SignInResponse(null, null);
 		}

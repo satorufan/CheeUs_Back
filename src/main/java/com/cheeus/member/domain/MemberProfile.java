@@ -27,5 +27,6 @@ public class MemberProfile {
 	private String longitude;
 	private String location;
 	private String intro;
+	private int blackList;
 	
 }

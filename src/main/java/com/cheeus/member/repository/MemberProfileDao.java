@@ -14,7 +14,7 @@ import com.cheeus.member.response.MyInsertedPostResponse;
 @Mapper
 @Repository
 public interface MemberProfileDao {
-
+	
 	//회원정보 불러오기
 	MemberProfile findByEmail(String email);
 	
