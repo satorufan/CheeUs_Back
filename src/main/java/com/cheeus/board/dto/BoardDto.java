@@ -22,6 +22,8 @@ public class BoardDto {
 	private int like;
 	@JsonProperty("repl_cnt")
 	private int replCnt;
+	private boolean pinned;
+	private boolean hidden;
 	
 	// Board join table 기본속성
 	private String boardId;
