@@ -85,7 +85,7 @@ public class BoardController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public String delete(@PathVariable int id) {
+	public String delete(@PathVariable("id") int id) {
 		Optional<BoardDto> existing = boardService.findById(id);
 		if (existing.isPresent()) {
 			boardService.delete(id);
