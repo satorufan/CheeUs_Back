@@ -40,7 +40,7 @@
 
 	<update id="update">
 		UPDATE board
-		SET title = #{title}, content = #{content}, photoes = #{photoes}, media = #{media}, pinned = #{pinned}, hidden = #{hidden}
+		SET title = #{title}, content = #{content}, category = #{category}, photoes = #{photoes}, media = #{media}, pinned = #{pinned}, hidden = #{hidden}
 		WHERE id = #{id};
 	</update>
 
