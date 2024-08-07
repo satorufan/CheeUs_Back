@@ -161,7 +161,7 @@ public class MemberProfileService {
 	
 	// 스크랩 목록 불러오기
 	public ArrayList<MemberScrap> findMyScrap(String email) {
-		
+			
 		return profileDao.findMyScrap(email);
 	}
 	
@@ -207,7 +207,6 @@ public class MemberProfileService {
 				
 				return ResponseEntity.ok("삭제");
 			} else {
-				System.out.println("추가");
 				profileDao.addScrap(memberScrap);
 				
 				Random random = new Random();

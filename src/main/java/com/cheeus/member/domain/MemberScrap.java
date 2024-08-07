@@ -19,4 +19,5 @@ public class MemberScrap {
 	private int eventId;
 	private int magazineId;
 	private String title;
+	private String url;
 }

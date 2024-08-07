@@ -119,8 +119,6 @@ public class MemberProfileController {
 	// 좋아요 누르기
 	@PostMapping("/addLike")
 	public ResponseEntity<?> addPopularity(@RequestBody MemberPopularity popularity) {
-		System.out.println(popularity.getEmail());
-		System.out.println(popularity.getLiker());
 		
 		profileService.addPopularity(popularity);
 		return ResponseEntity.ok("좋아요 추가 및 제거");

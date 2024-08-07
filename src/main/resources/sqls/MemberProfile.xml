@@ -103,8 +103,8 @@
 </select>
 
 <insert id="addScrap" parameterType="com.cheeus.member.domain.MemberScrap">
-	INSERT INTO my_scrap (member_email, board_id, together_id, event_id, magazine_id, title) 
-	VALUES (#{memberEmail}, #{boardId}, #{togetherId}, #{eventId}, #{magazineId}, #{title})
+	INSERT INTO my_scrap (member_email, board_id, together_id, event_id, magazine_id, title, url) 
+	VALUES (#{memberEmail}, #{boardId}, #{togetherId}, #{eventId}, #{magazineId}, #{title}, #{url})
 </insert>
 
 <delete id="deleteScrap" parameterType="com.cheeus.member.domain.MemberScrap">
@@ -115,11 +115,11 @@
 
 
 <select id="findMyPost" parameterType="String" resultType="com.cheeus.member.response.MyInsertedPostResponse">
-	SELECT id, title, category FROM (
-	SELECT id, title, writeday, 'board' AS category 
+	SELECT id, title, writeday, category FROM (
+	SELECT id, title, writeday, category
 	FROM board WHERE author_id=#{email}
 	UNION ALL
-	SELECT id, title, writeday, 'dtboard' AS category 
+	SELECT id, title, writeday, 0 AS category 
 	FROM drink_together WHERE author_id=#{email}) AS posts
 	ORDER BY writeday DESC
 </select>

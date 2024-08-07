@@ -4,7 +4,8 @@ public class MyInsertedPostResponse {
 
 	private int id;
 	private String title;
-	private String category;
+	private String writeday;
+	private int category;
 	
 	public MyInsertedPostResponse(int id, String title) {
 		// TODO Auto-generated constructor stub
@@ -28,11 +29,19 @@ public class MyInsertedPostResponse {
 		this.title = title;
 	}
 	
-	public String getCategory() {
+	public String getWriteday() {
+		return writeday;
+	}
+	
+	public void setWriteday (String writeday) {
+		this.writeday = writeday;
+	}
+	
+	public int getCategory() {
 		return category;
 	}
 	
-	public void setCategory (String category) {
+	public void setCategory (int category) {
 		this.category = category;
 	}
 }
