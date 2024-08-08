@@ -9,4 +9,5 @@ public interface AdminLoginMapper {
 
     @Select("SELECT * FROM admin WHERE id = #{id}")
     AdminLogin findById(String id);
+
 }

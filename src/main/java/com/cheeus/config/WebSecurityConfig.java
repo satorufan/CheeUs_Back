@@ -65,6 +65,8 @@ public class WebSecurityConfig {
             		.requestMatchers("/member/signIn").hasRole("USER")//.permitAll()
             		.requestMatchers("/member/delete").hasRole("USER")
             		.requestMatchers("/profile/**").hasRole("USER")
+                    .requestMatchers("/adminlogin").permitAll() //admin 로그인에 대한 접근권한
+                    .requestMatchers("/admin/**").hasRole("ADMIN") //admin 메뉴에 대한 접근권핸
             		//.requestMatchers("/member/signIn").authenticated()//.hasRole("USER")
                     //.anyRequest().authenticated()
             		.anyRequest().permitAll()
