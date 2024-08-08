@@ -24,6 +24,7 @@ public class AdminUsersDto {
     private String latitude;
     private String longitude;
     private String location;
+    private boolean blacklist;
     private String intro;
 
 }

@@ -6,8 +6,7 @@
 <mapper namespace="com.cheeus.admin.adminUsers.mapper.AdminUsersMapper">
 
     <resultMap id="adminUsersResultMap" type="com.cheeus.admin.adminUsers.dto.AdminUsersDto">
-        <id property="id" column="id"/>
-        <result property="email" column="email"/>
+        <id property="email" column="email"/>
         <result property="name" column="name"/>
         <result property="nickname" column="nickname"/>
         <result property="photo" column="photo"/>
@@ -20,6 +19,7 @@
         <result property="latitude" column="latitude"/>
         <result property="longitude" column="longitude"/>
         <result property="location" column="location"/>
+        <result property="blacklist" column="blacklist"/>
         <result property="intro" column="intro"/>
     </resultMap>
 
@@ -37,7 +37,7 @@
     </insert>
 
     <update id="update">
-    UPDATE profile SET name=#{name}, nickname=#{nickname}, birth=#{birth} WHERE email=#{email}
+    UPDATE profile SET name=#{name}, nickname=#{nickname}, birth=#{birth}, blacklist=#{blacklist} WHERE email=#{email}
     </update>
 
     <delete id="delete">
