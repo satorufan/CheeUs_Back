@@ -78,7 +78,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(customUserDetails.getAttributes(), role, 60*60*2*1000L);
+        String token = jwtUtil.createJwt(customUserDetails.getAttributes(), role, 60*60*24*1000L);
 
         System.out.println("Success Handler - onAuthenticationSuccess End");
         //ACCESS_TOKEN / 일주일 유지되는 쿠키

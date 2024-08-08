@@ -62,7 +62,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(a -> a
                     //.requestMatchers("/member/**").permitAll()//.authenticated()
             		.requestMatchers("/member/signUp").permitAll()
-            		.requestMatchers("/member/signIn").permitAll()
+            		.requestMatchers("/member/signIn").hasRole("USER")//.permitAll()
             		.requestMatchers("/member/delete").hasRole("USER")
             		.requestMatchers("/profile/**").hasRole("USER")
             		//.requestMatchers("/member/signIn").authenticated()//.hasRole("USER")

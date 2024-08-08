@@ -21,6 +21,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.cheeus.config.auth.cookie.CookieUtil;
 import com.cheeus.config.auth.token.JWTUtil;
+import com.cheeus.member.exception.MemberException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -61,9 +62,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	                    Date expirationDate = jwtUtil.getExpirationDateFromToken(token);
 	                    Date now = new Date();
 	                    long remainingTime = expirationDate.getTime() - now.getTime();
+	                    System.out.println(remainingTime);
 	
 	                    // 토큰 만료 30분 이내라면 재발급
 	                    if (remainingTime < 30 * 60 * 1000) {
+	                    	System.out.println("토큰 재발급");
 	                        String refreshedToken = jwtUtil.refreshToken(token);
 	                        setAuthentication(request, refreshedToken);
 	                        cookieUtil.addCookie(response, "Authorization", refreshedToken, 60*60*24*7);
@@ -77,7 +80,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		                response.setCharacterEncoding("UTF-8");
 		                
-		            	return;
+		            	throw new MemberException("토큰 만료", HttpStatus.BAD_REQUEST);
 		            }
 	            }
     		}

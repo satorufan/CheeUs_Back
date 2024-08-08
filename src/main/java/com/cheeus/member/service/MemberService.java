@@ -44,17 +44,17 @@ public class MemberService {
 	// 가입 시 이미 존재하는 회원인지 확인
 	public HttpStatus existByEmail(String email) {
 		
-		try {
-			
-			Integer existMember = dao.existByEmail(email);
-			if (existMember == 0) {
-				throw new MemberException("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
-			}
-			return HttpStatus.OK;
+		Integer existMember = dao.existByEmail(email);
 		
-		} catch (MemberException e) {
+		if (existMember == 0) {
 			throw new MemberException("존재하지 않는 이메일입니다.", HttpStatus.BAD_REQUEST);
 		}
+		
+		if ( profileDao.findByEmail(email).getBlackList() > 0 ) {
+			throw new MemberException("제한된 사용자입니다 ㅉㅉ", HttpStatus.BAD_REQUEST);
+		}
+		
+		return HttpStatus.OK;
 		
 	}
 	

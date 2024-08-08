@@ -96,7 +96,7 @@ public class JWTUtil {
         	
             String role = authorities.get(0).toString();
             
-            return createJwt((Map<String, Object>) authentication.getPrincipal(), role, 60*60*60L);
+            return createJwt((Map<String, Object>) authentication.getPrincipal(), role, 60*60*24*1000L);
         } catch (Exception e) {
             return null;
         }
