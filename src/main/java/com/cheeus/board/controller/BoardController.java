@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,13 @@ public class BoardController {
 	}
 	*/
 
+	private final ArrayList<String> category = new ArrayList<>() {
+		private static final long serialVersionUID = 8888;
+	{
+		add("freeboard/");
+		add("shortform/");
+		add("eventboard");
+	}};
 	@PostMapping("/insert")
 	public void insertBoard(@RequestParam("board") String boardJson,
 							@RequestParam("file") Optional<MultipartFile> file) throws IOException {
@@ -63,7 +71,10 @@ public class BoardController {
 		if (file.isPresent()) {
 			String fileName = file.get().getOriginalFilename();
 			File tempFile = imageUploadService.convertToFile(file.get(), fileName);
-			String fileUrl = imageUploadService.uploadFile(tempFile, fileName, file.get().getContentType());
+			String fileUrl = imageUploadService.uploadFile(
+					tempFile, 
+					"board/" + category.get(board.getCategory()) + fileName, 
+					file.get().getContentType());
 			board.setMedia(fileUrl);
 
 			// 임시 파일 삭제

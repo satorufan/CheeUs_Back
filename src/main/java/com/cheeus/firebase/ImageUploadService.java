@@ -31,6 +31,8 @@ public class ImageUploadService {
 	}
 	
 	public String uploadFile(File file, String fileName, String type) throws IOException {
+		System.out.println(fileName);
+		System.out.println(type);
 		// 버킷과 파일 이름 지정
 	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName);
 	    

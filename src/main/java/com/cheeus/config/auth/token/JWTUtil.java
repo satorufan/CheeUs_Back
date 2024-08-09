@@ -66,11 +66,13 @@ public class JWTUtil {
     		Long expiredMs) {
 
     	Key key = Keys.hmacShaKeyFor(secretkey.getBytes(StandardCharsets.UTF_8));
-    	
+
+        System.out.println(attributes);
     	Claims claims = Jwts.claims();
 		claims.put("registrationId", attributes.get("registrationId"));
         claims.put("email", attributes.get("email"));
         claims.put("role", role);
+        System.out.println(claims);
         
         Date now = new Date();
 

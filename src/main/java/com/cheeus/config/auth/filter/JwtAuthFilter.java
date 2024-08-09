@@ -54,21 +54,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	
 	                if (jwtUtil.isExpired(token)) {
 	                	System.out.println("not expired");
-	                	//setAuthentication(token);
-                        setAuthentication(request, token);
+	                	
+	                	String role = jwtUtil.getRole(token);
+	                	
+                        setAuthentication(request, token, role);
                         
 	
 	                    // 토큰 재발급 로직
 	                    Date expirationDate = jwtUtil.getExpirationDateFromToken(token);
 	                    Date now = new Date();
 	                    long remainingTime = expirationDate.getTime() - now.getTime();
-	                    System.out.println(remainingTime);
 	
 	                    // 토큰 만료 30분 이내라면 재발급
-	                    if (remainingTime < 30 * 60 * 1000) {
+	                    if (remainingTime < 30 * 60 * 1000 && jwtUtil.getRole(token).equals("ROLE_USER")) {
 	                    	System.out.println("토큰 재발급");
 	                        String refreshedToken = jwtUtil.refreshToken(token);
-	                        setAuthentication(request, refreshedToken);
+	                        setAuthentication(request, refreshedToken, role);
 	                        cookieUtil.addCookie(response, "Authorization", refreshedToken, 60*60*24*7);
 	                    }
 
@@ -99,9 +100,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 //    }
     
-    private void setAuthentication(HttpServletRequest request, String accessToken) {
+    private void setAuthentication(HttpServletRequest request, String accessToken, String role) {
     	List<GrantedAuthority> authorities = new ArrayList<>();
-    	authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+    	authorities.add(new SimpleGrantedAuthority(role));
     	
     	SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
     	

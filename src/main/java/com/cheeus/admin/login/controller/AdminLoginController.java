@@ -6,6 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.cheeus.config.auth.token.JWTUtil;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+
 import com.cheeus.config.auth.cookie.CookieUtil;
 
 import java.util.HashMap;
@@ -13,43 +18,50 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/adminlogin")
+@RequiredArgsConstructor
 public class AdminLoginController {
 
     @Autowired
     private AdminLoginService adminService;
 
-    @Autowired
-    private CookieUtil cookieUtil;
+    private final CookieUtil cookieUtil;
 
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
-    @PostMapping("")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData,
+    		HttpServletResponse response) {
         try {
             String id = loginData.get("id");
             String password = loginData.get("password");
 
-            System.out.println("받아온 id : " + id);
-            System.out.println("받아온 password : " + password);
-
-            if(id=="admin1"&&password=="admin1") {
+            if(id.equals("admin1")&&password.equals("admin1")) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("registrationId", password);
-                map.put("email", id);
+                map.put("email", null);
+                map.put("id", id);
+                
                 String adminToken = jwtUtil.createJwt(map,"ROLE_ADMIN",86400000L);
-
-                cookieUtil.addCookie(null,"adminAuthrization", adminToken, 86400);
+//                String adminToken = jwtUtil.createJwt(map,"ROLE_ADMIN",10000L);
+                
+                cookieUtil.addCookie(response, "Authorization", adminToken, 0);
+                
+                Map<String, String> responseBody = new HashMap<>();
+                responseBody.put("token", adminToken);
+                
+                return ResponseEntity.ok(responseBody);
             }
 
-            String token = adminService.login(id, password);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok("실패");
 
         } catch (Exception e) {
-            return ResponseEntity.status(401).body("<<LogIn Error>> Invalid credentials");
+        	return ResponseEntity.status(401).body("<<LogIn Error>> Invalid credentials");
         }
+    }
+    
+    @GetMapping("/tokenCheck")
+    public ResponseEntity<?> tokenCheck() {
+    	
+    	return ResponseEntity.ok("token check");
     }
 }
