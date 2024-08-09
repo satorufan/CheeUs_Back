@@ -1,5 +1,6 @@
 package com.cheeus.admin.login.controller;
 
+import com.cheeus.admin.login.model.AdminLogin;
 import com.cheeus.admin.login.service.AdminLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,10 @@ public class AdminLoginController {
             String id = loginData.get("id");
             String password = loginData.get("password");
 
-            if(id.equals("admin1")&&password.equals("admin1")) {
+            AdminLogin admin = adminService.login(id, password);
+
+            //if(id.equals("admin1")&&password.equals("admin1")) {
+            if(admin != null) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("registrationId", password);
                 map.put("email", null);
@@ -52,7 +56,7 @@ public class AdminLoginController {
                 return ResponseEntity.ok(responseBody);
             }
 
-            return ResponseEntity.ok("실패");
+            return ResponseEntity.status(401).body("실패");
 
         } catch (Exception e) {
         	return ResponseEntity.status(401).body("<<LogIn Error>> Invalid credentials");

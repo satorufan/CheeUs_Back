@@ -12,31 +12,31 @@ import java.util.Optional;
 public class AdminEventServiceImpl implements AdminEventService {
 
 	@Autowired
-	private AdminEventMapper boardMapper;
+	private AdminEventMapper eventMapper;
 
 	@Override
 	public List<AdminEventDto> findAll() {
-		return boardMapper.findAll();
+		return eventMapper.findAll();
 	}
 
 	@Override
 	public Optional<AdminEventDto> findById(int id) {
-		return Optional.ofNullable(boardMapper.findById(id));
+		return Optional.ofNullable(eventMapper.findById(id));
 	}
 
 	@Override
 	public void insert(AdminEventDto board) {
-		boardMapper.insert(board);
+		eventMapper.insert(board);
 	}
 
 	@Override
 	public void update(AdminEventDto board) {
-		boardMapper.update(board);
+		eventMapper.update(board);
 	}
 
 	@Override
 	public void delete(int id) {
-		boardMapper.delete(id);
+		eventMapper.delete(id);
 	}
 
 }
