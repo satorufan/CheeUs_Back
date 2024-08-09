@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardService {
+	Integer findLatest();
     List<BoardDto> findAll();
     List<BoardDto> findAllFreeboard();
     List<BoardDto> findAllShortform();

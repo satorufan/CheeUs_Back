@@ -29,10 +29,11 @@ public class ImageGetService {
         
         // 스토리지에서 Blob 가져오기
         for (int i=0 ; i<cnt ; i++) {
-        	
+        	System.out.println(category + email + "/" + i);
         	BlobId blobId = BlobId.of("cheeusfinal.appspot.com", category + email + "/" + i);
         	if (blobId != null) {
 	            Blob blob = storage.get(blobId);
+	            System.out.println(blob);
 	            byte[] blobByte = blob.getContent();
 	            
 	            images.add(blobByte);
