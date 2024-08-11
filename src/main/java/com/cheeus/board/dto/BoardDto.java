@@ -29,7 +29,7 @@ public class BoardDto {
 	private String boardId;
 
 	// FreePostPhoto 속성들
-	private String photoes;
+	private int photoes;
 	
 	// FreeBoard 속성들
 	private String head;

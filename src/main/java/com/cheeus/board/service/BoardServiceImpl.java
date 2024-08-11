@@ -13,6 +13,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardMapper boardMapper;
+	
+	@Override
+	public Integer findLatest() {
+		return boardMapper.findLatest();
+	}
 
 	@Override
 	public List<BoardDto> findAll() {

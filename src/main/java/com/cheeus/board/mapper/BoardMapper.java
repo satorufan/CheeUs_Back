@@ -7,6 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
+	Integer findLatest();
     List<BoardDto> findAll();
     List<BoardDto> findAllFreeboard();
     List<BoardDto> findAllShortform();

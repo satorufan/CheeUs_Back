@@ -1,17 +1,23 @@
 package com.cheeus.board.controller;
 
 import com.cheeus.board.dto.BoardDto;
+import com.cheeus.board.response.BoardResponse;
 import com.cheeus.board.service.BoardService;
+import com.cheeus.firebase.ImageGetService;
 import com.cheeus.firebase.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -22,6 +28,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private ImageGetService imageGetService;
 
 	@Autowired
 	private ImageUploadService imageUploadService;
@@ -37,8 +46,29 @@ public class BoardController {
 	}
 
 	@GetMapping("/shortform")
-	public List<BoardDto> getShortfoam(){
-		return boardService.findAllShortform();
+	public List<BoardDto> getShortfoam () {
+		
+		List<BoardDto> boards = boardService.findAllShortform();
+		return boards;
+	}
+	
+	@GetMapping("/shortform/media")
+	public List<BoardResponse> getShortfoamMedia (@RequestParam("board") String boardParam ) throws IOException {
+		
+		List<BoardResponse> allOfBoardWithMedia = new ArrayList<>();
+		// URL 디코딩
+        String decodedBoardParam = URLDecoder.decode(boardParam, "UTF-8");
+        
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Map<String, Integer>> boards = objectMapper.readValue(decodedBoardParam, new TypeReference<List<Map<String, Integer>>>() {});
+        
+		for (Map<String, Integer> board : boards) {
+			List<byte[]> medias = imageGetService.getImg("board/shortform/", board.get("id") + "", board.get("photoes"));
+			List<String> types = imageGetService.getType("board/shortform/", board.get("id") + "", board.get("photoes"));
+			
+			allOfBoardWithMedia.add(new BoardResponse(board.get("id"), medias, types));
+		}
+		return allOfBoardWithMedia;
 	}
 
 	@GetMapping("/eventboard")
@@ -58,7 +88,7 @@ public class BoardController {
 	{
 		add("freeboard/");
 		add("shortform/");
-		add("eventboard");
+		add("eventboard/");
 	}};
 	@PostMapping("/insert")
 	public void insertBoard(@RequestParam("board") String boardJson,
@@ -66,6 +96,8 @@ public class BoardController {
 		// JSON -> BoardDto 변환
 		ObjectMapper objectMapper = new ObjectMapper();
 		BoardDto board = objectMapper.readValue(boardJson, BoardDto.class);
+		
+		int id = getBoard().size() > 0 ? boardService.findLatest() : 0;
 
 		// 파일이 있을 경우 업로드 처리
 		if (file.isPresent()) {
@@ -73,7 +105,7 @@ public class BoardController {
 			File tempFile = imageUploadService.convertToFile(file.get(), fileName);
 			String fileUrl = imageUploadService.uploadFile(
 					tempFile, 
-					"board/" + category.get(board.getCategory()) + fileName, 
+					"board/" + category.get(board.getCategory()-1) + (id + 1) + "/" + 0, 
 					file.get().getContentType());
 			board.setMedia(fileUrl);
 

@@ -25,6 +25,10 @@
 		<result property="createdAt" column="created_at" />
 	</resultMap>
 
+	<select id="findLatest" resultType="java.lang.Integer">
+		SELECT id FROM board ORDER BY id DESC LIMIT 1;
+	</select>
+
 	<select id="findAll" resultMap="boardResultMap">
 		SELECT * FROM board ORDER BY id DESC;
 	</select>

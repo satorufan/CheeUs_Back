@@ -1,8 +1,10 @@
 package com.cheeus.member.service;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import com.cheeus.member.repository.MemberProfileDao;
 import com.cheeus.member.request.MatchFindRequest;
 import com.cheeus.member.response.LoadPersonalChattingInfo;
 import com.cheeus.member.response.ProfileWithImageResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -151,6 +155,40 @@ public class MemberMatchService {
 					profile.getNickname(), 
 					imageGetService.getImg("profile/", profile.getEmail(), 1).get(0),
 					imageGetService.getType("profile/", profile.getEmail(), 1).get(0));
+		} catch (Exception e) {
+			
+			throw new MemberException("존재하지 않는 유저", HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	// 게시글에서 유저정보 불러오기
+	public List<LoadPersonalChattingInfo> loadBoardAuthor(String emailParam) throws IOException {
+		
+		List<LoadPersonalChattingInfo> authorInfo = new ArrayList<>();
+		// URL 디코딩
+        String decodedEmailParam = URLDecoder.decode(emailParam, "UTF-8");
+        
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		List<Map<String, String>> emails = objectMapper.readValue(decodedEmailParam, new TypeReference<List<Map<String, String>>>() {});
+        
+		try {
+			
+			for (Map<String, String> email : emails) {
+				
+				MemberProfile profile = memberProfileDao.findByEmail(email.get("email"));
+		        System.out.println(email.get("email"));
+				
+				authorInfo.add(new LoadPersonalChattingInfo(
+						email.get("email"), 
+						profile.getNickname(), 
+						imageGetService.getImg("profile/", profile.getEmail(), 1).get(0), 
+						imageGetService.getType("profile/", profile.getEmail(), 1).get(0)));
+			}
+			
+			return authorInfo;
+			
 		} catch (Exception e) {
 			
 			throw new MemberException("존재하지 않는 유저", HttpStatus.BAD_REQUEST);

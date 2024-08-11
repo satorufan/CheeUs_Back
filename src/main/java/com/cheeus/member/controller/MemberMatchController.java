@@ -69,4 +69,13 @@ public class MemberMatchController {
 		return ResponseEntity.ok(memberMatchService.loadPersonalChattingInfo(email));
 	}
 	
+	// 게시글 유저정보 불어오기
+	@GetMapping("/loadBoardAuthor")
+	public ResponseEntity<?> loadBoardAuthor (
+			@RequestParam("emails") String emailParam
+			) throws IOException {
+		
+		return ResponseEntity.ok(memberMatchService.loadBoardAuthor(emailParam));
+	}
+	
 }
