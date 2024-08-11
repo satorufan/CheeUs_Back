@@ -26,5 +26,4 @@ public class DtBoardDto {
 	private String writeday;
 	private int views;
 	private int like;
-
 }

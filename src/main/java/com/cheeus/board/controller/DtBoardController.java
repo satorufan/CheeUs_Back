@@ -3,9 +3,13 @@ package com.cheeus.board.controller;
 import com.cheeus.board.dto.DtBoardDto;
 import com.cheeus.board.service.DtBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -26,6 +30,11 @@ public class DtBoardController {
 		return boardService.findById(id);
 	}
 
+	@GetMapping("/{id}")
+	public Optional<DtBoardDto> getBoardById2(@PathVariable("id") int id){
+		return boardService.findById(id);
+	}
+
 	@PostMapping("/insert")
 	public int insertBoard(@RequestBody DtBoardDto board) {
 		boardService.insert(board);
@@ -42,6 +51,55 @@ public class DtBoardController {
 			return "update 실패";
 		}
 	}
+
+	/*
+	@PutMapping("/toggleLike/{id}")
+	public String toggleLike(@PathVariable("id") int id) {
+		Optional<DtBoardDto> toggle = boardService.findById(id);
+		if (toggle.isEmpty()) {
+			boardService.toggleLikeOn(id);
+			return "좋아요!";
+		} else {
+			boardService.toggleLikeOff(id);
+			return "좋아요 취소";
+		}
+	}
+	 */
+
+	@PutMapping("/toggleLike/{id}")
+	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestParam("authorId") String authorId) {
+		try {
+			Integer updatedLikeCount = boardService.toggleLike(id, authorId);
+			if (updatedLikeCount == null) {
+				updatedLikeCount = 0;
+			}
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedLikeCount", updatedLikeCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to toggle like for post: " + id + ". Error: " + e.getMessage());
+		}
+	}
+
+	/*
+	@PutMapping("/toggleLike/{id}")
+	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestHeader("Authorization") String token) {
+		try {
+			int updatedLikeCount = boardService.toggleLike(id);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedLikeCount", updatedLikeCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to toggle like for post: " + id);
+		}
+	}
+	 */
 
 	@DeleteMapping("/delete/{id}")
 	public String delete(@PathVariable("id") int id) {
