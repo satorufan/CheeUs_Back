@@ -100,4 +100,16 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="incrementViewCount">
+		UPDATE drink_together
+		SET views = drink_together.views + 1
+		WHERE id = #{id};
+	</update>
+
+	<select id="getViewCount" resultType="int">
+		SELECT views
+		FROM drink_together
+		WHERE id = #{id};
+	</select>
+
 </mapper>
