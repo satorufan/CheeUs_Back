@@ -53,9 +53,10 @@ public class MemberProfileController {
             
 
             // Fetch image blob
-            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
+//            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
+            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile", email, profile.getPhoto());
             // Fetch image type
-            ArrayList<String> imageType = imageGetService.getType("profile/", email, profile.getPhoto());
+            ArrayList<String> imageType = imageGetService.getType("profile", email, profile.getPhoto());
             
             // Fetch popularity
             ArrayList<MemberPopularity> popularity = profileService.loadPopularity(email);
@@ -89,10 +90,14 @@ public class MemberProfileController {
             MemberProfile profile = profileService.findByEmail(email);
             
 
+//            // Fetch image blob
+//            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
+//            // Fetch image type
+//            ArrayList<String> imageType = imageGetService.getType("profile/", email, profile.getPhoto());
             // Fetch image blob
-            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
+            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile", email, profile.getPhoto());
             // Fetch image type
-            ArrayList<String> imageType = imageGetService.getType("profile/", email, profile.getPhoto());
+            ArrayList<String> imageType = imageGetService.getType("profile", email, profile.getPhoto());
             
             // Fetch popularity
             ArrayList<MemberPopularity> popularity = profileService.loadPopularity(email);
