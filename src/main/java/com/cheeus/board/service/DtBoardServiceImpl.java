@@ -67,45 +67,12 @@ public class DtBoardServiceImpl implements DtBoardService {
 			return dtBoardMapper.getLikeCount(postId);
 		}
 
-		/*
-		Integer likeCount = dtBoardMapper.getLikeCount(postId);
-		if (likeCount == null) {
-		}
-
-		// drink_together 테이블의 like 컬럼 업데이트
-		dtBoardMapper.updateLikeCount(postId);
-		return likeCount;
-		 */
 	}
 
 	@Override
 	public Boolean isLikedByUser(int postId, String userId) {
 		return dtBoardMapper.isLikedByUser(postId, userId);
 	}
-	/*
-	@Override
-	public int toggleLike(int id) {
-		// 현재 좋아요 상태를 가져옵니다.
-		boolean isLiked = dtBoardMapper.isPostLiked(id);
-		// 좋아요 상태에 따라 증가 또는 감소시킵니다.
-		if (isLiked) {
-			dtBoardMapper.decreaseLike(id);
-		} else {
-			dtBoardMapper.increaseLike(id);
-		}
-
-		// 업데이트된 좋아요 수를 반환합니다.
-		return dtBoardMapper.getLikeCount(id);
-	}
-*/
-
-	/*
-	@Override
-	public void toggleLikeOn(int id){ dtBoardMapper.toggleLikeOn(id); }
-
-	@Override
-	public void toggleLikeOff(int id){ dtBoardMapper.toggleLikeOff(id); }
-	 */
 
 	@Override
 	public void delete(int id) {

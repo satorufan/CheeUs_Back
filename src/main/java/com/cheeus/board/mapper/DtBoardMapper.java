@@ -16,16 +16,13 @@ public interface DtBoardMapper {
     boolean isPostLiked(int id);
     void increaseLike(int id);
     void decreaseLike(int id);
-    // int getLikeCount(int id);
-    // void toggleLikeOn(int id);
-    // void toggleLikeOff(int id);
     void delete(int id);
 
     // 좋아요 관련 메서드
     void addLike(@Param("id") int postId, @Param("authorId") String userId);
     void removeLike(@Param("id") int postId, @Param("authorId") String userId);
     Boolean isLikedByUser(@Param("id") int postId, @Param("authorId") String userId);
-    Integer getLikeCount(@Param("id") int postId);
+    int getLikeCount(@Param("id") int id);
     void updateLikeCount(@Param("id") int postId);
 
     // 조회수 관련 메서드
