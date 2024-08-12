@@ -41,11 +41,12 @@ public class MemberProfileController {
 	private final MemberProfileService profileService;
 	private final ImageGetService imageGetService;
 	
-
-    // 프로필 불러오기
-    @GetMapping
-    public ResponseEntity<?> loadProfile(@RequestParam("email") String email) {
-    	
+	// 내 프로필 불러오기
+	@GetMapping
+    public ResponseEntity<?> loadProfile(
+    		@RequestParam("email") String email
+    		) throws Exception {
+		
         try {
             // Fetch profile information
             MemberProfile profile = profileService.findByEmail(email);
@@ -73,13 +74,43 @@ public class MemberProfileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to load profile and image: " + e.getMessage());
         }
     }
-	
-	// 닉네임 중복 확인
-	@GetMapping("/checkNickname")
-	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) {
-		System.out.println(nickname);
-		return ResponseEntity.ok(profileService.existNickname(nickname));
-	}
+    // 타 유저 불러오기
+    @GetMapping("/others")
+    public ResponseEntity<?> loadOtherProfile(
+    		@RequestParam("email") String encodedEmail,
+    		@RequestParam("iv") String iv
+    		) throws Exception {
+
+    	String email = profileService.decrypt(encodedEmail, iv).replace("\"", "");
+    	System.out.println(encodedEmail);
+    	System.out.println(email);
+        try {
+            // Fetch profile information
+            MemberProfile profile = profileService.findByEmail(email);
+            
+
+            // Fetch image blob
+            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", email, profile.getPhoto());
+            // Fetch image type
+            ArrayList<String> imageType = imageGetService.getType("profile/", email, profile.getPhoto());
+            
+            // Fetch popularity
+            ArrayList<MemberPopularity> popularity = profileService.loadPopularity(email);
+            // Fetch scrap
+            ArrayList<MemberScrap> scrap = profileService.findMyScrap(email);
+            // Fetch scrap
+            ArrayList<MyInsertedPostResponse> myPost = profileService.findMyPost(email);
+            
+            // Create a response object containing both image and profile
+            ProfileWithImageResponse response = new ProfileWithImageResponse(profile, imageBlob, imageType, popularity, scrap, myPost);
+            
+            // Return response with HTTP status 200 OK
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            // Handle IOException appropriately
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to load profile and image: " + e.getMessage());
+        }
+    }
 	
 	// 프로필 수정
 	@PostMapping("/edit")

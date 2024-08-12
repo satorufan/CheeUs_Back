@@ -2,10 +2,17 @@ package com.cheeus.member.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,6 +45,9 @@ public class MemberProfileService {
 	private final MemberProfileDao profileDao;
 	private final ImageUploadService imageUploadService;
 	
+	@Value("${spring.email.secret}")
+	private String emailSecret;
+	
 	
 	// 닉네임 중복 확인
 	public HttpStatus existNickname (String nickname) {
@@ -59,6 +69,23 @@ public class MemberProfileService {
 		
 		return findMember;
 	}
+	
+	
+	// 이메일 디코딩
+	public String decrypt(String encryptedData, String iv) throws Exception {
+		
+		String base64EncryptedData = encryptedData.replace('-', '+').replace('_', '/');
+		SecretKeySpec secretKey = new SecretKeySpec(emailSecret.getBytes(StandardCharsets.UTF_8), "AES");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(Base64.getDecoder().decode(iv));
+
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+
+        byte[] decodedValue = Base64.getDecoder().decode(base64EncryptedData);
+        byte[] decryptedValue = cipher.doFinal(decodedValue);
+
+        return new String(decryptedValue, StandardCharsets.UTF_8);
+    }
 	
 	
 	// 회원 수정

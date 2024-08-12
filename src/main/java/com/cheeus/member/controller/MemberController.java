@@ -112,6 +112,14 @@ public class MemberController {
 		
 		return ResponseEntity.ok(null);
 	}
+
+	
+	// 닉네임 중복 확인
+	@GetMapping("/checkNickname")
+	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) {
+		System.out.println(nickname);
+		return ResponseEntity.ok(profileService.existNickname(nickname));
+	}
 	
 	
 	// 회원 탈퇴
