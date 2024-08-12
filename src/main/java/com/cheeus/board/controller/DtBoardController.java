@@ -1,6 +1,7 @@
 package com.cheeus.board.controller;
 
 import com.cheeus.board.dto.DtBoardDto;
+import com.cheeus.board.mapper.DtBoardMapper;
 import com.cheeus.board.service.DtBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ public class DtBoardController {
 
 	@Autowired
 	private DtBoardService boardService;
+    @Autowired
+    private DtBoardMapper dtBoardMapper;
 
 	@GetMapping("/")
 	public List<DtBoardDto> getBoard(){
@@ -76,6 +79,7 @@ public class DtBoardController {
 			Map<String, Object> response = new HashMap<>();
 			response.put("success", true);
 			response.put("updatedLikeCount", updatedLikeCount);
+			response.put("isLiked", boardService.isLikedByUser(id, authorId));
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			e.printStackTrace();

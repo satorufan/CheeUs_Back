@@ -95,7 +95,7 @@
 	<!-- 좋아요 관련 메서드 -->
 	<insert id="addLike">
 		INSERT INTO drink_together_likes (post_id, user_id)
-		VALUES (#{id}, #{authorId})
+		VALUES (#{id}, #{authorId});
 	</insert>
 
 	<delete id="removeLike">
@@ -104,7 +104,7 @@
 	</delete>
 
 	<select id="isLikedByUser" resultMap="DrinkTogetherLikesResultMap" resultType="boolean">
-		SELECT COUNT(*) > 0
+		SELECT COALESCE(COUNT(*), 0) > 0
 		FROM drink_together_likes
 		WHERE post_id = #{id} AND user_id = #{authorId}
 	</select>

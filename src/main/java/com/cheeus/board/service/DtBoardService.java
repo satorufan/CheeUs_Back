@@ -14,5 +14,6 @@ public interface DtBoardService {
     Integer toggleLike(int id, String authorId);
     // void toggleLikeOn(int id);
     // void toggleLikeOff(int id);
+    Boolean isLikedByUser(int postId, String userId);
     void delete(int id);
 }

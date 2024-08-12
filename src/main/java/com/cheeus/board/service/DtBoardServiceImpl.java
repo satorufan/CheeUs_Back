@@ -57,9 +57,13 @@ public class DtBoardServiceImpl implements DtBoardService {
 				// 좋아요를 누르지 않았다면 좋아요 추가
 				dtBoardMapper.addLike(postId, userId);
 			}
+			dtBoardMapper.updateLikeCount(postId);
+			return dtBoardMapper.getLikeCount(postId);
 		} catch (DuplicateKeyException e) {
 			// 중복된 엔트리 삽입 시 발생하는 예외 처리
 			System.out.println("중복된 좋아요 시도: " + e.getMessage());
+			dtBoardMapper.removeLike(postId, userId);
+			dtBoardMapper.updateLikeCount(postId);
 			return dtBoardMapper.getLikeCount(postId);
 		}
 
@@ -72,12 +76,12 @@ public class DtBoardServiceImpl implements DtBoardService {
 		dtBoardMapper.updateLikeCount(postId);
 		return likeCount;
 		 */
-
-		// 좋아요 수를 업데이트하고 반환
-		dtBoardMapper.updateLikeCount(postId);
-		return dtBoardMapper.getLikeCount(postId);
 	}
 
+	@Override
+	public Boolean isLikedByUser(int postId, String userId) {
+		return dtBoardMapper.isLikedByUser(postId, userId);
+	}
 	/*
 	@Override
 	public int toggleLike(int id) {
