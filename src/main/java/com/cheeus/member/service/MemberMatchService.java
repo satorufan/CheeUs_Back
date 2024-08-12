@@ -153,8 +153,8 @@ public class MemberMatchService {
 			return new LoadPersonalChattingInfo(
 					email, 
 					profile.getNickname(), 
-					imageGetService.getImg("profile/", profile.getEmail(), 1).get(0),
-					imageGetService.getType("profile/", profile.getEmail(), 1).get(0));
+					imageGetService.getImg("profile", profile.getEmail(), 1).get(0),
+					imageGetService.getType("profile", profile.getEmail(), 1).get(0));
 		} catch (Exception e) {
 			
 			throw new MemberException("존재하지 않는 유저", HttpStatus.BAD_REQUEST);
@@ -183,8 +183,8 @@ public class MemberMatchService {
 				authorInfo.add(new LoadPersonalChattingInfo(
 						email.get("email"), 
 						profile.getNickname(), 
-						imageGetService.getImg("profile/", profile.getEmail(), 1).get(0), 
-						imageGetService.getType("profile/", profile.getEmail(), 1).get(0)));
+						imageGetService.getImg("profile", profile.getEmail(), 1).get(0), 
+						imageGetService.getType("profile", profile.getEmail(), 1).get(0)));
 			}
 			
 			return authorInfo;

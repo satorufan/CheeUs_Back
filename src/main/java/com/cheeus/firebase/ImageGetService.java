@@ -30,14 +30,16 @@ public class ImageGetService {
         // 스토리지에서 Blob 가져오기
         for (int i=0 ; i<cnt ; i++) {
         	System.out.println(category + email + "/" + i);
-        	BlobId blobId = BlobId.of("cheeusfinal.appspot.com", category + email + "/" + i);
-        	if (blobId != null) {
-	            Blob blob = storage.get(blobId);
-	            System.out.println(blob);
-	            byte[] blobByte = blob.getContent();
-	            
-	            images.add(blobByte);
-        	}
+////        	BlobId blobId = BlobId.of("cheeusfinal.appspot.com", category + email + "/" + i);
+//        	BlobId blobId = BlobId.of("cheeus-91595.appspot.com", category + email + "/" + i);
+//        	if (blobId != null) {
+//	            Blob blob = storage.get(blobId);
+//	            System.out.println(blob);
+//	            byte[] blobByte = blob.getContent();
+//	            
+//	            images.add(blobByte);
+//        	}
+        	images.add(null);
         	
         }
         
@@ -45,31 +47,47 @@ public class ImageGetService {
         return images;
 	}
 	
-	// 파일 유형 가져오기
 	public ArrayList<String> getType(String category, String email, int cnt) throws IOException{
 		
-		ArrayList<String> types = new ArrayList<String>();
+		ArrayList<String> images = new ArrayList<String>();
 		
-		// JSON KEY 경로
-		InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json");
-	    Credentials credentials = GoogleCredentials.fromStream(inputStream);
-	    
-		// 파이어베이스 스토리지 접근
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        
         // 스토리지에서 Blob 가져오기
         for (int i=0 ; i<cnt ; i++) {
-        	
-        	BlobId blobId = BlobId.of("cheeusfinal.appspot.com", category + email + "/" + i);
-            Blob blob = storage.get(blobId);
-            String blobTyte = blob.getContentType();
-            
-            types.add(blobTyte);
-        	
+        	System.out.println(category + email + "/" + i);
+//        	String prefixUrl = "https://firebasestorage.googleapis.com/v0/b/cheeus-91595.appspot.com/o/";
+        	String prefixUrl = "https://firebasestorage.googleapis.com/v0/b/cheeusfinal.appspot.com/o/";
+        	String fileLocation = category + "%2F" + email + "%2F" + i + "?alt=media";
+        	images.add(prefixUrl + fileLocation);
         }
         
-        
-        return types;
-        //return sendResponse("200", "Successfully Downloaded!");
+        return images;
 	}
+	
+//	// 파일 유형 가져오기
+//	public ArrayList<String> getType(String category, String email, int cnt) throws IOException{
+//		
+//		ArrayList<String> types = new ArrayList<String>();
+//		
+//		// JSON KEY 경로
+//		InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json");
+//	    Credentials credentials = GoogleCredentials.fromStream(inputStream);
+//	    
+//		// 파이어베이스 스토리지 접근
+//        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+//        
+//        // 스토리지에서 Blob 가져오기
+//        for (int i=0 ; i<cnt ; i++) {
+//        	
+//        	BlobId blobId = BlobId.of("cheeusfinal.appspot.com", category + email + "/" + i);
+//            Blob blob = storage.get(blobId);
+//            String blobTyte = blob.getContentType();
+//            
+//            types.add(blobTyte);
+//        	
+//        }
+//        
+//        
+//        return types;
+//        //return sendResponse("200", "Successfully Downloaded!");
+//	}
 }
