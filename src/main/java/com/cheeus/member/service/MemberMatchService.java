@@ -54,11 +54,17 @@ public class MemberMatchService {
 						&&
 						(matchState(email, profile.getEmail()) < 2)) {
 	
-		            // Fetch image blob
-		            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", profile.getEmail(), profile.getPhoto());
+//		            // Fetch image blob
+//		            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", profile.getEmail(), profile.getPhoto());
+//		            
+//		            // Fetch image type
+//		            ArrayList<String> imageType = imageGetService.getType("profile/", profile.getEmail(), profile.getPhoto());
+					
+					// Fetch image blob
+		            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile", profile.getEmail(), profile.getPhoto());
 		            
 		            // Fetch image type
-		            ArrayList<String> imageType = imageGetService.getType("profile/", profile.getEmail(), profile.getPhoto());
+		            ArrayList<String> imageType = imageGetService.getType("profile", profile.getEmail(), profile.getPhoto());
 		            
 		            // Fetch popularity
 		            ArrayList<MemberPopularity> popularity = memberProfileDao.findPopularity(profile.getEmail());
