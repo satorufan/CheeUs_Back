@@ -71,22 +71,28 @@ public class DtBoardController {
 
 	@PutMapping("/toggleLike/{id}")
 	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestParam("authorId") String authorId) {
-		try {
-			Integer updatedLikeCount = boardService.toggleLike(id, authorId);
-			if (updatedLikeCount == null) {
-				updatedLikeCount = 0;
-			}
-			Map<String, Object> response = new HashMap<>();
-			response.put("success", true);
-			response.put("updatedLikeCount", updatedLikeCount);
-			response.put("isLiked", boardService.isLikedByUser(id, authorId));
-			return ResponseEntity.ok(response);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Failed to toggle like for post: " + id + ". Error: " + e.getMessage());
-		}
+	    try {
+	        Integer updatedLikeCount = boardService.toggleLike(id, authorId);
+	        
+	        
+	        // isLikedByUser 메서드가 null을 반환할 수 있는 경우를 방지
+	        Boolean isLiked = boardService.isLikedByUser(id, authorId);
+	        if (isLiked == null) {
+	            isLiked = false;  // 기본값 설정
+	        }
+	        
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("success", true);
+	        response.put("updatedLikeCount", updatedLikeCount);
+	        response.put("isLiked", isLiked);
+	        return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Failed to toggle like for post: " + id + ". Error: " + e.getMessage());
+	    }
 	}
+	
 
 	/*
 	@PutMapping("/toggleLike/{id}")

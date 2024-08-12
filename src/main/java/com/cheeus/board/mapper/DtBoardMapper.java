@@ -25,7 +25,7 @@ public interface DtBoardMapper {
     void addLike(@Param("id") int postId, @Param("authorId") String userId);
     void removeLike(@Param("id") int postId, @Param("authorId") String userId);
     Boolean isLikedByUser(@Param("id") int postId, @Param("authorId") String userId);
-    Integer getLikeCount(@Param("id") int postId);
+    int getLikeCount(@Param("id") int id);
     void updateLikeCount(@Param("id") int postId);
 
 }
