@@ -28,4 +28,7 @@ public interface DtBoardMapper {
     Integer getLikeCount(@Param("id") int postId);
     void updateLikeCount(@Param("id") int postId);
 
+    // 조회수 관련 메서드
+    void incrementViewCount(int id);
+    int getViewCount(int id);
 }

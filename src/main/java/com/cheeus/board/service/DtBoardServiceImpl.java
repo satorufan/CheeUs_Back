@@ -111,4 +111,10 @@ public class DtBoardServiceImpl implements DtBoardService {
 	public void delete(int id) {
 		dtBoardMapper.delete(id);
 	}
+
+	@Override
+	public int incrementViewCount(int id) {
+		dtBoardMapper.incrementViewCount(id);
+		return dtBoardMapper.getViewCount(id);
+	}
 }

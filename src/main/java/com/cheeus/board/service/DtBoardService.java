@@ -16,4 +16,5 @@ public interface DtBoardService {
     // void toggleLikeOff(int id);
     Boolean isLikedByUser(int postId, String userId);
     void delete(int id);
+    int incrementViewCount(int id);
 }

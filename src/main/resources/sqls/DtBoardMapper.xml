@@ -26,6 +26,11 @@
 		<result property="userId" column="user_id" />
 	</resultMap>
 
+	<resultMap id="DrinkTogetherViewResult" type="com.cheeus.board.dto.DtBoardDto">
+		<id property="id" column="id"/>
+		<result property="views" column="views"/>
+	</resultMap>
+
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO drink_together (author_id, nickname, location, address, latitude, longitude, time, title, content, views, `like`)
 		VALUES (#{authorId}, #{nickname}, #{location}, #{address}, #{latitude}, #{longitude}, #{time}, #{title}, #{content}, #{views}, #{like})
@@ -100,27 +105,27 @@
 
 	<delete id="removeLike">
 		DELETE FROM drink_together_likes
-		WHERE post_id = #{id} AND user_id = #{authorId}
+		WHERE post_id = #{id} AND user_id = #{authorId};
 	</delete>
 
 	<select id="isLikedByUser" resultMap="DrinkTogetherLikesResultMap" resultType="boolean">
 		SELECT COALESCE(COUNT(*), 0) > 0
 		FROM drink_together_likes
-		WHERE post_id = #{id} AND user_id = #{authorId}
+		WHERE post_id = #{id} AND user_id = #{authorId};
 	</select>
 
 	<!-- 현재 게시물의 좋아요 수 반환 -->
 	<select id="getLikeCount" resultMap="DrinkTogetherLikesResultMap" resultType="int">
 		SELECT COALESCE(COUNT(*), 0) as count
 		FROM drink_together_likes
-		WHERE post_id = #{id}
+		WHERE post_id = #{id};
 	</select>
 
 	<!-- drink_together 테이블의 like 컬럼 업데이트 -->
 	<update id="updateLikeCount">
 		UPDATE drink_together
 		SET `like` = (SELECT COALESCE(COUNT(*), 0) FROM drink_together_likes WHERE post_id = #{id})
-		WHERE id = #{id}
+		WHERE id = #{id};
 	</update>
 
 	<!--
@@ -128,5 +133,17 @@
 		SELECT COUNT(*) FROM drink_together_likes WHERE post_id = #{postId}
 	</select>
 	-->
+
+	<update id="incrementViewCount">
+		UPDATE drink_together
+		SET views = drink_together.views + 1
+		WHERE id = #{id};
+	</update>
+
+	<select id="getViewCount" resultType="int">
+		SELECT views
+		FROM drink_together
+		WHERE id = #{id};
+	</select>
 
 </mapper>

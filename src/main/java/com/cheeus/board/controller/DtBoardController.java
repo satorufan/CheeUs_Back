@@ -115,5 +115,22 @@ public class DtBoardController {
 			return "delete 실패";
 		}
 	}
+
+	// 조회수 증가
+	@PutMapping("/incrementView/{id}")
+	public ResponseEntity<?> incrementViewCount(@PathVariable("id") int id) {
+		try {
+			int updatedViewCount = boardService.incrementViewCount(id);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedViewCount", updatedViewCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to increment view count for post: " + id);
+		}
+	}
+
 }
 
