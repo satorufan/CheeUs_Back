@@ -11,5 +11,8 @@ public interface DtBoardService {
     void insert(DtBoardDto board);
     int responseForInsert();
     void update(DtBoardDto board);
+    Integer toggleLike(int id, String authorId);
+    Boolean isLikedByUser(int postId, String userId);
     void delete(int id);
+    int incrementViewCount(int id);
 }

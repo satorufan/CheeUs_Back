@@ -21,6 +21,11 @@
 		<result property="like" column="like"/>
 	</resultMap>
 
+	<resultMap id="DrinkTogetherLikesResultMap" type="com.cheeus.board.dto.DtLikesDto">
+		<id property="postId" column="post_id"/>
+		<result property="userId" column="user_id" />
+	</resultMap>
+
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO drink_together (author_id, nickname, location, address, latitude, longitude, time, title, content, views, `like`)
 		VALUES (#{authorId}, #{nickname}, #{location}, #{address}, #{latitude}, #{longitude}, #{time}, #{title}, #{content}, #{views}, #{like})
@@ -38,15 +43,74 @@
 		SELECT id FROM drink_together ORDER BY id DESC LIMIT 1
 	</select>
 
+
 	<update id="update">
 		UPDATE drink_together
 		SET author_id = #{authorId}, location = #{location}, address = #{address}, latitude = #{latitude}, longitude = #{longitude},
-		time = #{time}, title = #{title}, content = #{content}, writeday = now(), views = #{views}, `like` = #{like}
+		time = #{time}, title = #{title}, content = #{content}, writeday = now(), views = #{views}
+		WHERE id = #{id};
+	</update>
+
+	<!-- 좋아요 증가 -->
+	<update id="increaseLike">
+		UPDATE drink_together
+		SET `like` = drink_together.like + 1
+		WHERE id = #{id};
+	</update>
+
+	<!-- 좋아요 감소 -->
+	<update id="decreaseLike">
+		UPDATE drink_together
+		SET `like` = drink_together.like - 1
 		WHERE id = #{id};
 	</update>
 
 	<delete id="delete" parameterType="int">
 		DELETE FROM drink_together WHERE id = #{id};
 	</delete>
+
+	<!-- 좋아요 관련 메서드 -->
+	<insert id="addLike">
+		INSERT INTO drink_together_likes (post_id, user_id)
+		VALUES (#{id}, #{authorId});
+	</insert>
+
+	<delete id="removeLike">
+		DELETE FROM drink_together_likes
+		WHERE post_id = #{id} AND user_id = #{authorId}
+	</delete>
+
+	 <select id="isLikedByUser" resultType="boolean">
+      SELECT COUNT(*) > 0
+      FROM drink_together_likes
+      WHERE post_id = #{id} AND user_id = #{authorId}
+   	</select>
+
+	<!-- 현재 게시물의 좋아요 수 반환 -->
+	<select id="getLikeCount" resultType="int">
+		SELECT `like` 
+		FROM drink_together
+		WHERE id = #{id}
+	</select>
+
+	<!-- drink_together 테이블의 like 컬럼 업데이트 -->
+	<update id="updateLikeCount">
+		UPDATE drink_together
+		SET `like` = (SELECT COALESCE(COUNT(*), 0) FROM drink_together_likes WHERE post_id = #{id})
+		WHERE id = #{id}
+	</update>
+
+	<!-- 조회수 관련 쿼리 -->
+	<update id="incrementViewCount">
+		UPDATE drink_together
+		SET views = drink_together.views + 1
+		WHERE id = #{id};
+	</update>
+
+	<select id="getViewCount" resultType="int">
+		SELECT views
+		FROM drink_together
+		WHERE id = #{id};
+	</select>
 
 </mapper>

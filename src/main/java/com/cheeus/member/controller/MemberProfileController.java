@@ -121,7 +121,7 @@ public class MemberProfileController {
 	@PostMapping("/edit")
 	public ResponseEntity<?> updateProfile(
 			@RequestPart(value="memberProfileDetail") MemberProfile profile,
-			@RequestParam(value="photos") List<MultipartFile> photos,
+			@RequestParam(value="photos", required = false) List<MultipartFile> photos,
 			@RequestParam(value="email") List<String> imageName
 			) throws IOException {
 		System.out.println("edit");

@@ -86,9 +86,9 @@ public class BoardController {
 	private final ArrayList<String> category = new ArrayList<>() {
 		private static final long serialVersionUID = 8888;
 	{
-		add("freeboard%2F");
-		add("shortform%2F");
-		add("eventboard%2F");
+		add("freeboard/");
+		add("shortform/");
+		add("eventboard/");
 	}};
 	@PostMapping("/insert")
 	public void insertBoard(@RequestParam("board") String boardJson,
@@ -105,7 +105,7 @@ public class BoardController {
 			File tempFile = imageUploadService.convertToFile(file.get(), fileName);
 			String fileUrl = imageUploadService.uploadFile(
 					tempFile, 
-					"board%2F" + category.get(board.getCategory()-1) + (id + 1) + "%2F" + 0, 
+					"board/" + category.get(board.getCategory()-1) + (id + 1) + "/" + 0, 
 					file.get().getContentType());
 			board.setMedia(fileUrl);
 
