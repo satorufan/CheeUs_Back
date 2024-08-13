@@ -7,6 +7,7 @@ import com.cheeus.board.service.BoardService;
 import com.cheeus.firebase.ImageGetService;
 import com.cheeus.firebase.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -154,6 +155,47 @@ public class BoardController {
 			return "delete 성공";
 		} else {
 			return "delete 실패";
+		}
+	}
+
+	// 좋아요 토글
+	@PutMapping("/toggleLike/{id}")
+	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestParam("authorId") String authorId) {
+		try {
+			Integer updatedLikeCount = boardService.toggleLike(id, authorId);
+
+
+			// isLikedByUser 메서드가 null을 반환할 수 있는 경우를 방지
+			Boolean isLiked = boardService.isLikedByUser(id, authorId);
+			if (isLiked == null) {
+				isLiked = false;  // 기본값 설정
+			}
+
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedLikeCount", updatedLikeCount);
+			response.put("isLiked", isLiked);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to toggle like for post: " + id + ". Error: " + e.getMessage());
+		}
+	}
+
+	// 조회수 조회 & 증가
+	@PutMapping("/incrementView/{id}")
+	public ResponseEntity<?> incrementViewCount(@PathVariable("id") int id) {
+		try {
+			int updatedViewCount = boardService.incrementViewCount(id);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedViewCount", updatedViewCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to increment view count for post: " + id);
 		}
 	}
 }
