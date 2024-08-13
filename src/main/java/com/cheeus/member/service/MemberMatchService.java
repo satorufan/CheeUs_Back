@@ -179,26 +179,28 @@ public class MemberMatchService {
 		
 		List<Map<String, String>> emails = objectMapper.readValue(decodedEmailParam, new TypeReference<List<Map<String, String>>>() {});
         
-		try {
-			
-			for (Map<String, String> email : emails) {
+		for (Map<String, String> email : emails) {
+			try {
 				
 				MemberProfile profile = memberProfileDao.findByEmail(email.get("email"));
-		        System.out.println(email.get("email"));
 				
 				authorInfo.add(new LoadPersonalChattingInfo(
 						email.get("email"), 
 						profile.getNickname(), 
 						imageGetService.getImg("profile", profile.getEmail(), 1).get(0), 
 						imageGetService.getType("profile", profile.getEmail(), 1).get(0)));
+			} catch (Exception e) {
+				
+				//존재하지 않은 멤버일때
+				authorInfo.add(new LoadPersonalChattingInfo(
+						email.get("email"), 
+						"알 수 없음", 
+						null, 
+						null));
 			}
-			
-			return authorInfo;
-			
-		} catch (Exception e) {
-			
-			throw new MemberException("존재하지 않는 유저", HttpStatus.BAD_REQUEST);
 		}
+		
+		return authorInfo;
 		
 	}
 }

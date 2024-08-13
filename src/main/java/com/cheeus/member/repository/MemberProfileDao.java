@@ -28,7 +28,7 @@ public interface MemberProfileDao {
 	void updateMember (MemberProfile profile);
 	
 	//회원탈퇴
-	String deleteMember (String email);
+	void deleteMember (String email);
 	
 	
 	//위치 동의

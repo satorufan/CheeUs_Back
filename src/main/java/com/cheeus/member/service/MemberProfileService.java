@@ -97,14 +97,15 @@ public class MemberProfileService {
 		
 		// 파이어베이스에 사진저장
 		for(MultipartFile photo : photos) {
-			System.out.println("updateMember");
-			File tmp = imageUploadService.convertToFile( photo , "test" );
-			String completeMsg = imageUploadService.uploadFile(
-					tmp, 
-					"profile/" + imageName.get(photos.indexOf(photo)),
-					photo.getContentType() );
-			
-			System.out.println(completeMsg);
+			if (!photo.getOriginalFilename().equals("emptyfile.txt")) {
+				File tmp = imageUploadService.convertToFile( photo , "test" );
+				String completeMsg = imageUploadService.uploadFile(
+						tmp, 
+						"profile/" + imageName.get(photos.indexOf(photo)),
+						photo.getContentType() );
+				
+				System.out.println(completeMsg);
+			}
 		};
 		
 		// 정보 수정
