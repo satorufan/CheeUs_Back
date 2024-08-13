@@ -1,11 +1,13 @@
 package com.cheeus.board.controller;
 
 import com.cheeus.board.dto.BoardDto;
+import com.cheeus.board.mapper.BoardMapper;
 import com.cheeus.board.response.BoardResponse;
 import com.cheeus.board.service.BoardService;
 import com.cheeus.firebase.ImageGetService;
 import com.cheeus.firebase.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,8 +44,15 @@ public class BoardController {
 	}
 
 	@GetMapping("/freeboard")
-	public List<BoardDto> getFreeboard(){
-		return boardService.findAllFreeboard();
+	public ResponseEntity<Map<String, Object>> getFreeboard() {
+	    List<BoardDto> boardList = boardService.findAllFreeboard();
+	    int maxId = boardService.getMaxIdFB();
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("boardList", boardList);
+	    response.put("maxId", maxId);
+
+	    return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/shortform")
@@ -72,9 +82,18 @@ public class BoardController {
 	}
 
 	@GetMapping("/eventboard")
-	public List<BoardDto> getEventboard(){
-		return boardService.findAllEventboard();
+	public ResponseEntity<Map<String, Object>> getEventboard() {
+	    List<BoardDto> boardList = boardService.findAllEventboard();
+	    int maxId = boardService.getMaxIdEB();
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("boardList", boardList);
+	    response.put("maxId", maxId);
+
+	    return ResponseEntity.ok(response);
 	}
+	
+	
 
 	/*
 	@GetMapping("/{id}")

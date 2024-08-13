@@ -60,4 +60,14 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.delete(id);
 	}
 
+	@Override
+	public int getMaxIdFB() {
+		return boardMapper.getMaxIdFB();
+	}
+	
+	@Override
+	public int getMaxIdEB() {
+		return boardMapper.getMaxIdEB();
+	}
+	
 }

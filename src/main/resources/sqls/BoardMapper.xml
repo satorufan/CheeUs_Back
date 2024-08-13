@@ -64,4 +64,16 @@
 		DELETE FROM board WHERE id = #{id};
 	</delete>
 
+	<select id="getMaxIdFB" resultType="int">
+		select max(id)
+		from board
+		where category=1;
+	</select>
+	
+	<select id="getMaxIdEB" resultType="int">
+		select max(id)
+		from board
+		where category=3;
+	</select>
+	
 </mapper>

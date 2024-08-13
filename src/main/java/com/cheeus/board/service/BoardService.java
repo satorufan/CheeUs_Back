@@ -15,4 +15,6 @@ public interface BoardService {
     void insert(BoardDto board);
     void update(BoardDto board);
     void delete(int id);
+    int getMaxIdFB();
+    int getMaxIdEB();
 }
