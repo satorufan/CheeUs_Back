@@ -21,7 +21,7 @@
 	</select>
 
 	<select id="findByBoardId" parameterType="int" resultMap="commentResultMap">
-		SELECT * FROM repl WHERE board_id = #{boardId} ORDER by id DESC;
+		SELECT * FROM repl WHERE board_id = #{boardId} ORDER by id ASC;
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
