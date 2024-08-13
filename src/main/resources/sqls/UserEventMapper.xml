@@ -18,12 +18,63 @@
 		<result property="photoes" column="photoes" />
 	</resultMap>
 
+	<resultMap id="UserEventLikeMap" type="com.cheeus.user.event.UserEventLikeDto">
+		<id property="id" column="id" />
+		<result property="eventId" column="event_id" />
+		<result property="memberEmail" column="user_id" />
+	</resultMap>
+
+
 	<select id="findAll" resultMap="UserEventResultMap">
 		SELECT * FROM event_board ORDER BY id DESC;
 	</select>
 
 	<select id="findById" parameterType="int" resultMap="UserEventResultMap">
 		SELECT * FROM event_board WHERE id = #{id};
+	</select>
+
+	<!-- 좋아요 관련 메서드 -->
+	<insert id="addLike">
+		INSERT INTO event_likes (event_id, user_id)
+		VALUES (#{eventId}, #{memberEmail});
+	</insert>
+
+	<delete id="removeLike">
+		DELETE FROM event_likes
+		WHERE event_id = #{eventId} AND user_id = #{memberEmail}
+	</delete>
+
+	<select id="isLikedByUser" resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM event_likes
+		WHERE event_id = #{eventId} AND user_id = #{memberEmail}
+	</select>
+
+	<!-- 현재 게시물의 좋아요 수 반환 -->
+	<select id="getLikeCount" resultType="int">
+		SELECT `like`
+		FROM event_board
+		WHERE id = #{eventId}
+	</select>
+
+	<!-- event_board 테이블의 like 컬럼 업데이트 -->
+	<update id="updateLikeCount">
+		UPDATE event_board
+		SET `like` = (SELECT COALESCE(COUNT(*), 0) FROM event_likes WHERE event_id = #{eventId})
+		WHERE id = #{eventId}
+	</update>
+
+	<!-- 조회수 관련 쿼리 -->
+	<update id="incrementViewCount">
+		UPDATE event_board
+		SET views = event_board.views + 1
+		WHERE id = #{id};
+	</update>
+
+	<select id="getViewCount" resultType="int">
+		SELECT views
+		FROM event_board
+		WHERE id = #{id};
 	</select>
 
 </mapper>
