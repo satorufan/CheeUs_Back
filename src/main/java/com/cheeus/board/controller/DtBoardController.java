@@ -37,6 +37,13 @@ public class DtBoardController {
 	public Optional<DtBoardDto> getBoardById2(@PathVariable("id") int id){
 		return boardService.findById(id);
 	}
+	
+	@GetMapping("/userLiked/{id}")
+	public ResponseEntity<?> userLiked(@PathVariable("id") int id, @RequestParam("authorId") String authorId){
+		Map<String, Object> response = new HashMap<>();
+		response.put("userIsLiked", boardService.isLikedByUser(id, authorId));
+		return ResponseEntity.ok(response);
+	}
 
 	@PostMapping("/insert")
 	public int insertBoard(@RequestBody DtBoardDto board) {

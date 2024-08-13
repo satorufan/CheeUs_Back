@@ -84,4 +84,6 @@ public class DtBoardServiceImpl implements DtBoardService {
 		dtBoardMapper.incrementViewCount(id);
 		return dtBoardMapper.getViewCount(id);
 	}
+	
+	
 }
