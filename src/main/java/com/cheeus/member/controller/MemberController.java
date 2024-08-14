@@ -58,35 +58,7 @@ public class MemberController {
 	public ResponseEntity<?> tokenCheck(@RequestParam("email") String email) {
 		
 		return ResponseEntity.ok(service.existByEmail(email));
-	}
-	
-	///////////////////// 이 부분은 테스트 /////////////////////////
-	@GetMapping("/signIn2")
-	public ResponseEntity<?> signIn2(@RequestParam("email") String email)
-			throws IOException{
-		//이미 가입된 이메일인지 확인
-		System.out.println(email);
-		return ResponseEntity.ok(email);
-//		service.existByEmail(email);
-//
-//		//가입된 이메일이면 로그인 완료 Response 리턴
-//		return ResponseEntity.ok(service.signIn(email));
-	}
-	
-	@PostMapping("/signIn3")
-	public ResponseEntity<?> signIn3(@RequestBody String email)
-			throws IOException{
-		//이미 가입된 이메일인지 확인
-		System.out.println(email);
-		return ResponseEntity.ok(email);
-//		service.existByEmail(email);
-//
-//		//가입된 이메일이면 로그인 완료 Response 리턴
-//		return ResponseEntity.ok(service.signIn(email));
-	}
-	//////////////////////////////////////////////////////////
-	
-	
+	}	
 	
 	//회원가입
 	@Transactional	//트랜잭션 - 하나라도 수행하다가 뻑나면 SQL로 실행했던 모든 작업 초기화.
@@ -117,7 +89,7 @@ public class MemberController {
 	// 닉네임 중복 확인
 	@GetMapping("/checkNickname")
 	public ResponseEntity<?> checkNickname(@RequestParam("nickname") String nickname) {
-		System.out.println(nickname);
+		
 		return ResponseEntity.ok(profileService.existNickname(nickname));
 	}
 	
@@ -139,7 +111,6 @@ public class MemberController {
     		@RequestParam("tel") String tel
     		) throws IOException {
 		
-		System.out.println("메시지 보냄");
         return service.sendSmsToAuth(tel);
     }
 	
@@ -150,7 +121,6 @@ public class MemberController {
 			@RequestParam("authCode") String authCode
 			) {
 		
-		System.out.println(tel + " 유저가 입력한 인증번호 : " + authCode);
 		return service.verifyAuthCode(tel, authCode);
 	}
 	

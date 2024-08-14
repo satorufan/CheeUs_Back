@@ -36,7 +36,7 @@
 	</update>
 
 	<delete id="delete" parameterType="int">
-		DELETE FROM repl WHERE id = #{id};
+		DELETE FROM repl WHERE id = #{id} OR parent_id = #{id};
 	</delete>
 
 </mapper>

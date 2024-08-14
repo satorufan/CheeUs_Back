@@ -83,8 +83,6 @@ public class MemberProfileController {
     		) throws Exception {
 
     	String email = profileService.decrypt(encodedEmail, iv).replace("\"", "");
-    	System.out.println(encodedEmail);
-    	System.out.println(email);
         try {
             // Fetch profile information
             MemberProfile profile = profileService.findByEmail(email);
@@ -124,7 +122,7 @@ public class MemberProfileController {
 			@RequestParam(value="photos", required = false) List<MultipartFile> photos,
 			@RequestParam(value="email") List<String> imageName
 			) throws IOException {
-		System.out.println("edit");
+		
 		profileService.updateMember(profile, photos, imageName);
 		
 //		return loadProfile(profile.getEmail());
@@ -165,7 +163,7 @@ public class MemberProfileController {
 	// 찜한 글 불러오기
 	@GetMapping("/scrap")
 	public ResponseEntity<?> loadScrap(@RequestParam("email") String email) {
-		System.out.println(email);
+		
 		return ResponseEntity.ok(profileService.findMyScrap(email));
 	}
 	
@@ -173,7 +171,6 @@ public class MemberProfileController {
 	// 찜하기
 	@PostMapping("/addScrap")
 	public ResponseEntity<?> addScrap(@RequestBody MemberScrap memberScrap) {
-		System.out.println("찜");
 		
 		return ResponseEntity.ok(profileService.addScrap(memberScrap));
 	}

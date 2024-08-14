@@ -48,7 +48,6 @@ public class MemberMatchService {
 		try {
 			// 하나 하나 정보랑 사진 넣기
 			for (MemberProfile profile : profiles) {
-				System.out.println(matchState(email, profile.getEmail()));
 				
 				if ((myMatches.indexOf(profile.getEmail()) == -1)
 						&&
@@ -133,7 +132,6 @@ public class MemberMatchService {
 				// 매치 오른쪽으로 스와이프이면서 match 상태가 3이 아닐경우
 				matchState = (type.equals("right") && state != 3) ? state + 1 : 3;
 				memberMatchDao.MatchUpdate(new MemberMatch(0, member1, member2, matchState));
-				System.out.println("state : " + state);
 				
 				return matchState == 2 ? memberMatchDao.successMatch(new MatchFindRequest(member1, member2)) : null;
 				
@@ -143,7 +141,6 @@ public class MemberMatchService {
 				
 				matchState = (type.equals("right") && state != 3) ? state + 1 : 3;
 				memberMatchDao.MatchUpdate(new MemberMatch(0, member2, member1, matchState));
-				System.out.println("state : " + state);
 				
 				return matchState == 2 ? memberMatchDao.successMatch(new MatchFindRequest(member2, member1)) : null;
 			}
