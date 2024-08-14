@@ -9,4 +9,6 @@ public interface UserEventService {
 
     Integer toggleLike(int eventId, String memberEmail);
     Boolean isLikedByUser(int eventId, String memberEmail);
+
+    int incrementViewCount(int id);
 }

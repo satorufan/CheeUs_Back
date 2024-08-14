@@ -17,4 +17,8 @@ public interface BoardService {
     void delete(int id);
     int getMaxIdFB();
     int getMaxIdEB();
+    Integer toggleLike(int id, String userEmail);
+    Boolean isLikedByUser(int id, String userEmail);
+    int incrementViewCount(int id);
+
 }

@@ -17,4 +17,7 @@ public interface UserEventMapper {
     int getLikeCount(@Param("eventId") int eventId);
     void updateLikeCount(@Param("eventId") int eventId);
 
+    void incrementViewCount(int id);
+    int getViewCount(int id);
+
 }

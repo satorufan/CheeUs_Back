@@ -27,4 +27,48 @@
 		SELECT * FROM magazine_board WHERE id = #{id};
 	</select>
 
+	<!-- 좋아요 관련 메서드 -->
+	<insert id="addLike">
+		INSERT INTO magazine_likes (magazine_id, user_id)
+		VALUES (#{magazineId}, #{memberEmail});
+	</insert>
+
+	<delete id="removeLike">
+		DELETE FROM magazine_likes
+		WHERE magazine_id = #{magazineId} AND user_id = #{memberEmail}
+	</delete>
+
+	<select id="isLikedByUser" resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM magazine_likes
+		WHERE magazine_id = #{magazineId} AND user_id = #{memberEmail}
+	</select>
+
+	<!-- 현재 게시물의 좋아요 수 반환 -->
+	<select id="getLikeCount" resultType="int">
+		SELECT `like`
+		FROM magazine_board
+		WHERE id = #{magazineId}
+	</select>
+
+	<!-- event_board 테이블의 like 컬럼 업데이트 -->
+	<update id="updateLikeCount">
+		UPDATE magazine_board
+		SET `like` = (SELECT COALESCE(COUNT(*), 0) FROM magazine_likes WHERE magazine_id = #{magazineId})
+		WHERE id = #{magazineId}
+	</update>
+
+	<!-- 조회수 관련 쿼리 -->
+	<update id="incrementViewCount">
+		UPDATE magazine_board
+		SET views = magazine_board.views + 1
+		WHERE id = #{id};
+	</update>
+
+	<select id="getViewCount" resultType="int">
+		SELECT views
+		FROM magazine_board
+		WHERE id = #{id};
+	</select>
+
 </mapper>

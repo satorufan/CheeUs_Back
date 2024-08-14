@@ -7,16 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import org.springframework.dao.DuplicateKeyException;
-
 @Service
 public class UserEventServiceImpl implements UserEventService {
-
-	private static final Logger logger = LoggerFactory.getLogger(UserEventServiceImpl.class);
 
 	@Autowired
 	private UserEventMapper eventMapper;
@@ -64,6 +56,12 @@ public class UserEventServiceImpl implements UserEventService {
 	@Override
 	public Boolean isLikedByUser(int eventId, String memberEmail) {
 		return eventMapper.isLikedByUser(eventId, memberEmail);
+	}
+
+	@Override
+	public int incrementViewCount(int id) {
+		eventMapper.incrementViewCount(id);
+		return eventMapper.getViewCount(id);
 	}
 
 }
