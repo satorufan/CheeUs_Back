@@ -75,5 +75,36 @@
 		from board
 		where category=3;
 	</select>
-	
+
+	<!-- 좋아요 관련 메서드 -->
+	<insert id="addLike">
+		INSERT INTO board_likes (post_id, user_id)
+		VALUES (#{id}, #{userEmail});
+	</insert>
+
+	<delete id="removeLike">
+		DELETE FROM board_likes
+		WHERE post_id = #{id} AND user_id = #{userEmail}
+	</delete>
+
+	<select id="isLikedByUser" resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM board_likes
+		WHERE post_id = #{id} AND user_id = #{userEmail}
+	</select>
+
+	<!-- 현재 게시물의 좋아요 수 반환 -->
+	<select id="getLikeCount" resultType="int">
+		SELECT `like`
+		FROM board
+		WHERE id = #{id}
+	</select>
+
+	<!-- board 테이블의 like 컬럼 업데이트 -->
+	<update id="updateLikeCount">
+		UPDATE board
+		SET `like` = (SELECT COALESCE(COUNT(*), 0) FROM board_likes WHERE post_id = #{id})
+		WHERE id = #{id}
+	</update>
+
 </mapper>

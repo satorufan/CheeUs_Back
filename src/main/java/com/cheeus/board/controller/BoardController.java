@@ -1,7 +1,6 @@
 package com.cheeus.board.controller;
 
 import com.cheeus.board.dto.BoardDto;
-import com.cheeus.board.mapper.BoardMapper;
 import com.cheeus.board.response.BoardResponse;
 import com.cheeus.board.service.BoardService;
 import com.cheeus.firebase.ImageGetService;
@@ -160,13 +159,13 @@ public class BoardController {
 
 	// 좋아요 토글
 	@PutMapping("/toggleLike/{id}")
-	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestParam("authorId") String authorId) {
+	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestParam("userEmail") String userEmail) {
 		try {
-			Integer updatedLikeCount = boardService.toggleLike(id, authorId);
+			Integer updatedLikeCount = boardService.toggleLike(id, userEmail);
 
 
 			// isLikedByUser 메서드가 null을 반환할 수 있는 경우를 방지
-			Boolean isLiked = boardService.isLikedByUser(id, authorId);
+			Boolean isLiked = boardService.isLikedByUser(id, userEmail);
 			if (isLiked == null) {
 				isLiked = false;  // 기본값 설정
 			}
