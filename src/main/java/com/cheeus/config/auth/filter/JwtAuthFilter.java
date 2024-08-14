@@ -39,21 +39,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-    	System.out.println("-----JWT Filter-----");
     	
     	try {
     		//Authorization 쿠키를 불러온다.
     		Cookie cookie = WebUtils.getCookie(request, "Authorization");
     		//쿠키의 Value를 가져온다.
     		if (cookie != null) {
+    			
 	    		String authorizationHeader = cookie.getValue();
-	    		System.out.println("authorizationHeader : " + authorizationHeader);
 	
 	            if (authorizationHeader != null) {
 	                String token = authorizationHeader;//.substring(7); // "Bearer " 다음의 토큰 부분만 추출
 	
 	                if (jwtUtil.isExpired(token)) {
-	                	System.out.println("not expired");
 	                	
 	                	String role = jwtUtil.getRole(token);
 	                	
@@ -67,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	
 	                    // 토큰 만료 30분 이내라면 재발급
 	                    if (remainingTime < 30 * 60 * 1000 && jwtUtil.getRole(token).equals("ROLE_USER")) {
-	                    	System.out.println("토큰 재발급");
+
 	                        String refreshedToken = jwtUtil.refreshToken(token);
 	                        setAuthentication(request, refreshedToken, role);
 	                        cookieUtil.addCookie(response, "Authorization", refreshedToken, 60*60*24*7);

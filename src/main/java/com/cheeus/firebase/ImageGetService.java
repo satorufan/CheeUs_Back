@@ -1,17 +1,17 @@
 package com.cheeus.firebase;
 
 import java.io.IOException;
-import java.io.InputStream;
+//import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
-import com.google.auth.Credentials;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+//import com.google.auth.Credentials;
+//import com.google.auth.oauth2.GoogleCredentials;
+//import com.google.cloud.storage.Blob;
+//import com.google.cloud.storage.BlobId;
+//import com.google.cloud.storage.Storage;
+//import com.google.cloud.storage.StorageOptions;
 
 @Service
 public class ImageGetService {
@@ -20,27 +20,9 @@ public class ImageGetService {
 		
 		ArrayList<byte[]> images = new ArrayList<byte[]>();
 		
-		// JSON KEY 경로
-		InputStream inputStream = ImageUploadService.class.getClassLoader().getResourceAsStream("java-firebase-sdk-firebase-adminsdk.json");
-	    Credentials credentials = GoogleCredentials.fromStream(inputStream);
-	    
-		// 파이어베이스 스토리지 접근
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        
-        // 스토리지에서 Blob 가져오기
         for (int i=0 ; i<cnt ; i++) {
-        	System.out.println(category + email + "/" + i);
-////        	BlobId blobId = BlobId.of("cheeusfinal.appspot.com", category + email + "/" + i);
-//        	BlobId blobId = BlobId.of("cheeus-91595.appspot.com", category + email + "/" + i);
-//        	if (blobId != null) {
-//	            Blob blob = storage.get(blobId);
-//	            System.out.println(blob);
-//	            byte[] blobByte = blob.getContent();
-//	            
-//	            images.add(blobByte);
-//        	}
-        	images.add(null);
         	
+        	images.add(null);
         }
         
         
@@ -53,8 +35,6 @@ public class ImageGetService {
 		
         // 스토리지에서 Blob 가져오기
         for (int i=0 ; i<cnt ; i++) {
-        	System.out.println(category + email + "/" + i);
-//        	String prefixUrl = "https://firebasestorage.googleapis.com/v0/b/cheeus-91595.appspot.com/o/";
         	String prefixUrl = "https://firebasestorage.googleapis.com/v0/b/cheeusfinal.appspot.com/o/";
         	String fileLocation = category + "%2F" + email + "%2F" + i + "?alt=media";
         	images.add(prefixUrl + fileLocation);

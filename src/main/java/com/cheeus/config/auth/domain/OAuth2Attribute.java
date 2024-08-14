@@ -3,8 +3,6 @@ package com.cheeus.config.auth.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cheeus.member.domain.Member;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +45,6 @@ public class OAuth2Attribute {
                                            Map<String, Object> attributes) {
     	
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-        
-        System.out.println(attributes.get("id"));
-        System.out.println(kakaoAccount.get("email"));
 
         return OAuth2Attribute.builder()
                 .id((String) kakaoAccount.get("id"))

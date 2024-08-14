@@ -31,11 +31,9 @@ public class ImageUploadService {
 	}
 	
 	public String uploadFile(File file, String fileName, String type) throws IOException {
-		System.out.println(fileName);
-		System.out.println(type);
+		
 		// 버킷과 파일 이름 지정
 	    BlobId blobId = BlobId.of("cheeusfinal.appspot.com", fileName);
-//		BlobId blobId = BlobId.of("cheeus-91595.appspot.com", fileName);
 	    
 	    // 파일 정보 지정
 	    BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(type).build();
@@ -47,7 +45,6 @@ public class ImageUploadService {
 	    storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 
 	    String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/cheeusfinal.appspot.com/o/%s?alt=media";
-//	    String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/cheeus-91595.appspot.com/o/%s?alt=media";
 	    System.out.println(DOWNLOAD_URL);
 	    return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
 	}

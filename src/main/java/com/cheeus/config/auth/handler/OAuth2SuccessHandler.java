@@ -8,14 +8,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
 
 import com.cheeus.config.auth.CustomOAuth2User;
 import com.cheeus.config.auth.cookie.CookieUtil;
 import com.cheeus.config.auth.token.JWTUtil;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -65,13 +63,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
     		Authentication authentication) throws IOException, ServletException {
 
-    	System.out.println("Success Handler - onAuthenticationSuccess");
         //OAuth2User
     	CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
-
-    	System.out.println("authentication : " + authentication);
-    	System.out.println("customUserDetails : " + customUserDetails);
-    	System.out.println("customUserDetails/getAttributes : " + customUserDetails.getAttributes());
     	
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -80,7 +73,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String token = jwtUtil.createJwt(customUserDetails.getAttributes(), role, 60*60*24*1000L);
 
-        System.out.println("Success Handler - onAuthenticationSuccess End");
         //ACCESS_TOKEN / 일주일 유지되는 쿠키
         cookieUtil.addCookie(response, "Authorization", token, 60*60*24*7);
 //        //REFRESH_TOKEN
