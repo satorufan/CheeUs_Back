@@ -51,4 +51,21 @@ public class UserMagazineController {
 					.body("Failed to toggle like for post: " + magazineId + ". Error: " + e.getMessage());
 		}
 	}
+
+	// 조회수 조회 & 증가
+	@PutMapping("/Magazine/incrementView/{id}")
+	public ResponseEntity<?> incrementViewCount(@PathVariable("id") int id) {
+		try {
+			int updatedViewCount = magazineService.incrementViewCount(id);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedViewCount", updatedViewCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to increment view count for post: " + id);
+		}
+	}
+
 }

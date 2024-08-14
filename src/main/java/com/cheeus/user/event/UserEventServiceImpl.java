@@ -58,4 +58,10 @@ public class UserEventServiceImpl implements UserEventService {
 		return eventMapper.isLikedByUser(eventId, memberEmail);
 	}
 
+	@Override
+	public int incrementViewCount(int id) {
+		eventMapper.incrementViewCount(id);
+		return eventMapper.getViewCount(id);
+	}
+
 }

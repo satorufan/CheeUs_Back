@@ -53,4 +53,20 @@ public class UserEventController {
 		}
 	}
 
+	// 조회수 조회 & 증가
+	@PutMapping("/Event/incrementView/{id}")
+	public ResponseEntity<?> incrementViewCount(@PathVariable("id") int id) {
+		try {
+			int updatedViewCount = eventService.incrementViewCount(id);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedViewCount", updatedViewCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to increment view count for post: " + id);
+		}
+	}
+
 }

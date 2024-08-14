@@ -86,4 +86,17 @@
 		WHERE id = #{id}
 	</update>
 
+	<!-- 조회수 관련 쿼리 -->
+	<update id="incrementViewCount">
+		UPDATE drink_together
+		SET views = drink_together.views + 1
+		WHERE id = #{id};
+	</update>
+
+	<select id="getViewCount" resultType="int">
+		SELECT views
+		FROM drink_together
+		WHERE id = #{id};
+	</select>
+
 </mapper>

@@ -16,4 +16,7 @@ public interface UserMagazineMapper {
     Boolean isLikedByUser(@Param("magazineId") int magazineId, @Param("memberEmail") String memberEmail);
     int getLikeCount(@Param("magazineId") int magazineId);
     void updateLikeCount(@Param("magazineId") int magazineId);
+
+    void incrementViewCount(int id);
+    int getViewCount(int id);
 }

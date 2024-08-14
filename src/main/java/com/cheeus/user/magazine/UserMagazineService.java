@@ -9,4 +9,6 @@ public interface UserMagazineService {
 
     Integer toggleLike(int magazineId, String memberEmail);
     Boolean isLikedByUser(int magazineId, String memberEmail);
+
+    int incrementViewCount(int id);
 }

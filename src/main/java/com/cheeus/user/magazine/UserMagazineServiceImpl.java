@@ -57,5 +57,10 @@ public class UserMagazineServiceImpl implements UserMagazineService {
 		return magazineMapper.isLikedByUser(eventId, memberEmail);
 	}
 
+	@Override
+	public int incrementViewCount(int id) {
+		magazineMapper.incrementViewCount(id);
+		return magazineMapper.getViewCount(id);
+	}
 
 }
