@@ -1,6 +1,7 @@
 package com.cheeus.admin.adminUsers.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class AdminUsersDto {
-    private String email;
+    @JsonProperty("email")
+    private String id;
     private String name;
     private String nickname;
     private int photo;
