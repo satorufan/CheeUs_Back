@@ -7,7 +7,7 @@ import java.util.List;
 public interface AdminUsersService {
     List<AdminUsersDto> findAll();
 
-    List<AdminUsersDto> findByEmail(String id);
+    AdminUsersDto findByEmail(String id);
 
     void save(AdminUsersDto profileData);
 

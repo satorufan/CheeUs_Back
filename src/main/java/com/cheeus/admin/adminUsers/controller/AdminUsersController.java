@@ -21,7 +21,7 @@ public class AdminUsersController {
     }
 
     @GetMapping("/AdminUser/{id}")
-    public List<AdminUsersDto> getOneProfileData(String id) {
+    public AdminUsersDto getOneProfileData(@PathVariable("id") String id) {
         return service.findByEmail(id);
     }
 

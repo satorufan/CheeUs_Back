@@ -19,8 +19,8 @@ public class AdminUsersServiceImpl implements AdminUsersService {
     }
 
     @Override
-    public List<AdminUsersDto> findByEmail(String id) {
-        return (List<AdminUsersDto>) mapper.findByEmail(id);
+    public AdminUsersDto findByEmail(String id) {
+        return (AdminUsersDto) mapper.findByEmail(id);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
     }
 
     @Override
-    public void delete(String email) {
-        mapper.delete(email);
+    public void delete(String id) {
+        mapper.delete(id);
     }
 }
