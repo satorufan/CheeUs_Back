@@ -76,6 +76,7 @@
 		where category=3;
 	</select>
 	
+	
 	<select id="getMaxAdminIdEB" resultType="int">
 		select max(id)
 		from event_board;

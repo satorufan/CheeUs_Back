@@ -128,6 +128,13 @@ public class BoardController {
 	}
 	*/
 
+	@GetMapping("/userLiked/{id}")
+	public ResponseEntity<?> userLiked(@PathVariable("id") int id, @RequestParam("authorId") String authorId){
+		Map<String, Object> response = new HashMap<>();
+		response.put("userIsLiked", boardService.isLikedByUser(id, authorId));
+		return ResponseEntity.ok(response);
+	}
+	
 	private final ArrayList<String> category = new ArrayList<>() {
 		private static final long serialVersionUID = 8888;
 	{
