@@ -71,6 +71,16 @@ public class BoardServiceImpl implements BoardService {
 	public int getMaxIdEB() {
 		return boardMapper.getMaxIdEB();
 	}
+	
+	@Override
+	public int getMaxAdminIdEB() {
+		return boardMapper.getMaxAdminIdEB();
+	};
+    
+	@Override
+	public int getMaxAdminIdMB() {
+		return boardMapper.getMaxAdminIdMB();
+	};
 
 	@Override
 	public Integer toggleLike(@Param("id") int id, @Param("userEmail") String userEmail) {

@@ -75,6 +75,16 @@
 		from board
 		where category=3;
 	</select>
+	
+	<select id="getMaxAdminIdEB" resultType="int">
+		select max(id)
+		from event_board;
+	</select>
+	
+	<select id="getMaxAdminIdMB" resultType="int">
+		select max(id)
+		from magazine_board;	
+	</select>
 
 	<!-- 좋아요 관련 메서드 -->
 	<insert id="addLike">

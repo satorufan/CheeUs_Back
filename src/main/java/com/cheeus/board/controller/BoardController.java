@@ -93,7 +93,25 @@ public class BoardController {
 	    return ResponseEntity.ok(response);
 	}
 	
+	@GetMapping("/eventboard/latest")
+	public ResponseEntity<Map<String, Object>> getLatestEventId() {
+	    int latestId = boardService.getMaxAdminIdEB();
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("latestId", latestId);
+
+	    return ResponseEntity.ok(response);
+	}
 	
+	@GetMapping("/magazineboard/latest")
+	public ResponseEntity<Map<String, Object>> getLatestMagazineId() {
+	    int latestId = boardService.getMaxAdminIdMB();
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("latestId", latestId);
+
+	    return ResponseEntity.ok(response);
+	}
 
 	/*
 	@GetMapping("/{id}")

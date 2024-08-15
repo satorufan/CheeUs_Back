@@ -19,6 +19,9 @@ public interface BoardMapper {
     void delete(int id);
     int getMaxIdFB();
     int getMaxIdEB();
+    int getMaxAdminIdEB();
+    int getMaxAdminIdMB();
+
 
     // 좋아요 관련 메서드
     void addLike(@Param("id") int id, @Param("userEmail") String userEmail);
