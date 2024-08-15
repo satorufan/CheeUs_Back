@@ -19,13 +19,13 @@ public class AdminUsersServiceImpl implements AdminUsersService {
     }
 
     @Override
-    public List<AdminUsersDto> findByEmail(String email) {
-        return (List<AdminUsersDto>) mapper.findByEmail(email);
+    public AdminUsersDto findByEmail(String id) {
+        return (AdminUsersDto) mapper.findByEmail(id);
     }
 
     @Override
     public void save(AdminUsersDto profileData) {
-        if (profileData.getEmail() == null) {
+        if (profileData.getId() == null) {
             mapper.insert(profileData);
         } else {
             mapper.update(profileData);
@@ -33,7 +33,7 @@ public class AdminUsersServiceImpl implements AdminUsersService {
     }
 
     @Override
-    public void delete(String email) {
-        mapper.delete(email);
+    public void delete(String id) {
+        mapper.delete(id);
     }
 }

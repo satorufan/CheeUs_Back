@@ -46,13 +46,17 @@ public class BoardController {
 	@GetMapping("/freeboard")
 	public ResponseEntity<Map<String, Object>> getFreeboard() {
 	    List<BoardDto> boardList = boardService.findAllFreeboard();
-	    int maxId = boardService.getMaxIdFB();
-
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("boardList", boardList);
-	    response.put("maxId", maxId);
-
-	    return ResponseEntity.ok(response);
+	    if (boardList.size() > 0) {
+		    int maxId = boardService.getMaxIdFB();
+	
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("boardList", boardList);
+		    response.put("maxId", maxId);
+	
+		    return ResponseEntity.ok(response);
+	    }
+	    
+	    return ResponseEntity.ok(null);
 	}
 
 	@GetMapping("/shortform")
@@ -84,13 +88,17 @@ public class BoardController {
 	@GetMapping("/eventboard")
 	public ResponseEntity<Map<String, Object>> getEventboard() {
 	    List<BoardDto> boardList = boardService.findAllEventboard();
-	    int maxId = boardService.getMaxIdEB();
-
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("boardList", boardList);
-	    response.put("maxId", maxId);
-
-	    return ResponseEntity.ok(response);
+	    if (boardList.size() > 0) {
+		    int maxId = boardService.getMaxIdEB();
+	
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("boardList", boardList);
+		    response.put("maxId", maxId);
+	
+		    return ResponseEntity.ok(response);	// 게시글 존재 o
+	    }
+	    
+	    return ResponseEntity.ok(null);	// 게시글 존재 x
 	}
 	
 	@GetMapping("/eventboard/latest")
@@ -133,8 +141,10 @@ public class BoardController {
 		// JSON -> BoardDto 변환
 		ObjectMapper objectMapper = new ObjectMapper();
 		BoardDto board = objectMapper.readValue(boardJson, BoardDto.class);
+
+		boardService.insert(board);
 		
-		int id = getBoard().size() > 0 ? boardService.findLatest() : 0;
+		int id = getBoard().size() > 0 ? boardService.findLatest() : 1;
 
 		// 파일이 있을 경우 업로드 처리
 		if (file.isPresent()) {
@@ -142,15 +152,13 @@ public class BoardController {
 			File tempFile = imageUploadService.convertToFile(file.get(), fileName);
 			String fileUrl = imageUploadService.uploadFile(
 					tempFile, 
-					"board/" + category.get(board.getCategory()-1) + (id + 1) + "/" + 0, 
+					"board/" + category.get(board.getCategory()-1) + id + "/" + 0, 
 					file.get().getContentType());
 			board.setMedia(fileUrl);
 
 			// 임시 파일 삭제
 			tempFile.delete();
 		}
-
-		boardService.insert(board);
 	}
 
 	@PutMapping("/update/{id}")
