@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheeus.user.report.UserReportMapper">
+
+	<resultMap id="UserReportResultMap" type="com.cheeus.user.report.UserReportDto">
+		<id property="id" column="id" />
+		<result property="reporterId" column="reporter_id" />
+		<result property="reportedId" column="reported_id" />
+		<result property="content" column="content" />
+		<result property="writeday" column="writeday" />
+
+	</resultMap>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO reports (reporter_id, reported_id, content)
+		VALUES (#{reporterId}, #{reportedId}, #{content});
+	</insert>
+
+</mapper>
