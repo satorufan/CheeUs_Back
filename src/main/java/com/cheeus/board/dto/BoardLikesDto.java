@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
 public class BoardLikesDto {
     @JsonProperty("post_id")
     private int id;
     @JsonProperty("user_id")
-    private String authorId;
+    private String userEmail;
 }
