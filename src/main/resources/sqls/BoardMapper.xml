@@ -70,25 +70,25 @@
 	</delete>
 
 	<select id="getMaxIdFB" resultType="int">
-		select max(id)
+		select COALESCE(MAX(id), 0)
 		from board
 		where category=1;
 	</select>
 	
 	<select id="getMaxIdEB" resultType="int">
-		select max(id)
+		select COALESCE(MAX(id), 0)
 		from board
 		where category=3;
 	</select>
 	
 	
 	<select id="getMaxAdminIdEB" resultType="int">
-		select max(id)
+		select COALESCE(MAX(id), 0)
 		from event_board;
 	</select>
 	
 	<select id="getMaxAdminIdMB" resultType="int">
-		select max(id)
+		select COALESCE(MAX(id), 0)
 		from magazine_board;	
 	</select>
 

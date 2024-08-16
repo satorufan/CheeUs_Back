@@ -15,7 +15,6 @@
 		<result property="writeday" column="writeday" />
 		<result property="like" column="like" />
 		<result property="views" column="views" />
-		<result property="photoes" column="photoes" />
 	</resultMap>
 
 	<select id="findAll" resultMap="AdminEventResultMap">
@@ -27,8 +26,8 @@
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO event_board (admin_id, admin_name, title, title2, content, writeday, photoes)
-		VALUES (#{adminId}, #{adminName}, #{title}, #{title2}, #{content}, #{writeday}, #{photoes})
+		INSERT INTO event_board (admin_id, admin_name, title, title2, content, writeday)
+		VALUES (#{adminId}, #{adminName}, #{title}, #{title2}, #{content}, #{writeday})
 	</insert>
 
 	<update id="update">
@@ -38,9 +37,7 @@
 		title = #{title},
 		title2 = #{title2},
 		content = #{content},
-		writeday = #{writeday},
-		photoes = #{photoes}
-		WHERE id = #{id}
+		WHERE id = #{id};
 	</update>
 
 	<delete id="delete" parameterType="int">
