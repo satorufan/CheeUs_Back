@@ -1,10 +1,6 @@
 package com.cheeus.config.auth.cookie;
 
-
-import java.util.Base64;
-
 import org.springframework.stereotype.Component;
-import org.springframework.util.SerializationUtils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +18,6 @@ public class CookieUtil {
 
     // 쿠키의 이름을 입력받아 쿠키 삭제
     public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-    	System.out.println("Delete Cookie");
         Cookie cookie = new Cookie(name, null);
         cookie.setPath("/");
         cookie.setMaxAge(0);

@@ -1,12 +1,22 @@
 package com.cheeus.user.magazine;
 
-import com.cheeus.admin.adminMagazines.dto.AdminMagazineDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface UserMagazineMapper {
-    List<AdminMagazineDto> findAll();
-    AdminMagazineDto findById(int id);
+    List<UserMagazineDto> findAll();
+    UserMagazineDto findById(int id);
+
+    // 좋아요 관련 메서드
+    void addLike(@Param("magazineId") int magazineId, @Param("memberEmail") String memberEmail);
+    void removeLike(@Param("magazineId") int magazineId, @Param("memberEmail") String memberEmail);
+    Boolean isLikedByUser(@Param("magazineId") int magazineId, @Param("memberEmail") String memberEmail);
+    int getLikeCount(@Param("magazineId") int magazineId);
+    void updateLikeCount(@Param("magazineId") int magazineId);
+
+    void incrementViewCount(int id);
+    int getViewCount(int id);
 }

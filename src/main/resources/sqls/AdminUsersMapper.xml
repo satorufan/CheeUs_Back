@@ -6,7 +6,7 @@
 <mapper namespace="com.cheeus.admin.adminUsers.mapper.AdminUsersMapper">
 
     <resultMap id="adminUsersResultMap" type="com.cheeus.admin.adminUsers.dto.AdminUsersDto">
-        <id property="email" column="email"/>
+        <id property="id" column="email"/>
         <result property="name" column="name"/>
         <result property="nickname" column="nickname"/>
         <result property="photo" column="photo"/>
@@ -28,20 +28,20 @@
     </select>
 
     <select id="findByEmail" parameterType="String" resultMap="adminUsersResultMap">
-        SELECT * FROM profile WHERE email = #{email}
+        SELECT * FROM profile WHERE email = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO profile(email, name, nickname, photo, tel, birth, gender, tags, matchOk, locationOk, latitude, longitude, location, intro
-    VALUES (#{email}, #{name}, #{nickname}, #{photo}, #{tel}, #{birth}, #{gender}, #{tags}, #{matchOk}, #{locationOk}, #{latitude}, #{longitude}, #{location}, #{intro}))
+    VALUES (#{id}, #{name}, #{nickname}, #{photo}, #{tel}, #{birth}, #{gender}, #{tags}, #{matchOk}, #{locationOk}, #{latitude}, #{longitude}, #{location}, #{intro}))
     </insert>
 
     <update id="update">
-    UPDATE profile SET name=#{name}, nickname=#{nickname}, birth=#{birth}, blacklist=#{blacklist} WHERE email=#{email}
+    UPDATE profile SET name=#{name}, nickname=#{nickname}, birth=#{birth}, blacklist=#{blacklist} WHERE email=#{id}
     </update>
 
     <delete id="delete">
-    DELETE FROM profile WHERE email = #{email}
+    DELETE FROM profile WHERE email = #{id}
     </delete>
 
 </mapper>

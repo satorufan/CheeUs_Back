@@ -30,23 +30,16 @@ public class JWTUtil {
 
 
     public String getEmail(String token) {
-
-    	System.out.println("token : " + token);
-    	System.out.println("email : " + parseClaims(token).get("email", String.class));
     	
     	return parseClaims(token).get("email", String.class);
     }
 
     public String getRole(String token) {
-
-    	System.out.println("getRole : " + token);
     	
     	return parseClaims(token).get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
-    	
-    	System.out.println("JWTUtil - token expired check : "+ token);
     	
 		try {
 			return parseClaims(token)
@@ -67,12 +60,10 @@ public class JWTUtil {
 
     	Key key = Keys.hmacShaKeyFor(secretkey.getBytes(StandardCharsets.UTF_8));
 
-        System.out.println(attributes);
     	Claims claims = Jwts.claims();
 		claims.put("registrationId", attributes.get("registrationId"));
         claims.put("email", attributes.get("email"));
         claims.put("role", role);
-        System.out.println(claims);
         
         Date now = new Date();
 
@@ -117,8 +108,6 @@ public class JWTUtil {
     //인증된 토큰인지 확인하기 위해 토큰을 디코딩하는 작업.
     public Authentication getAuthentication(String token) {
     	
-    	System.out.println("JWTUtil - getAuthentication : " + token);
-        
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	
     	return authentication;

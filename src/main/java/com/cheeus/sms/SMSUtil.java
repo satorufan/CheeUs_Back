@@ -43,11 +43,10 @@ public class SMSUtil {
         try {
         	
 	        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-	        System.out.println(response);
+	        
 	        return ResponseEntity.ok(response);
         } catch (Exception e) {
         	
-        	System.out.println(e.getMessage());
         	return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
         

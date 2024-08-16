@@ -8,8 +8,8 @@ import java.util.List;
 @Mapper
 public interface AdminUsersMapper {
     List<AdminUsersDto> findAll();
-    AdminUsersDto findByEmail(String email);
+    AdminUsersDto findByEmail(String id);
     void insert(AdminUsersDto profileData);
     void update(AdminUsersDto profileData);
-    void delete(String email);
+    void delete(String id);
 }

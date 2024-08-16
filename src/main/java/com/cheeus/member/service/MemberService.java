@@ -107,7 +107,6 @@ public class MemberService {
         String attemptsKey = "auth:attempts:" + tel;
         String blockKey = "auth:block:" + tel;
 		
-        System.out.println("block? : " + redisTemplate.opsForValue().get(blockKey));
         if (redisTemplate.opsForValue().get(blockKey) == null) {
 			// 인증코드 생성
 			String authCode = generateAuthCode();
@@ -179,9 +178,7 @@ public class MemberService {
 		
 		if (redisTemplate.opsForValue().get(redisKey) != null) {
 			
-			System.out.println("redis code : " + redisTemplate.opsForValue().get(redisKey));
 			redisTemplate.opsForValue().increment(cnt, 1);
-			System.out.println(redisTemplate.opsForValue().get(cnt));
 			if((Integer) redisTemplate.opsForValue().get(cnt) > 5) {
 				
 
@@ -192,12 +189,10 @@ public class MemberService {
 				
 			}
 		} else {
-			System.out.println("만료됨");
 
 			String authCode = generateAuthCode();
 			redisTemplate.opsForValue().set(redisKey, authCode, AUTH_CODE_EXPIRY, TimeUnit.MINUTES);
 			
-			System.out.println("인증코드 생성 : " + redisTemplate.opsForValue().get(redisKey));
 		}
 		
 

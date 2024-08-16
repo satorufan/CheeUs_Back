@@ -6,6 +6,8 @@ import com.cheeus.board.service.BoardService;
 import com.cheeus.firebase.ImageGetService;
 import com.cheeus.firebase.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,8 +44,19 @@ public class BoardController {
 	}
 
 	@GetMapping("/freeboard")
-	public List<BoardDto> getFreeboard(){
-		return boardService.findAllFreeboard();
+	public ResponseEntity<Map<String, Object>> getFreeboard() {
+	    List<BoardDto> boardList = boardService.findAllFreeboard();
+	    if (boardList.size() > 0) {
+		    int maxId = boardService.getMaxIdFB();
+	
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("boardList", boardList);
+		    response.put("maxId", maxId);
+	
+		    return ResponseEntity.ok(response);
+	    }
+	    
+	    return ResponseEntity.ok(null);
 	}
 
 	@GetMapping("/shortform")
@@ -72,8 +86,39 @@ public class BoardController {
 	}
 
 	@GetMapping("/eventboard")
-	public List<BoardDto> getEventboard(){
-		return boardService.findAllEventboard();
+	public ResponseEntity<Map<String, Object>> getEventboard() {
+	    List<BoardDto> boardList = boardService.findAllEventboard();
+	    if (boardList.size() > 0) {
+		    int maxId = boardService.getMaxIdEB();
+	
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("boardList", boardList);
+		    response.put("maxId", maxId);
+	
+		    return ResponseEntity.ok(response);	// 게시글 존재 o
+	    }
+	    
+	    return ResponseEntity.ok(null);	// 게시글 존재 x
+	}
+	
+	@GetMapping("/eventboard/latest")
+	public ResponseEntity<Map<String, Object>> getLatestEventId() {
+	    int latestId = boardService.getMaxAdminIdEB();
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("latestId", latestId);
+
+	    return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/magazineboard/latest")
+	public ResponseEntity<Map<String, Object>> getLatestMagazineId() {
+	    int latestId = boardService.getMaxAdminIdMB();
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("latestId", latestId);
+
+	    return ResponseEntity.ok(response);
 	}
 
 	/*
@@ -86,9 +131,9 @@ public class BoardController {
 	private final ArrayList<String> category = new ArrayList<>() {
 		private static final long serialVersionUID = 8888;
 	{
-		add("freeboard%2F");
-		add("shortform%2F");
-		add("eventboard%2F");
+		add("freeboard/");
+		add("shortform/");
+		add("eventboard/");
 	}};
 	@PostMapping("/insert")
 	public void insertBoard(@RequestParam("board") String boardJson,
@@ -96,8 +141,10 @@ public class BoardController {
 		// JSON -> BoardDto 변환
 		ObjectMapper objectMapper = new ObjectMapper();
 		BoardDto board = objectMapper.readValue(boardJson, BoardDto.class);
+
+		boardService.insert(board);
 		
-		int id = getBoard().size() > 0 ? boardService.findLatest() : 0;
+		int id = getBoard().size() > 0 ? boardService.findLatest() : 1;
 
 		// 파일이 있을 경우 업로드 처리
 		if (file.isPresent()) {
@@ -105,15 +152,13 @@ public class BoardController {
 			File tempFile = imageUploadService.convertToFile(file.get(), fileName);
 			String fileUrl = imageUploadService.uploadFile(
 					tempFile, 
-					"board%2F" + category.get(board.getCategory()-1) + (id + 1) + "%2F" + 0, 
+					"board/" + category.get(board.getCategory()-1) + id + "/" + 0, 
 					file.get().getContentType());
-			board.setMedia(fileUrl);
+//			board.setMedia(fileUrl);
 
 			// 임시 파일 삭제
 			tempFile.delete();
 		}
-
-		boardService.insert(board);
 	}
 
 	@PutMapping("/update/{id}")
@@ -135,6 +180,47 @@ public class BoardController {
 			return "delete 성공";
 		} else {
 			return "delete 실패";
+		}
+	}
+
+	// 좋아요 토글
+	@PutMapping("/toggleLike/{id}")
+	public ResponseEntity<?> toggleLike(@PathVariable("id") int id, @RequestParam("userEmail") String userEmail) {
+		try {
+			Integer updatedLikeCount = boardService.toggleLike(id, userEmail);
+
+
+			// isLikedByUser 메서드가 null을 반환할 수 있는 경우를 방지
+			Boolean isLiked = boardService.isLikedByUser(id, userEmail);
+			if (isLiked == null) {
+				isLiked = false;  // 기본값 설정
+			}
+
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedLikeCount", updatedLikeCount);
+			response.put("isLiked", isLiked);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to toggle like for post: " + id + ". Error: " + e.getMessage());
+		}
+	}
+
+	// 조회수 조회 & 증가
+	@PutMapping("/incrementView/{id}")
+	public ResponseEntity<?> incrementViewCount(@PathVariable("id") int id) {
+		try {
+			int updatedViewCount = boardService.incrementViewCount(id);
+			Map<String, Object> response = new HashMap<>();
+			response.put("success", true);
+			response.put("updatedViewCount", updatedViewCount);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to increment view count for post: " + id);
 		}
 	}
 }

@@ -20,9 +20,9 @@ public class AdminUsersController {
         return service.findAll();
     }
 
-    @GetMapping("/AdminUser/{email}")
-    public List<AdminUsersDto> getOneProfileData(String email) {
-        return service.findByEmail(email);
+    @GetMapping("/AdminUser/{id}")
+    public AdminUsersDto getOneProfileData(@PathVariable("id") String id) {
+        return service.findByEmail(id);
     }
 
     @PostMapping
@@ -30,14 +30,14 @@ public class AdminUsersController {
         service.save(profileData);
     }
 
-    @PutMapping("/AdminUser/{email}")
-    public void updateProfileData(@PathVariable("email") String email, @RequestBody AdminUsersDto profileData) {
-        profileData.setEmail(email);
+    @PutMapping("/AdminUser/{id}")
+    public void updateProfileData(@PathVariable("id") String id, @RequestBody AdminUsersDto profileData) {
+        profileData.setId(id);
         service.save(profileData);
     }
 
-    @DeleteMapping("/AdminUser/{email}")
-    public void deleteProfileData(@PathVariable("email") String email) {
-        service.delete(email);
+    @DeleteMapping("/AdminUser/{id}")
+    public void deleteProfileData(@PathVariable("id") String id) {
+        service.delete(id);
     }
 }

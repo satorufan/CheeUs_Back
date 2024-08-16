@@ -48,17 +48,22 @@ public class MemberMatchService {
 		try {
 			// 하나 하나 정보랑 사진 넣기
 			for (MemberProfile profile : profiles) {
-				System.out.println(matchState(email, profile.getEmail()));
 				
 				if ((myMatches.indexOf(profile.getEmail()) == -1)
 						&&
 						(matchState(email, profile.getEmail()) < 2)) {
 	
-		            // Fetch image blob
-		            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", profile.getEmail(), profile.getPhoto());
+//		            // Fetch image blob
+//		            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile/", profile.getEmail(), profile.getPhoto());
+//		            
+//		            // Fetch image type
+//		            ArrayList<String> imageType = imageGetService.getType("profile/", profile.getEmail(), profile.getPhoto());
+					
+					// Fetch image blob
+		            ArrayList<byte[]> imageBlob = imageGetService.getImg("profile", profile.getEmail(), profile.getPhoto());
 		            
 		            // Fetch image type
-		            ArrayList<String> imageType = imageGetService.getType("profile/", profile.getEmail(), profile.getPhoto());
+		            ArrayList<String> imageType = imageGetService.getType("profile", profile.getEmail(), profile.getPhoto());
 		            
 		            // Fetch popularity
 		            ArrayList<MemberPopularity> popularity = memberProfileDao.findPopularity(profile.getEmail());
@@ -127,7 +132,6 @@ public class MemberMatchService {
 				// 매치 오른쪽으로 스와이프이면서 match 상태가 3이 아닐경우
 				matchState = (type.equals("right") && state != 3) ? state + 1 : 3;
 				memberMatchDao.MatchUpdate(new MemberMatch(0, member1, member2, matchState));
-				System.out.println("state : " + state);
 				
 				return matchState == 2 ? memberMatchDao.successMatch(new MatchFindRequest(member1, member2)) : null;
 				
@@ -137,7 +141,6 @@ public class MemberMatchService {
 				
 				matchState = (type.equals("right") && state != 3) ? state + 1 : 3;
 				memberMatchDao.MatchUpdate(new MemberMatch(0, member2, member1, matchState));
-				System.out.println("state : " + state);
 				
 				return matchState == 2 ? memberMatchDao.successMatch(new MatchFindRequest(member2, member1)) : null;
 			}
@@ -173,26 +176,28 @@ public class MemberMatchService {
 		
 		List<Map<String, String>> emails = objectMapper.readValue(decodedEmailParam, new TypeReference<List<Map<String, String>>>() {});
         
-		try {
-			
-			for (Map<String, String> email : emails) {
+		for (Map<String, String> email : emails) {
+			try {
 				
 				MemberProfile profile = memberProfileDao.findByEmail(email.get("email"));
-		        System.out.println(email.get("email"));
 				
 				authorInfo.add(new LoadPersonalChattingInfo(
 						email.get("email"), 
 						profile.getNickname(), 
 						imageGetService.getImg("profile", profile.getEmail(), 1).get(0), 
 						imageGetService.getType("profile", profile.getEmail(), 1).get(0)));
+			} catch (Exception e) {
+				
+				//존재하지 않은 멤버일때
+				authorInfo.add(new LoadPersonalChattingInfo(
+						email.get("email"), 
+						"알 수 없음", 
+						null, 
+						null));
 			}
-			
-			return authorInfo;
-			
-		} catch (Exception e) {
-			
-			throw new MemberException("존재하지 않는 유저", HttpStatus.BAD_REQUEST);
 		}
+		
+		return authorInfo;
 		
 	}
 }

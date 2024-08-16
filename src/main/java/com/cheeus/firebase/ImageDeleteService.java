@@ -29,9 +29,7 @@ public class ImageDeleteService {
 			String blobName = category + email + "/" + i;
 			BlobId blobId = BlobId.of(bucketName, blobName);
 			if (storage.get(blobId)!=null) {
-				boolean deleted = storage.delete(blobId);
-				System.out.println(deleted);
-				System.out.println(blobName);
+				storage.delete(blobId);
 			}
 		}
 	}

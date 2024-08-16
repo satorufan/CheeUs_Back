@@ -35,8 +35,8 @@ public class BoardDto {
 	private String head;
 
 	// Shorts 속성들
-	@Setter
-    private String media;
+//	@Setter
+//    private String media;
 
 	// Notices 속성들
 	private String createdAt;
