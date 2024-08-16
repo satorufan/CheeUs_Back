@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.505b0c45.css",
+    "main.js": "/static/js/main.904fb61a.js",
+    "static/js/206.be907d13.chunk.js": "/static/js/206.be907d13.chunk.js",
+    "static/media/YeojuCeramic.ttf": "/static/media/YeojuCeramic.95ed01e4fba0f8c0a443.ttf",
+    "static/media/HSSanTokki.ttf": "/static/media/HSSanTokki.b6254f8942b481e41ee0.ttf",
+    "static/media/GwangyangTouching.ttf": "/static/media/GwangyangTouching.578ce13e74adca54630c.ttf",
+    "static/media/index.cjs": "/static/media/index.c05687ef19f5bac24939.cjs",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.505b0c45.css",
+    "static/js/main.904fb61a.js"
+  ]
+}
