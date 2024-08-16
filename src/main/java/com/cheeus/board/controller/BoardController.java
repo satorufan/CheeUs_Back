@@ -161,7 +161,7 @@ public class BoardController {
 					tempFile, 
 					"board/" + category.get(board.getCategory()-1) + id + "/" + 0, 
 					file.get().getContentType());
-			board.setMedia(fileUrl);
+//			board.setMedia(fileUrl);
 
 			// 임시 파일 삭제
 			tempFile.delete();
