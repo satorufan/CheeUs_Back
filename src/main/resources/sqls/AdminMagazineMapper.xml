@@ -42,7 +42,7 @@
 		category = #{category}
 		WHERE id = #{id};
 	</update>
-
+	
 	<delete id="delete" parameterType="int">
 		DELETE FROM magazine_board WHERE id = #{id};
 	</delete>

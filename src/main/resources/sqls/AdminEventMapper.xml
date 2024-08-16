@@ -37,7 +37,8 @@
 		title = #{title},
 		title2 = #{title2},
 		content = #{content},
-		WHERE id = #{id};
+		writeday = #{writeday}
+		WHERE id = #{id}
 	</update>
 
 	<delete id="delete" parameterType="int">
