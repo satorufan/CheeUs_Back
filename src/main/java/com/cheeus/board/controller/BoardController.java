@@ -158,10 +158,10 @@ public class BoardController {
 			String fileName = file.get().getOriginalFilename();
 			File tempFile = imageUploadService.convertToFile(file.get(), fileName);
 			String fileUrl = imageUploadService.uploadFile(
-					tempFile, 
-					"board/" + category.get(board.getCategory()-1) + id + "/" + 0, 
+					tempFile,
+					"board/" + category.get(board.getCategory()-1) + id + "/" + 0,
 					file.get().getContentType());
-			board.setMedia(fileUrl);
+					board.setMedia(fileUrl);
 
 			// 임시 파일 삭제
 			tempFile.delete();
