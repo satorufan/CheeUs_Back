@@ -29,6 +29,7 @@ public class AdminReportController {
 
 	@PostMapping("/AdminReport")
 	public void insertBoard(@RequestBody AdminReportDto board){
+		System.out.println("Received POST request: " + board);
 		adminReportService.insert(board);
 	}
 
