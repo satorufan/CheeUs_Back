@@ -26,7 +26,9 @@
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO repl (board_id, repl_author_id, nickname, parent_id, `group`, repl_content)
-		VALUES (#{boardId}, #{replAuthorId}, #{nickname}, #{parentId}, #{group}, #{replContent});
+		SELECT #{boardId}, #{replAuthorId}, #{nickname},
+		IF(EXISTS (SELECT 1 FROM repl WHERE id = #{parentId}), #{parentId}, 0),
+		#{group}, #{replContent};
 	</insert>
 
 	<update id="update">
