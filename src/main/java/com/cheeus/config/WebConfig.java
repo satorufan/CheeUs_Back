@@ -3,6 +3,7 @@ package com.cheeus.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,21 +24,28 @@ public class WebConfig implements WebMvcConfigurer {
                 HttpMethod.DELETE.name());
     }
 	
-//	@Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        // 정적 리소스 처리
-//        registry.addResourceHandler("/static/**")
-//                .addResourceLocations("classpath:/static/");
-//
-//        // 모든 경로를 리액트의 index.html로 리다이렉트
-//        registry.addResourceHandler("/**")
-//                .addResourceLocations("classpath:/static/")
-//                .resourceChain(false);
-//    }
+	@Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/{spring:[\\w\\-]+}")
+                .setViewName("forward:/index.html");
+        registry.addViewController("/**/{spring:[\\w\\-]+}")
+                .setViewName("forward:/index.html");
+//        registry.addViewController("/{spring:[\\w\\-]+}/**{spring:[\\w\\-]+}")
+//                .setViewName("forward:/index.html");
+        
+	}
 	
-	public void addViewControllers(ViewControllerRegistry registry) {
-        // 모든 요청을 index.html로 포워딩
-        registry.addViewController("/{[path:[^\\.]*}").setViewName("forward:/index.html");
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 정적 리소스를 서빙합니다.
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
+        registry.addResourceHandler("/static/css/**")
+                .addResourceLocations("classpath:/static/static/css/");
+        registry.addResourceHandler("/static/js/**")
+                .addResourceLocations("classpath:/static/static/js/");
+        registry.addResourceHandler("/static/media/**")
+                .addResourceLocations("classpath:/static/static/media/");
     }
 
 }

@@ -44,10 +44,17 @@ public class MemberController {
 	
 	//로그인
 	@GetMapping("/signIn")
-	public ResponseEntity<SignInResponse> signIn(@RequestParam("email") String email)
+	public ResponseEntity<?> signIn(@RequestParam("email") String email)
 			throws IOException{
 		//이미 가입된 이메일인지 확인
-		service.existByEmail(email);
+		int check = service.existByEmail(email);
+		if (check == 0) {
+			
+			return ResponseEntity.ok("존재하지 않는 이메일입니다.");
+		} else if (check == 99) {
+
+			return ResponseEntity.ok("제한된 사용자입니다 ㅉㅉ");
+		}
 
 		//가입된 이메일이면 로그인 완료 Response 리턴
 		return ResponseEntity.ok(service.signIn(email));
