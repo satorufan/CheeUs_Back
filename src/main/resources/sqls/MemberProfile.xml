@@ -103,8 +103,27 @@
 </select>
 
 <insert id="addScrap" parameterType="com.cheeus.member.domain.MemberScrap">
-	INSERT INTO my_scrap (member_email, board_id, together_id, event_id, magazine_id, title, url) 
-	VALUES (#{memberEmail}, #{boardId}, #{togetherId}, #{eventId}, #{magazineId}, #{title}, #{url})
+	INSERT INTO my_scrap (member_email, board_id, together_id, event_id, magazine_id, title, url)
+	SELECT
+	#{memberEmail},
+	CASE
+	WHEN EXISTS (SELECT 1 FROM board WHERE id = #{boardId}) THEN #{boardId}
+	ELSE null
+	END,
+	CASE
+	WHEN EXISTS (SELECT 1 FROM drink_together WHERE id = #{togetherId}) THEN #{togetherId}
+	ELSE null
+	END,
+	CASE
+	WHEN EXISTS (SELECT 1 FROM event_board WHERE id = #{eventId}) THEN #{eventId}
+	ELSE null
+	END,
+	CASE
+	WHEN EXISTS (SELECT 1 FROM magazine_board WHERE id = #{magazineId}) THEN #{magazineId}
+	ELSE null
+	END,
+	#{title},
+	#{url};
 </insert>
 
 <delete id="deleteScrap" parameterType="com.cheeus.member.domain.MemberScrap">
@@ -113,7 +132,8 @@
 	and event_id=#{eventId} and magazine_id=#{magazineId} and title=#{title}
 </delete>
 
-
+
+
 <select id="findMyPost" parameterType="String" resultType="com.cheeus.member.response.MyInsertedPostResponse">
 	SELECT id, title, writeday, category FROM (
 	SELECT id, title, writeday, category
